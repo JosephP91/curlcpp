@@ -15,33 +15,34 @@
 using curl::curl_multi;
 using std::string;
 
-template<class T> class curl_multi::option_pair {
-public:
-    option_pair(const CURLMoption option, const T value) : option(option), value(value) {};
-    CURLMoption first() const { return this->option; }
-    T second() const { return this->value; }
-private:
-    const CURLMoption option;
-    const T value;
-};
+namespace curl {
+    template<class T> class curl_multi::option_pair {
+    public:
+        option_pair(const CURLMoption option, const T value) : option(option), value(value) {};
+        CURLMoption first() const { return this->option; }
+        T second() const { return this->value; }
+    private:
+        const CURLMoption option;
+        const T value;
+    };
 
+    template<> class curl_multi::option_pair<string> {
+    public:
+        option_pair(const CURLMoption option, const string value) : option(option), value(value) {};
+        CURLMoption first() const;
+        const char *second() const;
+    private:
+        const CURLMoption option;
+        const string value;
+    };
 
-template<> class curl_multi::option_pair<string> {
-public:
-    option_pair(const CURLMoption option, const string value) : option(option), value(value) {};
-    CURLMoption first() const;
-    const char *second() const;
-private:
-    const CURLMoption option;
-    const string value;
-};
+    inline CURLMoption curl_multi::option_pair<string>::first() const {
+        return this->option;
+    }
 
-inline CURLMoption curl_multi::option_pair<string>::first() const {
-    return this->option;
-}
-
-inline const char *curl_multi::option_pair<string>::second() const {
-    return this->value.c_str();
+    inline const char *curl_multi::option_pair<string>::second() const {
+        return this->value.c_str();
+    }
 }
 
 #endif
