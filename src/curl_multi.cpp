@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "curl_multi.h"
 #include "exceptions.h"
+#include "curl_multi_message.h"
 
 using std::for_each;
 using std::move;
@@ -74,7 +75,7 @@ namespace curl {
     }
     
     const vector<curl_multi::curl_message> curl_multi::get_transfers_info() {
-        vector<curl_message> info;
+        vector<curl_multi::curl_message> info;
         if (this->curl!=nullptr) {
             CURLMsg *msg = nullptr;
             while ((msg = curl_multi_info_read(this->curl,&this->message_queued))) {
@@ -85,7 +86,6 @@ namespace curl {
                             break;
                         }
                     }
-                    
                 }
             }
             return info;

@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include "curl_easy.h"
+#include <iostream>
 
 using std::for_each;
 using curl::curl_easy;
@@ -25,6 +26,7 @@ namespace curl {
         if (this->curl!=nullptr) {
             curl_easy_cleanup(this->curl);
             this->curl = nullptr;
+            std::cout<<"ok"<<std::endl;
         }
     }
 

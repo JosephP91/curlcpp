@@ -20,16 +20,7 @@ using std::unique_ptr;
 namespace curl  {
     class curl_easy : public abstract_curl {
     public:
-        template<class T> class option_pair {
-        public:
-            option_pair(const CURLoption option, const T value) : option(option), value(value) {};
-            CURLoption first() const { return this->option; }
-            T second() const { return this->value; }
-        private:
-            const CURLoption option;
-            const T value;
-        };
-        
+        template<class T> class option_pair;
         curl_easy();
         curl_easy(const long);
         ~curl_easy();

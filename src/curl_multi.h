@@ -20,19 +20,7 @@ using curl::curl_easy;
 namespace curl {
     class curl_multi : public abstract_curl {
     private:
-        class curl_message {
-        public:
-            curl_message(CURLMSG message, curl_easy curl, void *whatever, CURLcode result) : message(message), curl(curl), whatever(whatever), result(result) {};
-            const CURLMSG get_message() const noexcept;
-            const CURLcode get_result() const noexcept;
-            const curl_easy get_curl() const noexcept;
-            const void *get_whatever() const noexcept;
-        private:
-            CURLMSG message;
-            curl_easy curl;
-            void *whatever;
-            CURLcode result;
-        };
+        class curl_message;
         CURLM *curl;
         int message_queued;
         int active_transfers;
@@ -40,15 +28,7 @@ namespace curl {
     protected:
         const string error_to_string(const CURLMcode) const noexcept;
     public:
-        template<class T> class option_pair {
-        public:
-            option_pair(const CURLMoption option, const T value) : option(option), value(value) {};
-            CURLMoption first() const { return this->option; }
-            T second() const { return this->value; }
-        private:
-            const CURLMoption option;
-            const T value;
-        };
+        template<class T> class option_pair;
         curl_multi();
         curl_multi(const long);
         ~curl_multi();
@@ -60,7 +40,7 @@ namespace curl {
         int perform();
         const int get_active_transfers() const noexcept;
         const int get_message_queued() const noexcept;
-        const vector<curl_message> get_transfers_info();
+        const vector<curl_multi::curl_message> get_transfers_info();
     };
     
     

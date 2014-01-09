@@ -9,11 +9,22 @@
 #ifndef curl_wrapper_curl_multi_option_h
 #define curl_wrapper_curl_multi_option_h
 
-#include "curl_easy.h"
+#include "curl_multi.h"
 #include <string>
 
 using curl::curl_multi;
 using std::string;
+
+template<class T> class curl_multi::option_pair {
+public:
+    option_pair(const CURLMoption option, const T value) : option(option), value(value) {};
+    CURLMoption first() const { return this->option; }
+    T second() const { return this->value; }
+private:
+    const CURLMoption option;
+    const T value;
+};
+
 
 template<> class curl_multi::option_pair<string> {
 public:
