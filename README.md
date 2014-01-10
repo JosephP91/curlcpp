@@ -9,12 +9,11 @@ I'm still working on it, so, if you find bugs or errors, please tell me! :)
 If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: http://curl.haxx.se/
 
 Simple usage example
-=============
+====================
 
 After including the library provided and the header files, you can start to use the classes and the methods provided with this wrapper.
 
-Here's an example of a simple HTTP request to get google web page, using the curl_easy interface
-
+Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 #include "curl_easy.h"
 #include "curl_easy_option.h"
