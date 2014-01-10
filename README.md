@@ -15,7 +15,7 @@ After including the library provided and the header files, you can start to use 
 
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
-<code>
+`````c++
 #include "curl_easy.h"
 #include "curl_easy_option.h"
 
@@ -28,6 +28,6 @@ int main(int argc, const char **argv) {
     easy.perform();
     return 0;
 }
-</code>
+`````
 
 That's it! :)
