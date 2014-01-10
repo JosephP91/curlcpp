@@ -7,8 +7,8 @@
 //
 
 #include <curl/curl.h>
-#include "abstract_curl.h"
-#include "exceptions.h"
+#include "../include/abstract_curl.h"
+#include "../include/exceptions.h"
 
 using curl::abstract_curl;
 
