@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include "../include/curl_multi_message.h"
+#include "curl_multi_message.h"
 
 using curl::curl_multi;
 

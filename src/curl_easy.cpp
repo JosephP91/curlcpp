@@ -7,7 +7,7 @@
 //
 
 #include <algorithm>
-#include "../include/curl_easy.h"
+#include "curl_easy.h"
 
 using std::for_each;
 using curl::curl_easy;

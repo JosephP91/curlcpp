@@ -19,31 +19,23 @@ namespace curl {
     template<class T> class curl_easy::option_pair {
     public:
         option_pair(const CURLoption option, const T value) : option(option), value(value) {};
-        CURLoption first() const { return this->option; }
-        T second() const { return this->value; }
+        inline const CURLoption first() const noexcept { return this->option; }
+        inline const T second() const { return this->value; }
     private:
         const CURLoption option;
         const T value;
     };
-
+    
 
     template<> class curl_easy::option_pair<string> {
     public:
         option_pair(const CURLoption option, const string value) : option(option), value(value) {};
-        CURLoption first() const;
-        const char *second() const;
+        inline const CURLoption first() const noexcept { return this->option; }
+        inline const char *second() const noexcept { return this->value.c_str(); }
     private:
         const CURLoption option;
         const string value;
     };
-
-    inline CURLoption curl_easy::option_pair<string>::first() const {
-        return this->option;
-    }
-
-    inline const char *curl_easy::option_pair<string>::second() const {
-        return this->value.c_str();
-    }
 }
 
 #endif
