@@ -9,7 +9,7 @@
 #include <algorithm>
 #include "curl_multi.h"
 #include "exceptions.h"
-#include "curl_multi_message.h"
+#include "multi_message.h"
 
 using std::for_each;
 using std::move;
