@@ -9,25 +9,27 @@
 #ifndef curl_wrapper_form_pair_h
 #define curl_wrapper_form_pair_h
 
-#include "http_post.h"
+#include "curl_http_post.h"
 
-template<class T> class http_post::form_pair {
+template<class T> class curl_http_post::form_pair {
 public:
     form_pair(CURLformoption option, T value) : option(option), value(value) {}
-    const CURLformoption first() const noexcept;
-    const T second() const noexcept;
+    inline const CURLformoption first() const noexcept { return this->option; }
+    inline const T second() const noexcept { return this->value; }
 private:
     const CURLformoption option;
     const T value;
 };
 
-template<typename T> inline const CURLformoption http_post::form_pair<T>::first() const noexcept {
-    return this->option;
-}
 
-template<typename T> inline const T http_post::form_pair<T>::second() const noexcept {
-    return this->value;
-}
-
+template<> class curl_http_post::form_pair<string> {
+public:
+    form_pair(CURLformoption option, string value) : option(option), value(value) {}
+    inline const CURLformoption first() const noexcept { return this->option; }
+    inline const char *second() const noexcept { return this->value.c_str(); }
+private:
+    const CURLformoption option;
+    const string value;
+};
 
 #endif

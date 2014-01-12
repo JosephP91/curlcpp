@@ -49,7 +49,7 @@ namespace curl  {
     
     template<typename T> curl_easy &curl_easy::add_option(const vector<curl_easy::option_pair<T>> &pairs) {
         if (this->curl!=nullptr) {
-            for_each(pairs.begin(),pairs.end(),[this](curl_easy::option_pair<T> option) { curl_easy_setopt(this->curl,option.first(),option.second()); } );
+            for_each(pairs.begin(),pairs.end(),[this](curl_easy::option_pair<T> option) { this->add_option(option); } );
         } else {
             throw new null_pointer_exception("add_option(...) : NULL pointer intercepted");
         }

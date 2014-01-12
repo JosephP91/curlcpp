@@ -10,6 +10,7 @@
 #define curl_wrapper_curl_easy_option_h
 
 #include "curl_easy.h"
+#include "curl_http_post.h"
 #include <string>
 
 using curl::curl_easy;
@@ -20,7 +21,7 @@ namespace curl {
     public:
         option_pair(const CURLoption option, const T value) : option(option), value(value) {};
         inline const CURLoption first() const noexcept { return this->option; }
-        inline const T second() const { return this->value; }
+        inline const T second() const noexcept { return this->value; }
     private:
         const CURLoption option;
         const T value;
@@ -35,6 +36,16 @@ namespace curl {
     private:
         const CURLoption option;
         const string value;
+    };
+    
+    template<> class curl_easy::option_pair<curl_http_post> {
+    public:
+        option_pair(const CURLoption option, const curl_http_post value) : option(option), value(value) {}
+        inline const CURLoption first() const noexcept { return this->option; }
+        inline const curl_httppost *second() const noexcept { return this->value.get_form_post(); }
+    private:
+        const CURLoption option;
+        const curl_http_post value;
     };
 }
 

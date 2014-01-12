@@ -19,8 +19,8 @@ namespace curl {
     template<class T> class curl_multi::option_pair {
     public:
         option_pair(const CURLMoption option, const T value) : option(option), value(value) {};
-        CURLMoption first() const { return this->option; }
-        T second() const { return this->value; }
+        inline const CURLMoption first() const { return this->option; }
+        inline const T second() const { return this->value; }
     private:
         const CURLMoption option;
         const T value;
@@ -29,20 +29,12 @@ namespace curl {
     template<> class curl_multi::option_pair<string> {
     public:
         option_pair(const CURLMoption option, const string value) : option(option), value(value) {};
-        CURLMoption first() const;
-        const char *second() const;
+        inline const CURLMoption first() const noexcept { return this->option; }
+        inline const char *second() const noexcept { return this->value.c_str(); }
     private:
         const CURLMoption option;
         const string value;
     };
-
-    inline CURLMoption curl_multi::option_pair<string>::first() const {
-        return this->option;
-    }
-
-    inline const char *curl_multi::option_pair<string>::second() const {
-        return this->value.c_str();
-    }
 }
 
 #endif

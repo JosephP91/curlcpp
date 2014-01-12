@@ -39,4 +39,12 @@ private:
     string error;
 };
 
+class invalid_size : public exception {
+public:
+    invalid_size() : error("Invalid size specified") {};
+    invalid_size(const string error) : error(error) {};
+private:
+    string error;
+};
+
 #endif
