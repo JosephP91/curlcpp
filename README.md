@@ -38,7 +38,7 @@ Here's instead, the creation of an HTTP POST form for file uploading:
 #include "curl_multi_option.h"
 #include "curl_http_post.h"
 #include "form_pair.h"
-#include "header.h"
+#include "curl_header.h"
 
 using curl::curl_easy;
 
@@ -55,7 +55,7 @@ int main(int argc, const char * argv[]) {
     post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"submit"));
     post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"send"));
     
-    Header headers;
+    curl_header headers;
     headers.add_header(buf);
     
     easy.add_option(curl_easy::option_pair<string>(CURLOPT_URL,"http://example.com/examplepost.cgi"));
