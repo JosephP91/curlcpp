@@ -30,38 +30,29 @@ int main(int argc, const char **argv) {
 }
 `````
 
-Here's instead, the creation of an HTTP POST form for file uploading:
+Here's instead, the creation of an HTTPS POST form for file uploading:
 
 `````c++
+#include <iostream>
 #include "curl_easy.h"
-#include "curl_easy_option.h"
-#include "curl_multi_option.h"
+#include "easy_option_pair.h"
 #include "curl_http_post.h"
 #include "form_pair.h"
-#include "curl_header.h"
 
 using curl::curl_easy;
 
 int main(int argc, const char * argv[]) {
-    string buf="Expect: ";
     curl_easy easy;
     curl_http_post post;
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"sendfile"));
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_FILE,"main.cpp"));
     
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"filename"));
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"main.cpp"));
+    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"user"),curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"username"));
+    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"passw"),curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"password"));
     
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"submit"));
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"send"));
-    
-    curl_header headers;
-    headers.add_header(buf);
-    
-    easy.add_option(curl_easy::option_pair<string>(CURLOPT_URL,"http://example.com/examplepost.cgi"));
+    easy.add_option(curl_easy::option_pair<string>(CURLOPT_URL,"https://xxxxx/"));
     easy.add_option(curl_easy::option_pair<curl_http_post>(CURLOPT_HTTPPOST,post));
     
     easy.perform();
+    
     return 0;
 }
 `````
