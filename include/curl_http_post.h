@@ -22,8 +22,7 @@ public:
     template<class T> class form_pair;
     curl_http_post() : form_post(nullptr), last_ptr(nullptr) {}
     ~curl_http_post();
-    template<typename T> curl_http_post &form_add(const curl_http_post::form_pair<T> &);
-    template<typename T> curl_http_post &form_add(const vector<curl_http_post::form_pair<T>> &);
+    template<typename T> curl_http_post &form_add(const curl_http_post::form_pair<T> &, const curl_http_post::form_pair<T> &);
     struct curl_httppost *get_form_post() const noexcept { return this->form_post; }
 private:
     struct curl_httppost *form_post;
@@ -31,13 +30,8 @@ private:
 };
 
 
-template<typename T> curl_http_post &curl_http_post::form_add(const curl_http_post::form_pair<T> &pair) {
-    curl_formadd(&this->form_post,&this->last_ptr,pair.first(),pair.second(),CURLFORM_END);
-    return *this;
-}
-
-template<typename T> curl_http_post &curl_http_post::form_add(const vector<curl_http_post::form_pair<T> > &pairs) {
-    for_each(pairs.begin(),pairs.end(),[this](curl_http_post::form_pair<T> pair) { this->form_add(pair); } );
+template<typename T> curl_http_post &curl_http_post::form_add(const curl_http_post::form_pair<T> &pair, const curl_http_post::form_pair<T> &pair_2) {
+    curl_formadd(&this->form_post,&this->last_ptr,pair.first(),pair.second(),pair_2.first(),pair_2.second(),CURLFORM_END);
     return *this;
 }
 

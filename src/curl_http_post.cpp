@@ -9,7 +9,9 @@
 #include "curl_http_post.h"
 
 curl_http_post::~curl_http_post() {
-    curl_formfree(this->form_post);
-    this->form_post = nullptr;
-    this->last_ptr = nullptr;
+    if (this->form_post!=nullptr) {
+        //curl_formfree(this->form_post);
+        this->form_post = nullptr;
+        this->last_ptr = nullptr;
+    }
 }
