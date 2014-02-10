@@ -1,13 +1,15 @@
 //
-//  header.cpp
-//  meteo
+//  curl_header.cpp
+//  curlcpp
 //
-//  Created by Giuseppe Persico on 04/01/14.
+//  Created by Giuseppe Persico on 10/02/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #include "curl_header.h"
-#include "exceptions.h"
+#include "curl_error.h"
+
+using curl::curl_header;
 
 curl_header::curl_header(const size_t header_num) {
     curl_header();
@@ -22,7 +24,7 @@ curl_header::~curl_header() {
 void curl_header::set_header(const string header) {
     this->headers = curl_slist_append(this->headers,header.c_str());
     if (this->headers == nullptr) {
-        throw null_pointer_exception("An error occurred while inserting last header");
+        throw curl_error<int>(" ** An error occurred while inserting last header ** ",0);
     }
 }
 
@@ -32,7 +34,7 @@ void curl_header::set_headers_size(const size_t headers_num) {
             this->tmp_headers.resize(headers_num);
         }
     } else {
-        throw new invalid_size("Headers vector size cannot be less or equal to zero");
+        throw new curl_error<int>(" ** Headers vector size cannot be less or equal to zero ** ",0);
     }
 }
 

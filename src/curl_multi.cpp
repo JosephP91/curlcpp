@@ -1,31 +1,31 @@
 //
 //  curl_multi.cpp
-//  curl_wrapper
+//  curlcpp
 //
-//  Created by Giuseppe Persico on 07/01/14.
+//  Created by Giuseppe Persico on 10/02/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #include <algorithm>
 #include "curl_multi.h"
-#include "exceptions.h"
-#include "multi_message.h"
+#include "curl_error.h"
+#include "curl_message.h"
 
 using std::for_each;
 using std::move;
 using curl::curl_multi;
 
 namespace curl {
-    curl_multi::curl_multi() : abstract_curl() {
+    curl_multi::curl_multi() : curl_interface() {
         this->curl = curl_multi_init();
         this->active_transfers = 0;
         this->message_queued = 0;
     }
-
-    curl_multi::curl_multi(const long flag) : abstract_curl(flag) {
+    
+    curl_multi::curl_multi(const long flag) : curl_interface(flag) {
         curl_multi();
     }
-
+    
     curl_multi::~curl_multi() {
         for_each(this->handlers.begin(),this->handlers.end(),[this](curl_easy handler) { curl_multi_remove_handle(this->curl,handler.get_curl()); });
         curl_multi_cleanup(this->curl);
@@ -35,7 +35,7 @@ namespace curl {
         if (this->curl!=nullptr) {
             curl_multi_add_handle(this->curl,handler.get_curl());
         } else {
-            throw new null_pointer_exception("add_handle(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
         return *this;
     }
@@ -44,7 +44,7 @@ namespace curl {
         if (this->curl!=nullptr) {
             this->handlers = move(handlers);
         } else {
-            throw new null_pointer_exception("add_handle(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
         return *this;
     }
@@ -53,11 +53,11 @@ namespace curl {
         if (this->curl!=nullptr) {
             curl_multi_remove_handle(this->curl,handler.get_curl());
         } else {
-            throw new null_pointer_exception("remove_handle(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
         return *this;
     }
-
+    
     const int curl_multi::get_active_transfers() const noexcept {
         return this->active_transfers;
     }
@@ -70,7 +70,7 @@ namespace curl {
         if (this->curl!=nullptr) {
             return curl_multi_perform(this->curl,&this->active_transfers);
         } else {
-            throw new null_pointer_exception("perform() : NULL pointe intercepted");
+            throw new curl_error<int>(" ** NULL pointe intercepted **",0);
         }
     }
     
@@ -90,9 +90,9 @@ namespace curl {
             }
             return info;
         }
-        throw new null_pointer_exception("perform() : NULL pointe intercepted");
+        throw new curl_error<int>(" ** NULL pointe intercepted ** ",0);
     }
-
+    
     const string curl_multi::error_to_string(const CURLMcode code) const noexcept {
         return curl_multi_strerror(code);
     }

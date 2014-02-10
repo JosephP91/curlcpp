@@ -1,35 +1,42 @@
 //
 //  curl_easy.h
-//  curl_wrapper
+//  curlcpp
 //
-//  Created by Giuseppe Persico on 06/01/14.
+//  Created by Giuseppe Persico on 10/02/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#ifndef __curl_wrapper__curl_easy__
-#define __curl_wrapper__curl_easy__
+#ifndef __curlcpp__curl_easy__
+#define __curlcpp__curl_easy__
 
 #include <vector>
+#include <list>
 #include <memory>
-#include "abstract_curl.h"
-#include "exceptions.h"
+#include <algorithm>
+
+#include "curl_interface.h"
+#include "curl_error.h"
+#include "curl_pair.h"
 
 using std::vector;
+using std::list;
 using std::unique_ptr;
+using std::for_each;
+using curl::curl_pair;
 
 namespace curl  {
-    class curl_easy : public abstract_curl {
+    class curl_easy : public curl_interface {
     public:
-        template<class T> class option_pair;
         curl_easy();
         curl_easy(const long);
         ~curl_easy();
-        template<typename T = CURLoption> curl_easy &add_option(const curl_easy::option_pair<T> &);
-        template<typename T = CURLoption> curl_easy &add_option(const vector<option_pair<T>> &);
+        template<typename T> curl_easy &add_option(const curl_pair<CURLoption,T> &);
+        template<typename T> curl_easy &add_option(const vector<curl_pair<CURLoption,T>> &);
+        template<typename T> curl_easy &add_option(const list<curl_pair<CURLoption,T>> &);
         template<typename T> unique_ptr<T> get_session_info(const CURLINFO, T *) const;
         void escape(string &);
         void unescape(string &);
-        int perform();
+        virtual int perform();
         void reset() noexcept;
         CURL *get_curl() const noexcept;
     protected:
@@ -38,20 +45,30 @@ namespace curl  {
         CURL *curl;
     };
     
-    template<typename T> curl_easy &curl_easy::add_option(const curl_easy::option_pair<T> &pair) {
+    
+    template<typename T> curl_easy &curl_easy::add_option(const curl_pair<CURLoption,T> &pair) {
         if (this->curl!=nullptr) {
             curl_easy_setopt(this->curl,pair.first(),pair.second());
         } else {
-            throw new null_pointer_exception("add_option(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted **",0);
         }
         return *this;
     }
     
-    template<typename T> curl_easy &curl_easy::add_option(const vector<curl_easy::option_pair<T>> &pairs) {
+    template<typename T> curl_easy &curl_easy::add_option(const vector<curl_pair<CURLoption,T>> &pairs) {
         if (this->curl!=nullptr) {
-            for_each(pairs.begin(),pairs.end(),[this](curl_easy::option_pair<T> option) { this->add_option(option); } );
+            for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) { this->add_option(option); } );
         } else {
-            throw new null_pointer_exception("add_option(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted **",0);
+        }
+        return *this;
+    }
+    
+    template<typename T> curl_easy &curl_easy::add_option(const list<curl_pair<CURLoption,T> > &pairs) {
+        if (this->curl!=nullptr) {
+            for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) { this->add_option(option); });
+        } else {
+            throw new curl_error<int>(" ** NULL pointer intercepted",0);
         }
         return *this;
     }
@@ -63,10 +80,9 @@ namespace curl  {
                 throw new curl_error<CURLcode>(this->error_to_string(code),code);
             }
             return unique_ptr<T>{ptr_info};
-        } else {
-            throw new null_pointer_exception("get_session_info(...) : NULL pointer intercepted");
         }
+        throw new curl_error<int>(" ** NULL pointer intercepted **",0);
     }
 }
 
-#endif /* defined(__curl_wrapper__curl_easy__) */
+#endif /* defined(__curlcpp__curl_easy__) */

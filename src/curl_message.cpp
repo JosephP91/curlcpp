@@ -1,12 +1,12 @@
 //
-//  curl_multi_message.cpp
-//  curl_wrapper
+//  curl_message.cpp
+//  curlcpp
 //
-//  Created by Giuseppe Persico on 09/01/14.
+//  Created by Giuseppe Persico on 11/02/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include "multi_message.h"
+#include "curl_message.h"
 
 using curl::curl_multi;
 

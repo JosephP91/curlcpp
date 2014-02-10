@@ -1,13 +1,13 @@
 //
 //  curl_multi.h
-//  curl_wrapper
+//  curlcpp
 //
-//  Created by Giuseppe Persico on 07/01/14.
+//  Created by Giuseppe Persico on 10/02/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#ifndef __curl_wrapper__curl_multi__
-#define __curl_wrapper__curl_multi__
+#ifndef __curlcpp__curl_multi__
+#define __curlcpp__curl_multi__
 
 #include <vector>
 #include <algorithm>
@@ -18,7 +18,7 @@ using std::for_each;
 using curl::curl_easy;
 
 namespace curl {
-    class curl_multi : public abstract_curl {
+    class curl_multi : public curl_interface {
     private:
         class curl_message;
         CURLM *curl;
@@ -28,12 +28,11 @@ namespace curl {
     protected:
         const string error_to_string(const CURLMcode) const noexcept;
     public:
-        template<class T> class option_pair;
         curl_multi();
         curl_multi(const long);
         ~curl_multi();
-        template<typename T = CURLMoption> curl_multi &add_option(const curl_multi::option_pair<T> &);
-        template<typename T = CURLMoption> curl_multi &add_option(const vector<curl_multi::option_pair<T>> &);
+        template<typename T> curl_multi &add_option(const curl_pair<CURLMoption,T> &);
+        template<typename T> curl_multi &add_option(const vector<curl_pair<CURLMoption,T>> &);
         curl_multi &add_handle(const curl_easy &) noexcept;
         curl_multi &add_handle(const vector<curl_easy> &) noexcept;
         curl_multi &remove_handle(const curl_easy &) noexcept;
@@ -44,22 +43,22 @@ namespace curl {
     };
     
     
-    template<typename T> curl_multi &curl_multi::add_option(const curl_multi::option_pair<T> &pair) {
+    template<typename T> curl_multi &curl_multi::add_option(const curl_pair<CURLMoption,T> &pair) {
         if (this->curl!=nullptr) {
             curl_multi_setopt(this->curl,pair.first(),pair.second());
         } else {
-            throw new null_pointer_exception("add_option(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
         return *this;
     }
  	
-    template<typename T> curl_multi &curl_multi::add_option(const vector<curl_multi::option_pair<T>> &pairs) {
+    template<typename T> curl_multi &curl_multi::add_option(const vector<curl_pair<CURLMoption,T>> &pairs) {
     	if (this->curl!=nullptr) {
-            for_each(pairs.begin(),pairs.end(),[this](curl_multi::option_pair<T> option) { this->add_option(option); } );
+            for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLMoption,T> option) { this->add_option(option); } );
         } else {
-            throw new null_pointer_exception("add_option(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
     }
 }
 
-#endif /* defined(__curl_wrapper__curl_multi__) */
+#endif /* defined(__curlcpp__curl_multi__) */

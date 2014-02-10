@@ -1,23 +1,21 @@
 //
 //  curl_easy.cpp
-//  curl_wrapper
+//  curlcpp
 //
-//  Created by Giuseppe Persico on 06/01/14.
+//  Created by Giuseppe Persico on 10/02/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include <algorithm>
 #include "curl_easy.h"
 
-using std::for_each;
 using curl::curl_easy;
 
 namespace curl {
-    curl_easy::curl_easy() : abstract_curl() {
+    curl_easy::curl_easy() : curl_interface() {
 	    this->curl = curl_easy_init();
     }
-
-    curl_easy::curl_easy(const long flag) : abstract_curl(flag) {
+    
+    curl_easy::curl_easy(const long flag) : curl_interface(flag) {
 	    curl_easy();
     }
     
@@ -27,7 +25,7 @@ namespace curl {
             this->curl = nullptr;
         }
     }
-
+    
     const string curl_easy::error_to_string(const CURLcode code) const noexcept {
         return curl_easy_strerror(code);
     }
@@ -40,14 +38,14 @@ namespace curl {
         if (this->curl!=nullptr) {
             return curl_easy_perform(this->curl);
         } else {
-            throw new null_pointer_exception("perform() : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
     }
     
     void curl_easy::escape(string &url) {
         char *url_encoded = curl_easy_escape(this->curl,url.c_str(),(int)url.length());
         if (url_encoded==nullptr) {
-            throw new null_pointer_exception("escape(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
         url = string(url_encoded);
         this->free(url_encoded);
@@ -56,7 +54,7 @@ namespace curl {
     void curl_easy::unescape(string &url) {
         char *url_decoded = curl_easy_unescape(this->curl,url.c_str(),(int)url.length(),nullptr);
         if (url_decoded==nullptr) {
-            throw new null_pointer_exception("escape(...) : NULL pointer intercepted");
+            throw new curl_error<int>(" ** NULL pointer intercepted ** ",0);
         }
         url = string(url_decoded);
         this->free(url_decoded);
