@@ -17,14 +17,13 @@ Here's an example of a simple HTTP request to get google web page, using the cur
 
 `````c++
 #include "curl_easy.h"
-#include "curl_easy_option.h"
 
 using curl::curl_easy;
 
 int main(int argc, const char **argv) {
     curl_easy easy;
-    easy.add_option( curl_easy::option_pair<string>(CURLOPT_URL,"http://www.google.it") );
-    easy.add_option( curl_easy::option_pair<long>(CURL_FOLLOWLOCATION,1L) );
+    easy.add_option(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
+    easy.add_option(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L) );
     easy.perform();
     return 0;
 }
@@ -35,24 +34,19 @@ Here's instead, the creation of an HTTPS POST form for file uploading:
 `````c++
 #include <iostream>
 #include "curl_easy.h"
-#include "easy_option_pair.h"
 #include "curl_http_post.h"
-#include "form_pair.h"
 
 using curl::curl_easy;
+using curl::curl_http_post;
 
 int main(int argc, const char * argv[]) {
     curl_easy easy;
     curl_http_post post;
-    
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"user"),curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"username"));
-    post.form_add(curl_http_post::form_pair<string>(CURLFORM_COPYNAME,"passw"),curl_http_post::form_pair<string>(CURLFORM_COPYCONTENTS,"password"));
-    
-    easy.add_option(curl_easy::option_pair<string>(CURLOPT_URL,"https://xxxxx/"));
-    easy.add_option(curl_easy::option_pair<curl_http_post>(CURLOPT_HTTPPOST,post));
-    
+    post.form_add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
+    post.form_add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
+    easy.add_option(curl_pair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
+    easy.add_option(curl_pair<CURLoption,curl_http_post>(CURLOPT_HTTPPOST,post));
     easy.perform();
-    
     return 0;
 }
 `````
