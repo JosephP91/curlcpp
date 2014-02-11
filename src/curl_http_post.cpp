@@ -12,7 +12,6 @@ using curl::curl_http_post;
 
 curl_http_post::~curl_http_post() {
     if (this->form_post!=nullptr) {
-        curl_formfree(this->form_post);
         this->form_post = nullptr;
         this->last_ptr = nullptr;
     }
