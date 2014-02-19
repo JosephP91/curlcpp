@@ -29,7 +29,7 @@ int main(int argc, const char **argv) {
 }
 `````
 
-Here's instead, the creation of an HTTPS POST form for file uploading:
+Here's instead, the creation of an HTTPS POST login form:
 
 `````c++
 #include <iostream>
