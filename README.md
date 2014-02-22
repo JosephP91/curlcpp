@@ -11,7 +11,7 @@ If you want to know a bit more about cURL, you should go on the official website
 Simple usage example
 ====================
 
-After including the library provided and the header files, you can start to use the classes and the methods provided with this wrapper.
+After including the header files, you can start to use the library. Obviously, don't forget to link the libcurl library at compile time.
 
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
