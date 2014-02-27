@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include "curl_easy.h"
+#include "../include/curl_easy.h"
 
 using curl::curl_easy;
 
