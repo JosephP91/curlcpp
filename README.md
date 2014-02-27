@@ -19,6 +19,7 @@ Make sure you have installed libcurl. If not, you can download and compile it fr
 
 g++ -std=c++11 *.cpp -lcurl
 
+This command assumses that you have libcurl installed in the standard directory.
 
 Simple usage example
 ====================
