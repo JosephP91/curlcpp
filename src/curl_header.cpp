@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include "curl_header.h"
-#include "curl_error.h"
+#include <algorithm>
+#include "../include/curl_header.h"
+#include "../include/curl_error.h"
 
+using std::for_each;
 using curl::curl_header;
 
 curl_header::curl_header(const size_t header_num) {
