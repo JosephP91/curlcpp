@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include "curl_interface.h"
-#include "curl_error.h"
+#include "../include/curl_interface.h"
+#include "../include/curl_error.h"
 
 using curl::curl_interface;
 
