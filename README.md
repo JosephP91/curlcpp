@@ -13,6 +13,8 @@ Simple usage example
 
 After including the header files, you can start to use the library. Obviously, don't forget to link the libcurl library at compile time.
 
+Note that, I used the most recent C++ standard, C++11, to compile this project. So when you will compile it, don't forget to put the -std=c++11 option. Make sure that your compiler supports it!
+
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
