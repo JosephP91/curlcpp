@@ -8,17 +8,25 @@ I'm still working on it, so, if you find bugs or errors, please tell me! :)
 
 If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: http://curl.haxx.se/
 
+Compile and link
+================
+
+After including the header files, you can start to use the library.
+
+I used the most recent C++ standard, C++11, to compile this project. So when you will compile it, don't forget to put the -std=c++11 option. Make sure that your compiler supports it!
+
+Make sure you have installed libcurl. If not, you can download and compile it from official website. After doing that, create a simple main.cpp file and then type:
+
+g++ -std=c++11 *.cpp -lcurl
+
+
 Simple usage example
 ====================
-
-After including the header files, you can start to use the library. Obviously, don't forget to link the libcurl library at compile time.
-
-Note that, I used the most recent C++ standard, C++11, to compile this project. So when you will compile it, don't forget to put the -std=c++11 option. Make sure that your compiler supports it!
 
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
-#include "curl_easy.h"
+#include "../include/curl_easy.h"
 
 using curl::curl_easy;
 
@@ -35,8 +43,8 @@ Here's instead, the creation of an HTTPS POST login form:
 
 `````c++
 #include <iostream>
-#include "curl_easy.h"
-#include "curl_http_post.h"
+#include "../include/curl_easy.h"
+#include "../include/curl_http_post.h"
 
 using curl::curl_easy;
 using curl::curl_http_post;
