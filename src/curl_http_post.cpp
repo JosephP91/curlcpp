@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#include "curl_http_post.h"
+#include "../include/curl_http_post.h"
 
 using curl::curl_http_post;
 
