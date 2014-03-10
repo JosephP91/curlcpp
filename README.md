@@ -30,7 +30,7 @@ Submodule
 When using a git submodule and CMake-buildsystem, add the following lines to your `CMakeLists.txt`:
 
 ```
-ADD_SUBDIRECTORY(ext/curlcpp)
+ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
 INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 ```
 
@@ -41,6 +41,7 @@ Here's an example of a simple HTTP request to get google web page, using the cur
 
 `````c++
 #include "../include/curl_easy.h"
+// only "curl_easy.h" if you use above submodule-way of compilation and linking
 
 using curl::curl_easy;
 
@@ -59,6 +60,7 @@ Here's instead, the creation of an HTTPS POST login form:
 #include <iostream>
 #include "../include/curl_easy.h"
 #include "../include/curl_http_post.h"
+// only "curl_easy.h" and "curl_http_post.h" if you use above submodule-way of compilation and linking
 
 using curl::curl_easy;
 using curl::curl_http_post;
