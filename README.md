@@ -11,15 +11,28 @@ If you want to know a bit more about cURL, you should go on the official website
 Compile and link
 ================
 
-After including the header files, you can start to use the library.
+Standalone
+----------
 
-I used the most recent C++ standard, C++11, to compile this project. So when you will compile it, don't forget to put the -std=c++11 option. Make sure that your compiler supports it!
+```bash
+cd build
+cmake ..
+make # -j2
+```
 
-Make sure you have installed libcurl. If not, you can download and compile it from official website. After doing that, create a simple main.cpp file and then type:
+Then add `<curlcpp root>/build/src/` to your librarie path and `<curlcpp root>/include/` to your include path.
 
-g++ -std=c++11 *.cpp -lcurl
+When linking, link agains `curlcpp` (e.g.: gcc example.cpp -o example -lcurlcpp).
 
-This command assumes that you have libcurl installed in the standard directory.
+Submodule
+---------
+
+When using a git submodule and CMake-buildsystem, add the following lines to your `CMakeLists.txt`:
+
+```
+ADD_SUBDIRECTORY(ext/curlcpp)
+INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
+```
 
 Simple usage example
 ====================
