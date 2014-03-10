@@ -1,0 +1,15 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+# Setting up project
+PROJECT(CURLCPP)
+
+# Checking for dependencies
+FIND_PACKAGE(CURL REQUIRED)
+
+# Set up include pathes
+INCLUDE_DIRECTORIES(${CURL_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
+
+# Set up source directories
+ADD_SUBDIRECTORY(src)
+
