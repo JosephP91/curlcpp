@@ -21,6 +21,7 @@ using std::pair;
 template<class T> class curl_error : public exception {
 public:
     curl_error(const string error, const T code) : error(error), code(code) {}
+    ~curl_error() throw() {};
     pair<string,T> what() noexcept;
 private:
     string error;
