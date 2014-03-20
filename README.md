@@ -1,9 +1,9 @@
 curlcpp
 =======
 
-An object oriented C++ wrapper for cURL tool. I'm working for you :P
+An object-oriented C++ wrapper for cURL tool. I'm working for you. :P
 
-There a bunch of cURL C++ wrappers out there, but I personally don't like any of them. So, I was writing a framework for my university and I needed a curl wrap in C++, so I wrote it.
+There are a bunch of cURL C++ wrappers out there, but I personally don't like any of them. So, I was writing a framework for my university and I needed a curl wrapper in C++, so I wrote it.
 I'm still working on it, so, if you find bugs or errors, please tell me! :)
 
 If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: http://curl.haxx.se/
@@ -20,9 +20,9 @@ cmake ..
 make # -j2
 ```
 
-Then add `<curlcpp root>/build/src/` to your librarie path and `<curlcpp root>/include/` to your include path.
+Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
-When linking, link agains `curlcpp` (e.g.: gcc example.cpp -o example -lcurlcpp).
+When linking, link against `curlcpp` (e.g.: gcc example.cpp -o example -lcurlcpp).
 
 Submodule
 ---------
