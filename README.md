@@ -11,11 +11,28 @@ If you want to know a bit more about cURL, you should go on the official website
 Compile and link
 ================
 
-I added the entire netbeans project so you can import and use it. Don't forget to link the libcurl library, with -lcurl option, and link curlcpp library and headers in your project settings.
+Standalone
+----------
 
-I removed the CMake support added before, to simplify the process of compile/use.
+```bash
+cd build
+cmake ..
+make # -j2
+```
 
-If you want to recompile manually the project, don't forget to use these options in your bash command: -std=c++11 (to use the C++11 standard), -lcurl (to link the libcurl dynamic library).
+Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
+
+When linking, link against `curlcpp` (e.g.: gcc example.cpp -o example -lcurlcpp).
+
+Submodule
+---------
+
+When using a git submodule and CMake-buildsystem, add the following lines to your `CMakeLists.txt`:
+
+```
+ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
+INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
+```
 
 Simple usage example
 ====================
@@ -23,14 +40,15 @@ Simple usage example
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
-#include "CurlEasy.h"
+#include "../include/curl_easy.h"
+// only "curl_easy.h" if you use above submodule-way of compilation and linking
 
-using curl::CurlEasy;
+using curl::curl_easy;
 
-int main(int argc, char** argv) {
-    CurlEasy easy;
-    easy.addOption(CurlPair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.addOption(CurlPair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L) );
+int main(int argc, const char **argv) {
+    curl_easy easy;
+    easy.add_option(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
+    easy.add_option(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L) );
     easy.perform();
     return 0;
 }
@@ -39,20 +57,24 @@ int main(int argc, char** argv) {
 Here's instead, the creation of an HTTPS POST login form:
 
 `````c++
-#include "CurlEasy.h"
-#include "CurlHttpPost.h"
+#include <iostream>
+#include "../include/curl_easy.h"
+#include "../include/curl_http_post.h"
+// only "curl_easy.h" and "curl_http_post.h" if you use above submodule-way of compilation and linking
 
-using curl::CurlEasy;
-using curl::CurlHttpPost;
+using curl::curl_easy;
+using curl::curl_http_post;
 
-int main(int argc, char** argv) {
-    CurlEasy easy;
-    CurlHttpPost post;
-    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
-    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
-    easy.addOption(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxx.xxxxx"));
-    easy.addOption(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
+int main(int argc, const char * argv[]) {
+    curl_easy easy;
+    curl_http_post post;
+    post.form_add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
+    post.form_add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
+    easy.add_option(curl_pair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
+    easy.add_option(curl_pair<CURLoption,curl_http_post>(CURLOPT_HTTPPOST,post));
     easy.perform();
     return 0;
 }
 `````
+
+That's it! :)
