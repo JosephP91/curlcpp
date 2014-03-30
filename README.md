@@ -15,6 +15,8 @@ I added the entire netbeans project so you can import and use it. Don't forget t
 
 I removed the CMake support added before, to simplify the process of compile/use.
 
+If you want to recompile manually the project, don't forget to use these options in your bash command: -std=c++11 (to use the C++11 standard), -lcurl (to link the libcurl dynamic library).
+
 Simple usage example
 ====================
 
