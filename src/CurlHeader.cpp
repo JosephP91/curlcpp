@@ -34,7 +34,7 @@ void CurlHeader::setHeader(const string header) {
 
 // Implementation of setHeadersSize method
 void CurlHeader::setHeadersSize(const size_t headers_num) {
-    if (headers_num>0) {
+    if (headers_num > 0) {
         if (headers_num != this->tmpHeaders.size()) {
             this->tmpHeaders.resize(headers_num);
         }
@@ -77,7 +77,7 @@ void CurlHeader::confirmHeaders() {
     for_each(this->tmpHeaders.begin(),this->tmpHeaders.end(),[this](const string header) { this->setHeader(header); } );
 }
 
-// Implementation of getHeader method
+const // Implementation of getHeader method
 struct curl_slist *CurlHeader::getHeaders() const {
     return this->headers;
 }

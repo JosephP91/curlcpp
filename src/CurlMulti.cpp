@@ -28,7 +28,7 @@ CurlMulti::CurlMulti(const long flag) : CurlInterface(flag) {
     
 // Implementation of destructor
 CurlMulti::~CurlMulti() {
-    for_each(this->handlers.begin(),this->handlers.end(),[this](CurlEasy handler) { curl_multi_remove_handle(this->curl,handler.getCurl()); });
+    for_each(this->handlers.begin(),this->handlers.end(),[this](CurlEasy handler) { curl_multi_remove_handle(this->curl,handler.getCurl());});
     curl_multi_cleanup(this->curl);
 }
     
@@ -77,7 +77,7 @@ int CurlMulti::perform() {
     if (this->curl!=nullptr) {
         return curl_multi_perform(this->curl,&this->active_transfers);
     }
-    throw new CurlError<int>(" ** NULL pointe intercepted **",0);
+    throw new CurlError<int>(" ** NULL pointer intercepted **",0);
 }
     
 // Implementation of getTransfersInfo method
@@ -97,10 +97,10 @@ const vector<CurlMulti::CurlMessage> CurlMulti::getTransfersInfo() {
         }
         return info;
     }
-    throw new CurlError<int>(" ** NULL pointe intercepted ** ",0);
+    throw new CurlError<int>(" ** NULL pointer intercepted ** ",0);
 }
     
 // Implementation of errorToString method
-const string CurlMulti::errorToString(const CURLMcode code) const noexcept {
+const string CurlMulti::toString(const CURLMcode code) const noexcept {
     return curl_multi_strerror(code);
 }

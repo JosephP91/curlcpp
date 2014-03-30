@@ -7,12 +7,13 @@
 
 #ifndef CURLMULTI_H
 #define	CURLMULTI_H
+
 #include "CurlEasy.h"
 
 using curl::CurlEasy;
 
 namespace curl {
-    class CurlMulti : public CurlInterface {
+    class CurlMulti : public CurlInterface<CURLMcode> {
     private:
         class CurlMessage;
         CURLM *curl;
@@ -20,7 +21,7 @@ namespace curl {
         int active_transfers;
         vector<CurlEasy> handlers;
     protected:
-        const string errorToString(const CURLMcode) const noexcept;
+        const string toString(const CURLMcode) const noexcept;
     public:
         CurlMulti();
         CurlMulti(const long);

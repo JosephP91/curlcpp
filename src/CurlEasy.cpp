@@ -28,7 +28,7 @@ CurlEasy::~CurlEasy() {
 }
   
 // Implementation of errorToString method
-const string CurlEasy::errorToString(const CURLcode code) const noexcept {
+const string CurlEasy::toString(const CURLcode code) const noexcept {
     return curl_easy_strerror(code);
 }
 

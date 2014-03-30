@@ -26,7 +26,7 @@ using curl::CurlPair;
 using curl::CurlInterface;
 
 namespace curl  {
-    class CurlEasy : public CurlInterface {
+    class CurlEasy : public CurlInterface<CURLcode> {
     public:
         CurlEasy();
         CurlEasy(const long);
@@ -37,11 +37,11 @@ namespace curl  {
         template<typename T> unique_ptr<T> getSessionInfo(const CURLINFO, T *) const;
         void escape(string &);
         void unescape(string &);
-        virtual int perform();
+        int perform();
         void reset() noexcept;
         CURL *getCurl() const noexcept;
     protected:
-        const string errorToString(const CURLcode) const noexcept;
+        const string toString(const CURLcode) const noexcept;
     private:
         CURL *curl;
     };
@@ -78,7 +78,7 @@ namespace curl  {
         if (this->curl!=nullptr) {
             const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
             if (code!=CURLE_OK && ptr_info) {
-                throw new CurlError<CURLcode>(this->errorToString(code),code);
+                throw new CurlError<CURLcode>(this->toString(code),code);
             }
             return unique_ptr<T>{ptr_info};
         }

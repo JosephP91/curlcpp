@@ -29,12 +29,12 @@ namespace curl {
         CurlHeader &addHeader(const list<string> &);
         CurlHeader &removeHeader(const string);
         void confirmHeaders();
-        struct curl_slist * getHeaders() const;
+        const struct curl_slist * getHeaders() const;
     protected:
         void setHeader(const string);
     private:
         vector<string> tmpHeaders;
-        struct curl_slist * headers;
+        struct curl_slist *headers;
     };
 }
 
