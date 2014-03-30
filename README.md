@@ -8,33 +8,12 @@ I'm still working on it, so, if you find bugs or errors, please tell me! :)
 
 If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: http://curl.haxx.se/
 
-In the repository you will find the entire netbeans project!
-
 Compile and link
 ================
 
-Standalone
-----------
+I added the entire netbeans project so you can import and use it. Don't forget to link the libcurl library, with -lcurl option, and link curlcpp library and headers in your project settings.
 
-```bash
-cd build
-cmake ..
-make # -j2
-```
-
-Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
-
-When linking, link against `curlcpp` (e.g.: gcc example.cpp -o example -lcurlcpp).
-
-Submodule
----------
-
-When using a git submodule and CMake-buildsystem, add the following lines to your `CMakeLists.txt`:
-
-```
-ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
-INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
-```
+I removed the CMake support added before, to simplify the process of compile/use.
 
 Simple usage example
 ====================
@@ -75,5 +54,3 @@ int main(int argc, char** argv) {
     return 0;
 }
 `````
-
-That's it! :)
