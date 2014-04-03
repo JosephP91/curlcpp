@@ -40,7 +40,7 @@ Simple usage example
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
-#include "../include/curl_easy.h"
+#include "../include/CurlEasy.h"
 // only "CurlEasy.h" if you use above submodule-way of compilation and linking
 
 using curl::CurlEasy;
