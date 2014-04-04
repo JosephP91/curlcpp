@@ -67,8 +67,12 @@ using curl::CurlHttpPost;
 int main(int argc, const char * argv[]) {
     CurlEasy easy;
     CurlHttpPost post;
-    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
-    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
+    // Imagine these two lines like two html forms!
+    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),
+                 CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
+    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),
+                 CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
+                 
     easy.addOption(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
     easy.addOption(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
     easy.perform();
