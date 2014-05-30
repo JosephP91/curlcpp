@@ -44,8 +44,8 @@ using curl::CurlEasy;
 
 int main(int argc, const char **argv) {
     CurlEasy easy;
-    easy.addOption(CurlPair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.addOption(CurlPair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L) );
+    easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
+    easy.add(CurlPair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L) );
     easy.perform();
     return 0;
 }
@@ -65,13 +65,14 @@ int main(int argc, const char * argv[]) {
     CurlEasy easy;
     CurlHttpPost post;
     // Imagine these two lines like two html forms!
-    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),
+    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),
                  CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
-    post.formAdd(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),
+                 
+    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),
                  CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
                  
-    easy.addOption(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
-    easy.addOption(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
+    easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
+    easy.add(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
     easy.perform();
     return 0;
 }
