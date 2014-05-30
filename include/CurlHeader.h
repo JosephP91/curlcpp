@@ -23,15 +23,15 @@ namespace curl {
         CurlHeader() : headers(nullptr) {};
         CurlHeader(const size_t);
         ~CurlHeader();
-        void setHeadersSize(const size_t);
-        CurlHeader &addHeader(const string);
-        CurlHeader &addHeader(const vector<string> &);
-        CurlHeader &addHeader(const list<string> &);
-        CurlHeader &removeHeader(const string);
-        void confirmHeaders();
-        const struct curl_slist * getHeaders() const;
+        CurlHeader &add(const string);
+        CurlHeader &add(const vector<string> &);
+        CurlHeader &add(const list<string> &);
+        CurlHeader &remove(const string);
+        void confirm();
+        const struct curl_slist * get() const;
     protected:
-        void setHeader(const string);
+        void set(const string);
+        void setSize(const size_t);
     private:
         vector<string> tmpHeaders;
         struct curl_slist *headers;

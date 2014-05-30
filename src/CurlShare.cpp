@@ -31,7 +31,7 @@ const string CurlShare::toString(const CURLSHcode code) const noexcept {
 }
 
 // Implementation of addOption method
-template<typename T> CurlShare &CurlShare::addOption(const CurlPair<CURLSHoption,T> &pair) {
+template<typename T> CurlShare &CurlShare::add(const CurlPair<CURLSHoption,T> &pair) {
     if (this->curl!=nullptr) {
         curl_share_setopt(this->curl,pair.first(),pair.second());
     } else {
@@ -41,9 +41,9 @@ template<typename T> CurlShare &CurlShare::addOption(const CurlPair<CURLSHoption
 }
 
 // Implementation of overloaded method addOption
-template<typename T> CurlShare &CurlShare::addOption(const vector<CurlPair<CURLSHoption,T>> &pairs) {
+template<typename T> CurlShare &CurlShare::add(const vector<CurlPair<CURLSHoption,T>> &pairs) {
     if (this->curl!=nullptr) {
-        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->addOption(option); } );
+        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->add(option); } );
     } else {
         throw new CurlError<int>(" ** NULL pointer intercepted **",0);
     }
@@ -51,9 +51,9 @@ template<typename T> CurlShare &CurlShare::addOption(const vector<CurlPair<CURLS
 }
 
 // Implementation of overloaded method addOption
-template<typename T> CurlShare &CurlShare::addOption(const list<CurlPair<CURLSHoption,T> > &pairs) {
+template<typename T> CurlShare &CurlShare::add(const list<CurlPair<CURLSHoption,T> > &pairs) {
     if (this->curl!=nullptr) {
-        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->addOption(option); });
+        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->add(option); });
     } else {
         throw new CurlError<int>(" ** NULL pointer intercepted",0);
     }

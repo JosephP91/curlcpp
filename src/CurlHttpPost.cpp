@@ -18,6 +18,6 @@ CurlHttpPost::~CurlHttpPost() {
 }
 
 // Implementation of getFormPost
-struct curl_httppost *CurlHttpPost::getFormPost() const noexcept {
+struct curl_httppost *CurlHttpPost::get() const noexcept {
     return this->form_post; 
 }

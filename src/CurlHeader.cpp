@@ -15,7 +15,7 @@ using std::for_each;
 // Implementation of constructor
 CurlHeader::CurlHeader(const size_t header_num) {
     CurlHeader();
-    this->setHeadersSize(header_num);
+    this->setSize(header_num);
 }
 
 // Implementation of destructor
@@ -25,7 +25,7 @@ CurlHeader::~CurlHeader() {
 }
 
 // Implementation of setHeader method
-void CurlHeader::setHeader(const string header) {
+void CurlHeader::set(const string header) {
     this->headers = curl_slist_append(this->headers,header.c_str());
     if (this->headers == nullptr) {
         throw CurlError<int>(" ** An error occurred while inserting last header ** ",0);
@@ -33,7 +33,7 @@ void CurlHeader::setHeader(const string header) {
 }
 
 // Implementation of setHeadersSize method
-void CurlHeader::setHeadersSize(const size_t headers_num) {
+void CurlHeader::setSize(const size_t headers_num) {
     if (headers_num > 0) {
         if (headers_num != this->tmpHeaders.size()) {
             this->tmpHeaders.resize(headers_num);
@@ -44,25 +44,25 @@ void CurlHeader::setHeadersSize(const size_t headers_num) {
 }
 
 // Implementation of addHeader method
-CurlHeader &CurlHeader::addHeader(const vector<string> &headers) {
+CurlHeader &CurlHeader::add(const vector<string> &headers) {
     for_each(headers.begin(),headers.end(),[this](const string header) { this->tmpHeaders.push_back(header); } );
     return *this;
 }
 
 // Implementation of addHeader overloaded method
-CurlHeader &CurlHeader::addHeader(const list<string> &headers) {
+CurlHeader &CurlHeader::add(const list<string> &headers) {
     for_each(headers.begin(),headers.end(),[this](const string header) { this->tmpHeaders.push_back(header); } );
     return *this;
 }
 
 // Implementation of addHeader overloaded method
-CurlHeader &CurlHeader::addHeader(const string header) {
+CurlHeader &CurlHeader::add(const string header) {
     this->tmpHeaders.push_back(header);
     return *this;
 }
 
 // Implementation of remveHeader method
-CurlHeader &CurlHeader::removeHeader(const string remove) {
+CurlHeader &CurlHeader::remove(const string remove) {
     for (vector<string>::iterator it=this->tmpHeaders.begin(); it!=this->tmpHeaders.end(); ++it) {
         if ((*it)==remove) {
             this->tmpHeaders.erase(it);
@@ -73,11 +73,11 @@ CurlHeader &CurlHeader::removeHeader(const string remove) {
 }
 
 // Implementation of confirmHeaders method
-void CurlHeader::confirmHeaders() {
-    for_each(this->tmpHeaders.begin(),this->tmpHeaders.end(),[this](const string header) { this->setHeader(header); } );
+void CurlHeader::confirm() {
+    for_each(this->tmpHeaders.begin(),this->tmpHeaders.end(),[this](const string header) { this->set(header); } );
 }
 
 const // Implementation of getHeader method
-struct curl_slist *CurlHeader::getHeaders() const {
+struct curl_slist *CurlHeader::get() const {
     return this->headers;
 }

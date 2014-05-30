@@ -19,9 +19,9 @@ namespace curl {
         CurlShare();
         CurlShare(const long);
         ~CurlShare();
-        template<typename T> CurlShare &addOption(const CurlPair<CURLSHoption,T> &);
-        template<typename T> CurlShare &addOption(const vector<CurlPair<CURLSHoption,T>> &);
-        template<typename T> CurlShare &addOption(const list<CurlPair<CURLSHoption,T>> &);
+        template<typename T> CurlShare &add(const CurlPair<CURLSHoption,T> &);
+        template<typename T> CurlShare &add(const vector<CurlPair<CURLSHoption,T>> &);
+        template<typename T> CurlShare &add(const list<CurlPair<CURLSHoption,T>> &);
     protected:
         const string toString(const CURLSHcode) const noexcept;
     private:
