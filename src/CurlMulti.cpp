@@ -15,29 +15,28 @@ using std::move;
 using curl::CurlMulti;
 
 // Implementation of constructor
-CurlMulti::CurlMulti() : CurlInterface() {
-    this->curl = curl_multi_init();
-    if (this->curl == nullptr) {
-        throw new CurlError<int>(" *** Error while initializing curl multi pointer ***",0);
-    }
+CurlMulti::CurlMulti() : CurlInterface(curl_multi_init()) {
     this->active_transfers = 0;
     this->message_queued = 0;
 }
 
 // Implementation of overloaded constructor
-CurlMulti::CurlMulti(const long flag) : CurlInterface(flag) {
+CurlMulti::CurlMulti(const long flag) : CurlInterface(curl_multi_init(),flag) {
     CurlMulti();
 }
     
 // Implementation of destructor
 CurlMulti::~CurlMulti() {
-    for_each(this->handlers.begin(),this->handlers.end(),[this](CurlEasy handler) { curl_multi_remove_handle(this->curl,handler.getCurl());});
-    curl_multi_cleanup(this->curl);
+    for_each(this->handlers.begin(),this->handlers.end(),[this](CurlEasy handler) { curl_multi_remove_handle(this->getCurl(),handler.getCurl());});
+    curl_multi_cleanup(this->getCurl());
 }
-    
+
 // Implementation of addHandle method
 CurlMulti &CurlMulti::addHandle(const CurlEasy &handler) noexcept {
-    curl_multi_add_handle(this->curl,handler.getCurl());
+    CURLMcode code = curl_multi_add_handle(this->getCurl(),handler.getCurl());
+    if (code != CURLM_OK) {
+        throw CurlError(this->toString(code));
+    }
     return *this;
 }
     
@@ -49,7 +48,10 @@ CurlMulti &CurlMulti::addHandle(const vector<CurlEasy> &handlers) noexcept {
     
 // Implementation of removeHandle overloaded method
 CurlMulti &CurlMulti::removeHandle(const CurlEasy &handler) noexcept {
-    curl_multi_remove_handle(this->curl,handler.getCurl());
+    CURLMcode code = curl_multi_remove_handle(this->getCurl(),handler.getCurl());
+    if (code != CURLM_OK) {
+        throw CurlError(this->toString(code));
+    }
     return *this;
 }
     
@@ -65,17 +67,21 @@ const int CurlMulti::getMessageQueued() const noexcept {
 
 // Implementation of perform abstract method
 int CurlMulti::perform() {
-    return curl_multi_perform(this->curl,&this->active_transfers);
+    CURLMcode code = curl_multi_perform(this->getCurl(),&this->active_transfers);
+    if (code != CURLM_OK) {
+        throw CurlError(this->toString(code));
+    }
+    return code;
 }
-    
+
 // Implementation of getTransfersInfo method
 const vector<CurlMulti::CurlMessage> CurlMulti::getTransfersInfo() {
     vector<CurlMulti::CurlMessage> info;
     CURLMsg *msg = nullptr;
-    while ((msg = curl_multi_info_read(this->curl,&this->message_queued))) {
+    while ((msg = curl_multi_info_read(this->getCurl(),&this->message_queued))) {
         if (msg->msg == CURLMSG_DONE) {
             for (auto handler : this->handlers) {
-                if (msg->easy_handle==handler.getCurl()) {
+                if (msg->easy_handle == handler.getCurl()) {
                     info.push_back(CurlMessage(msg->msg,handler,(msg->data).whatever,(msg->data).result));
                     break;
                 }

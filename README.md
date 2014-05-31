@@ -37,16 +37,23 @@ Simple usage example
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
+#include <iostream>
 #include "../include/CurlEasy.h"
 // only "CurlEasy.h" if you use above submodule-way of compilation and linking
 
+using std::cout;
+using std::endl;
 using curl::CurlEasy;
 
 int main(int argc, const char **argv) {
     CurlEasy easy;
     easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.add(CurlPair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L) );
-    easy.perform();
+    easy.add(CurlPair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    try {
+        easy.perform();
+    } catch (CurlError error) {
+        cout<<error.what()<<endl;
+    }
     return 0;
 }
 `````
@@ -54,10 +61,13 @@ int main(int argc, const char **argv) {
 Here's instead, the creation of an HTTPS POST login form:
 
 `````c++
+#include <iostream>
 #include "CurlEasy.h"
 #include "CurlHttpPost.h"
 // only "CurlEasy.h" and "CurlHttpPost.h" if you use above submodule-way of compilation and linking
 
+using std::cout;
+using std::endl;
 using curl::CurlEasy;
 using curl::CurlHttpPost;
 
@@ -70,7 +80,12 @@ int main(int argc, const char * argv[]) {
                  
     easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
     easy.add(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
-    easy.perform();
+
+    try {
+        easy.perform();
+    } catch (CurlError error) {
+        cout<<error.what()<<endl;
+    }
     return 0;
 }
 `````

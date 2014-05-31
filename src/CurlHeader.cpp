@@ -28,7 +28,7 @@ CurlHeader::~CurlHeader() {
 void CurlHeader::set(const string header) {
     this->headers = curl_slist_append(this->headers,header.c_str());
     if (this->headers == nullptr) {
-        throw CurlError<int>(" *** An error occurred while inserting last header ***",0);
+        throw CurlError(" *** An error occurred while inserting last header ***");
     }
 }
 
@@ -39,7 +39,7 @@ void CurlHeader::setSize(const size_t headers_num) {
             this->tmpHeaders.resize(headers_num);
         }
     } else {
-        throw new CurlError<int>(" *** Headers vector size cannot be less or equal to zero ***",0);
+        throw CurlError(" *** Headers vector size cannot be less or equal to zero ***");
     }
 }
 

@@ -14,19 +14,35 @@
 using curl::CurlEasy;
 
 namespace curl {
-    class CurlShare : public CurlInterface<CURLSHcode> {
+    class CurlShare : public CurlInterface<CURLSH,CURLSHcode> {
     public:
-        CurlShare();
-        CurlShare(const long);
+        CurlShare() : CurlInterface(curl_share_init()) {}
+        CurlShare(const long flag) : CurlInterface(curl_share_init(),flag) {}
         ~CurlShare();
-        template<typename T> CurlShare &add(const CurlPair<CURLSHoption,T> &);
-        template<typename T> CurlShare &add(const vector<CurlPair<CURLSHoption,T>> &);
-        template<typename T> CurlShare &add(const list<CurlPair<CURLSHoption,T>> &);
+        template<typename T> void add(const CurlPair<CURLSHoption,T> &);
+        template<typename T> void add(const vector<CurlPair<CURLSHoption,T>> &);
+        template<typename T> void add(const list<CurlPair<CURLSHoption,T>> &);
     protected:
         const string toString(const CURLSHcode) const noexcept;
-    private:
-        CURLSH *curl;
     };
+    
+    // Implementation of addOption method
+    template<typename T> void CurlShare::add(const CurlPair<CURLSHoption,T> &pair) {
+        CURLSHcode code = curl_share_setopt(this->getCurl(),pair.first(),pair.second());
+        if (code != CURLSHE_OK) {
+            throw CurlError(this->toString(code));
+        }
+    }
+    
+    // Implementation of overloaded method addOption
+    template<typename T> void CurlShare::add(const vector<CurlPair<CURLSHoption,T>> &pairs) {
+        for_each(pairs.begin(),pairs.end(),[this](const CurlPair<CURLSHoption,T> option) { this->add(option); } );
+    }
+    
+    // Implementation of overloaded method addOption
+    template<typename T> void CurlShare::add(const list<CurlPair<CURLSHoption,T> > &pairs) {
+        for_each(pairs.begin(),pairs.end(),[this](const CurlPair<CURLSHoption,T> option) { this->add(option); });
+    }
 }
 
 #endif /* defined(__curlcpp__CurlShare__) */

@@ -6,6 +6,7 @@
  */
 
 #include "CurlHttpPost.h"
+#include "CurlError.h"
 
 using curl::CurlHttpPost;
 
