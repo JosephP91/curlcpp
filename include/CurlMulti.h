@@ -15,7 +15,6 @@ using curl::CurlEasy;
 namespace curl {
     class CurlMulti : public CurlInterface<CURLMcode> {
     private:
-        class CurlMessage;
         CURLM *curl;
         int message_queued;
         int active_transfers;
@@ -23,6 +22,7 @@ namespace curl {
     protected:
         const string toString(const CURLMcode) const noexcept;
     public:
+        class CurlMessage;
         CurlMulti();
         CurlMulti(const long);
         ~CurlMulti();
@@ -34,7 +34,7 @@ namespace curl {
         int perform();
         const int getActiveTransfers() const noexcept;
         const int getMessageQueued() const noexcept;
-        const vector<CurlMulti::CurlMessage> getTransfersInfo();
+        const vector<CurlMessage> getTransfersInfo();
     };
     
     // Implementation of addOption method
@@ -42,18 +42,15 @@ namespace curl {
         if (this->curl!=nullptr) {
             curl_multi_setopt(this->curl,pair.first(),pair.second());
         } else {
-            throw new CurlError<int>(" ** NULL pointer intercepted ** ",0);
+            throw new CurlError<int>(" *** NULL pointer intercepted **",0);
         }
         return *this;
     }
     
     // Implementation of addOption overloaded method
     template<typename T> CurlMulti &CurlMulti::addOption(const vector<CurlPair<CURLMoption,T>> &pairs) {
-    	if (this->curl!=nullptr) {
-            for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLMoption,T> option) { this->addOption(option); } );
-        } else {
-            throw new CurlError<int>(" ** NULL pointer intercepted ** ",0);
-        }
+        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLMoption,T> option) { this->addOption(option); } );
+        return *this;
     }
 }
 

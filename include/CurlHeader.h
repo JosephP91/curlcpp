@@ -28,7 +28,7 @@ namespace curl {
         CurlHeader &add(const list<string> &);
         CurlHeader &remove(const string);
         void confirm();
-        const struct curl_slist * get() const;
+        const struct curl_slist *get() const;
     protected:
         void set(const string);
         void setSize(const size_t);

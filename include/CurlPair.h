@@ -41,7 +41,7 @@ namespace curl {
     public:
         CurlPair(const T option, const CurlHttpPost value) : option(option), value(value) {}
         inline const T first() const noexcept { return this->option; }
-        inline const curl_httppost *second() const noexcept { return this->value.getFormPost(); }
+        inline const curl_httppost *second() const noexcept { return this->value.get(); }
     private:
         const T option;
         const CurlHttpPost value;

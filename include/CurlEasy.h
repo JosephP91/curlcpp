@@ -48,41 +48,26 @@ namespace curl  {
     
     // Implementation of addOption method
     template<typename T> CurlEasy &CurlEasy::add(const CurlPair<CURLoption,T> &pair) {
-        if (this->curl != nullptr) {
-            curl_easy_setopt(this->curl,pair.first(),pair.second());
-        } else {
-            throw new CurlError<int>(" ** NULL pointer intercepted **",0);
-        }
+        curl_easy_setopt(this->curl,pair.first(),pair.second());
         return *this;
     }
     // Implementation of overloaded method addOption
     template<typename T> CurlEasy &CurlEasy::add(const vector<CurlPair<CURLoption,T>> &pairs) {
-        if (this->curl != nullptr) {
-            for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLoption,T> option) { this->add(option); } );
-        } else {
-            throw new CurlError<int>(" ** NULL pointer intercepted **",0);
-        }
+        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLoption,T> option) { this->add(option); } );
         return *this;
     }
     // Implementation of overloaded method addOption
     template<typename T> CurlEasy &CurlEasy::add(const list<CurlPair<CURLoption,T> > &pairs) {
-        if (this->curl != nullptr) {
-            for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLoption,T> option) { this->add(option); });
-        } else {
-            throw new CurlError<int>(" ** NULL pointer intercepted",0);
-        }
+        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLoption,T> option) { this->add(option); });
         return *this;
     }
     // Implementation of getSessionInfo method
     template<typename T> unique_ptr<T> CurlEasy::getSessionInfo(const CURLINFO info, T *ptr_info) const {
-        if (this->curl != nullptr) {
-            const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
-            if (code != CURLE_OK && ptr_info) {
-                throw new CurlError<CURLcode>(this->toString(code),code);
-            }
-            return unique_ptr<T>{ptr_info};
+        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
+        if (code != CURLE_OK && ptr_info) {
+            throw new CurlError<CURLcode>(this->toString(code),code);
         }
-        throw new CurlError<int>(" ** NULL pointer intercepted **",0);
+        return unique_ptr<T>{ptr_info};
     }
 }
 

@@ -13,6 +13,9 @@ using curl::CurlShare;
 // Implementation of constructor
 CurlShare::CurlShare() : CurlInterface() {
     this->curl = curl_share_init();
+    if (this->curl == nullptr) {
+        throw new CurlError<int>(" *** Error while initializing curl share pointer ***",0);
+    }
 }
 
 // Implementation of overloaded constructor
@@ -32,30 +35,18 @@ const string CurlShare::toString(const CURLSHcode code) const noexcept {
 
 // Implementation of addOption method
 template<typename T> CurlShare &CurlShare::add(const CurlPair<CURLSHoption,T> &pair) {
-    if (this->curl!=nullptr) {
-        curl_share_setopt(this->curl,pair.first(),pair.second());
-    } else {
-        throw new CurlError<int>(" ** NULL pointer intercepted **",0);
-    }
+    curl_share_setopt(this->curl,pair.first(),pair.second());
     return *this;
 }
 
 // Implementation of overloaded method addOption
 template<typename T> CurlShare &CurlShare::add(const vector<CurlPair<CURLSHoption,T>> &pairs) {
-    if (this->curl!=nullptr) {
-        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->add(option); } );
-    } else {
-        throw new CurlError<int>(" ** NULL pointer intercepted **",0);
-    }
+    for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->add(option); } );
     return *this;
 }
 
 // Implementation of overloaded method addOption
 template<typename T> CurlShare &CurlShare::add(const list<CurlPair<CURLSHoption,T> > &pairs) {
-    if (this->curl!=nullptr) {
-        for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->add(option); });
-    } else {
-        throw new CurlError<int>(" ** NULL pointer intercepted",0);
-    }
+    for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLSHoption,T> option) { this->add(option); });
     return *this;
 }

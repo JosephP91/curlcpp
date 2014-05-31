@@ -33,7 +33,7 @@ namespace curl {
     template<class CODETYPE> CurlInterface<CODETYPE>::CurlInterface() {
         const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
         if (curl_global_init(CURL_GLOBAL_ALL) != 0) {
-            throw new CurlError<CURLcode>(" ** Error while initializing the curl environment **",code);
+            throw new CurlError<CURLcode>(" *** Error while initializing the curl environment ***",code);
         }
     }
     
@@ -41,7 +41,7 @@ namespace curl {
     template<class CODETYPE> CurlInterface<CODETYPE>::CurlInterface(const long flag) {
         const CURLcode code = curl_global_init(flag);
         if (code != 0) {
-            throw new CurlError<CURLcode>(" ** Error while initializing the curl environment with the flag specified **",code);
+            throw new CurlError<CURLcode>(" *** Error while initializing the curl environment with the flag specified ***",code);
         }
     }
     

@@ -19,7 +19,7 @@ make # -j2
 
 Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
-When linking, link against `curlcpp` (e.g.: gcc example.cpp -o example -lcurlcpp).
+When linking, link against `curlcpp` (e.g.: gcc -std=c++11 example.cpp -o example -lcurlcpp).
 
 Submodule
 ---------
@@ -65,11 +65,8 @@ int main(int argc, const char * argv[]) {
     CurlEasy easy;
     CurlHttpPost post;
     // Imagine these two lines like two html forms!
-    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),
-                 CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username"));
-                 
-    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"),
-                 CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
+    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username")); 
+    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"), CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
                  
     easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
     easy.add(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
