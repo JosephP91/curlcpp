@@ -15,7 +15,6 @@
 #include <curl/curl.h>
 
 #include "CurlInterface.h"
-#include "CurlError.h"
 #include "CurlPair.h"
 
 using std::vector;

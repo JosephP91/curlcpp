@@ -6,11 +6,10 @@
  */
 
 #include "CurlHeader.h"
-#include "CurlError.h"
 #include <algorithm>
 
-using curl::CurlHeader;
 using std::for_each;
+using curl::CurlHeader;
 
 // Implementation of constructor
 CurlHeader::CurlHeader(const size_t header_num) {
@@ -43,41 +42,37 @@ void CurlHeader::setSize(const size_t headers_num) {
     }
 }
 
-// Implementation of addHeader method
-CurlHeader &CurlHeader::add(const vector<string> &headers) {
+// Implementation of add method
+void CurlHeader::add(const vector<string> &headers) {
     for_each(headers.begin(),headers.end(),[this](const string header) { this->tmpHeaders.push_back(header); } );
-    return *this;
 }
 
-// Implementation of addHeader overloaded method
-CurlHeader &CurlHeader::add(const list<string> &headers) {
+// Implementation of add overloaded method
+void CurlHeader::add(const list<string> &headers) {
     for_each(headers.begin(),headers.end(),[this](const string header) { this->tmpHeaders.push_back(header); } );
-    return *this;
 }
 
-// Implementation of addHeader overloaded method
-CurlHeader &CurlHeader::add(const string header) {
+// Implementation of add overloaded method
+void CurlHeader::add(const string header) {
     this->tmpHeaders.push_back(header);
-    return *this;
 }
 
-// Implementation of remveHeader method
-CurlHeader &CurlHeader::remove(const string remove) {
-    for (vector<string>::iterator it=this->tmpHeaders.begin(); it!=this->tmpHeaders.end(); ++it) {
-        if ((*it)==remove) {
+// Implementation of remve method
+void CurlHeader::remove(const string remove) {
+    for (vector<string>::iterator it = this->tmpHeaders.begin(); it != this->tmpHeaders.end(); ++it) {
+        if ((*it) == remove) {
             this->tmpHeaders.erase(it);
-            return *this;
+            break;
         }
     }
-    return *this;
 }
 
-// Implementation of confirmHeaders method
+// Implementation of confirm method
 void CurlHeader::confirm() {
     for_each(this->tmpHeaders.begin(),this->tmpHeaders.end(),[this](const string header) { this->set(header); } );
 }
 
 // Implementation of getHeader method
-const struct curl_slist *CurlHeader::get() const {
-    return this->headers;
+const vector<string> CurlHeader::get() const {
+    return this->tmpHeaders;
 }

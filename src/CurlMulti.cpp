@@ -6,7 +6,6 @@
  */
 
 #include <algorithm>
-#include "CurlError.h"
 #include "CurlMessage.h"
 #include "CurlMulti.h"
 
@@ -14,24 +13,26 @@ using std::for_each;
 using std::move;
 using curl::CurlMulti;
 
-// Implementation of constructor
+// Implementation of constructor.
 CurlMulti::CurlMulti() : CurlInterface(curl_multi_init()) {
     this->active_transfers = 0;
     this->message_queued = 0;
 }
 
-// Implementation of overloaded constructor
+// Implementation of overloaded constructor.
 CurlMulti::CurlMulti(const long flag) : CurlInterface(curl_multi_init(),flag) {
     CurlMulti();
 }
     
-// Implementation of destructor
+// Implementation of destructor.
 CurlMulti::~CurlMulti() {
-    for_each(this->handlers.begin(),this->handlers.end(),[this](CurlEasy handler) { curl_multi_remove_handle(this->getCurl(),handler.getCurl());});
+    for_each(this->handlers.begin(),this->handlers.end(),[this](CurlEasy handler) {
+        curl_multi_remove_handle(this->getCurl(),handler.getCurl());
+    });
     curl_multi_cleanup(this->getCurl());
 }
 
-// Implementation of addHandle method
+// Implementation of addHandle method.
 CurlMulti &CurlMulti::addHandle(const CurlEasy &handler) noexcept {
     CURLMcode code = curl_multi_add_handle(this->getCurl(),handler.getCurl());
     if (code != CURLM_OK) {
@@ -40,13 +41,13 @@ CurlMulti &CurlMulti::addHandle(const CurlEasy &handler) noexcept {
     return *this;
 }
     
-// Implementation of addHandle overloaded method
+// Implementation of addHandle overloaded method.
 CurlMulti &CurlMulti::addHandle(const vector<CurlEasy> &handlers) noexcept {
     this->handlers = move(handlers);
     return *this;
 }
     
-// Implementation of removeHandle overloaded method
+// Implementation of removeHandle overloaded method.
 CurlMulti &CurlMulti::removeHandle(const CurlEasy &handler) noexcept {
     CURLMcode code = curl_multi_remove_handle(this->getCurl(),handler.getCurl());
     if (code != CURLM_OK) {
@@ -55,12 +56,12 @@ CurlMulti &CurlMulti::removeHandle(const CurlEasy &handler) noexcept {
     return *this;
 }
     
-// Implementation of getActiveTransfers method
+// Implementation of getActiveTransfers method.
 const int CurlMulti::getActiveTransfers() const noexcept {
     return this->active_transfers;
 }
     
-// Implementation of getMessageQueued method
+// Implementation of getMessageQueued method.
 const int CurlMulti::getMessageQueued() const noexcept {
     return this->message_queued;
 }

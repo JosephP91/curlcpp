@@ -9,9 +9,15 @@
 #ifndef __curlcpp__CurlShare__
 #define __curlcpp__CurlShare__
 
-#include "CurlEasy.h"
+#include <vector>
+#include <list>
+#include "CurlInterface.h"
+#include "CurlPair.h"
 
-using curl::CurlEasy;
+using std::vector;
+using std::list;
+using curl::CurlInterface;
+using curl::CurlPair;
 
 namespace curl {
     class CurlShare : public CurlInterface<CURLSH,CURLSHcode> {
@@ -33,12 +39,10 @@ namespace curl {
             throw CurlError(this->toString(code));
         }
     }
-    
     // Implementation of overloaded method addOption
     template<typename T> void CurlShare::add(const vector<CurlPair<CURLSHoption,T>> &pairs) {
         for_each(pairs.begin(),pairs.end(),[this](const CurlPair<CURLSHoption,T> option) { this->add(option); } );
     }
-    
     // Implementation of overloaded method addOption
     template<typename T> void CurlShare::add(const list<CurlPair<CURLSHoption,T> > &pairs) {
         for_each(pairs.begin(),pairs.end(),[this](const CurlPair<CURLSHoption,T> option) { this->add(option); });

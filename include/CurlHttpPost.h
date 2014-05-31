@@ -11,6 +11,8 @@
 #include <curl/curl.h>
 #include "CurlError.h"
 
+using curl::CurlError;
+
 // Forward declaration because of circular reference
 namespace curl {
     template<class T, class K> class CurlPair;

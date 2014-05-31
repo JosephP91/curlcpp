@@ -44,12 +44,10 @@ namespace curl {
             throw CurlError(this->toString(code));
         }
     }
-    
     // Implementation of add overloaded method
     template<typename T> void CurlMulti::add(const vector<CurlPair<CURLMoption,T>> &pairs) {
         for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLMoption,T> option) { this->add(option); } );
     }
-    
     // Implementation of add overloaded method
     template<typename T> void CurlMulti::add(const list<CurlPair<CURLMoption,T>> &pairs) {
         for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLMoption,T> option) { this->add(option); } );

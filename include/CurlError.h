@@ -8,20 +8,22 @@
 #ifndef CURLERROR_H
 #define	CURLERROR_H
 
-#include <iostream>
-#include <curl/curl.h>
+#include <string>
 #include <exception>
 
 using std::exception;
 using std::string;
 
-class CurlError : public exception {
-public:
-    CurlError(const string error) : error(error) {}
-    ~CurlError() throw() {};
-    string what() { return this->error; }
-private:
-    string error;
-};
+namespace curl {
+    class CurlError : public exception {
+    public:
+        CurlError(const string error) : error(error) {}
+        ~CurlError() throw() {};
+        string what() { return this->error; }
+    private:
+        string error;
+    };
+   
+}
 
 #endif	/* CURLERROR_H */

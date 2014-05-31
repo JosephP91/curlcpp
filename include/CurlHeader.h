@@ -12,10 +12,12 @@
 #include <string>
 #include <list>
 #include <curl/curl.h>
+#include "CurlError.h"
 
 using std::string;
 using std::vector;
 using std::list;
+using curl::CurlError;
 
 namespace curl {
     class CurlHeader {
@@ -23,12 +25,12 @@ namespace curl {
         CurlHeader() : headers(nullptr) {};
         CurlHeader(const size_t);
         ~CurlHeader();
-        CurlHeader &add(const string);
-        CurlHeader &add(const vector<string> &);
-        CurlHeader &add(const list<string> &);
-        CurlHeader &remove(const string);
+        void add(const string);
+        void add(const vector<string> &);
+        void add(const list<string> &);
+        void remove(const string);
         void confirm();
-        const struct curl_slist *get() const;
+        const vector<string> get() const;
     protected:
         void set(const string);
         void setSize(const size_t);
