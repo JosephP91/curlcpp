@@ -25,7 +25,7 @@ namespace curl {
         CurlMulti &addHandle(const CurlEasy &) noexcept;
         CurlMulti &addHandle(const vector<CurlEasy> &) noexcept;
         CurlMulti &removeHandle(const CurlEasy &) noexcept;
-        int perform();
+        CURLMcode perform();
         const int getActiveTransfers() const noexcept;
         const int getMessageQueued() const noexcept;
         const vector<CurlMessage> getTransfersInfo();
