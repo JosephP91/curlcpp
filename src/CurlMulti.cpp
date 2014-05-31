@@ -66,7 +66,7 @@ const int CurlMulti::getMessageQueued() const noexcept {
 }
 
 // Implementation of perform abstract method
-int CurlMulti::perform() {
+CURLMcode CurlMulti::perform() {
     CURLMcode code = curl_multi_perform(this->getCurl(),&this->active_transfers);
     if (code != CURLM_OK) {
         throw CurlError(this->toString(code));
