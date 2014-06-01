@@ -15,7 +15,31 @@ using curl::CurlEasy;
 namespace curl {
     class CurlMulti : public CurlInterface<CURLM,CURLMcode> {
     public:
-        class CurlMessage;
+        class CurlMessage {
+        public:
+            CurlMessage(CURLMSG message, CurlEasy easy, void *whatever, CURLcode result) : message(message), easy(easy), whatever(whatever), result(result) {};
+            // Returns the message
+            inline const CURLMSG getMessage() const noexcept {
+                return this->message;
+            }
+            // Returns the exit code
+            inline const CURLcode getResult() const noexcept {
+                return this->result;
+            }
+            // Returns the curl easy handler
+            inline const CurlEasy getCurl() const noexcept {
+                return this->easy;
+            }
+            // Returns other stuff.
+            inline const void *getWhatever() const noexcept {
+                return this->whatever;
+            }
+        private:
+            const CURLMSG message;
+            const CurlEasy easy;
+            const void *whatever;
+            const CURLcode result;
+        };
         CurlMulti();
         CurlMulti(const long);
         ~CurlMulti();
@@ -25,10 +49,10 @@ namespace curl {
         CurlMulti &addHandle(const CurlEasy &) noexcept;
         CurlMulti &addHandle(const vector<CurlEasy> &) noexcept;
         CurlMulti &removeHandle(const CurlEasy &) noexcept;
-        CURLMcode perform();
+        bool perform();
+        const vector<CurlMessage> infoRead();
         const int getActiveTransfers() const noexcept;
         const int getMessageQueued() const noexcept;
-        const vector<CurlMessage> getTransfersInfo();
     protected:
         const string toString(const CURLMcode) const noexcept;
     private:
@@ -53,5 +77,9 @@ namespace curl {
         for_each(pairs.begin(),pairs.end(),[this](CurlPair<CURLMoption,T> option) { this->add(option); } );
     }
 }
+
+
+
+
 
 #endif	/* CURLMULTI_H */

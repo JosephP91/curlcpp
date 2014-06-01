@@ -19,7 +19,10 @@ namespace curl {
     public:
         CurlError(const string error) : error(error) {}
         ~CurlError() throw() {};
-        string what() { return this->error; }
+        // Override of exception's what() method.
+        string what() {
+            return this->error;
+        }
     private:
         string error;
     };

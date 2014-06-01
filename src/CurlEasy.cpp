@@ -20,12 +20,11 @@ const string CurlEasy::toString(const CURLcode code) const noexcept {
 }
 
 // Implementation of abstract method perform
-CURLcode CurlEasy::perform() {
+void CurlEasy::perform() {
     const CURLcode code = curl_easy_perform(this->getCurl());
     if (code != CURLE_OK) {
         throw CurlError(this->toString(code));
     }
-    return code;
 }
 
 // Implementation of escape method

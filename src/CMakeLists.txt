@@ -2,7 +2,6 @@ SET(CURLCPP_SOURCE
   CurlEasy.cpp
   CurlHeader.cpp
   CurlHttpPost.cpp
-  CurlMessage.cpp
   CurlMulti.cpp
   CurlShare.cpp
   CurlVersion.cpp

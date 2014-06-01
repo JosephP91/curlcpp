@@ -36,7 +36,7 @@ namespace curl  {
         template<typename T> unique_ptr<T> getSessionInfo(const CURLINFO, T *) const;
         void escape(string &);
         void unescape(string &);
-        CURLcode perform();
+        void perform();
         void reset() noexcept;
     protected:
         const string toString(const CURLcode) const noexcept;

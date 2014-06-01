@@ -18,8 +18,12 @@ namespace curl {
     template<class T, class K> class CurlPair {
     public:
         CurlPair(const T option, const K value) : option(option), value(value) {};
-        inline const T first() const noexcept { return this->option; }
-        inline const K second() const noexcept { return this->value; }
+        inline const T first() const noexcept {
+            return this->option;
+        }
+        inline const K second() const noexcept {
+            return this->value;
+        }
     private:
         const T option;
         const K value;
@@ -29,8 +33,12 @@ namespace curl {
     template<class T> class CurlPair<T,string> {
     public:
         CurlPair(const T option, const string value) : option(option), value(value) {};
-        inline const T first() const noexcept { return this->option; }
-        inline const char *second() const noexcept { return this->value.c_str(); }
+        inline const T first() const noexcept {
+            return this->option;
+        }
+        inline const char *second() const noexcept {
+            return this->value.c_str();
+        }
     private:
         const T option;
         const string value;
@@ -40,8 +48,12 @@ namespace curl {
     template<class T> class CurlPair<T,CurlHttpPost> {
     public:
         CurlPair(const T option, const CurlHttpPost value) : option(option), value(value) {}
-        inline const T first() const noexcept { return this->option; }
-        inline const curl_httppost *second() const noexcept { return this->value.get(); }
+        inline const T first() const noexcept {
+            return this->option;
+        }
+        inline const curl_httppost *second() const noexcept {
+            return this->value.get();
+        }
     private:
         const T option;
         const CurlHttpPost value;
