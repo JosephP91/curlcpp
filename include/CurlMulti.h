@@ -50,7 +50,12 @@ namespace curl {
         CurlMulti &addHandle(const vector<CurlEasy> &) noexcept;
         CurlMulti &removeHandle(const CurlEasy &) noexcept;
         bool perform();
+        bool socketAction(curl_socket_t, int, int *);
         const vector<CurlMessage> infoRead();
+        void fdSet(fd_set *, fd_set *, fd_set *, int *);
+        void timeout(long *);
+        void assign(curl_socket_t, void *);
+        void wait(curl_waitfd [], unsigned int, int, int *);
         const int getActiveTransfers() const noexcept;
         const int getMessageQueued() const noexcept;
     protected:
