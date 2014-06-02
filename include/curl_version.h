@@ -1,13 +1,13 @@
 //
-//  CurlVersion.h
+//  curl_version.h
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 30/03/14.
 //  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
-#ifndef __curlcpp__CurlVersion__
-#define __curlcpp__CurlVersion__
+#ifndef __curlcpp__curl_version__
+#define __curlcpp__curl_version__
 
 #include <curl/curl.h>
 #include <string>
@@ -17,9 +17,9 @@ using std::string;
 using std::list;
 
 namespace curl {
-    class CurlVersion {
+    class curl_version {
     public:
-        CurlVersion(const curl_version_info_data *);
+        curl_version(const curl_version_info_data *);
         const string getHost() const noexcept;
         const string getSSLVersion() const noexcept;
         const string getLibzVersion() const noexcept;
@@ -37,4 +37,4 @@ namespace curl {
     };
 }
 
-#endif /* defined(__curlcpp__CurlVersion__) */
+#endif /* defined(__curlcpp__curl_version__) */

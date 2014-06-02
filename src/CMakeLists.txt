@@ -1,10 +1,11 @@
 SET(CURLCPP_SOURCE
-  CurlEasy.cpp
-  CurlHeader.cpp
-  CurlHttpPost.cpp
-  CurlMulti.cpp
-  CurlShare.cpp
-  CurlVersion.cpp
+  curl_easy.cpp
+  curl_header.cpp
+  curl_http_post.cpp
+  curl_multi.cpp
+  curl_share.cpp
+  curl_version.cpp
+  curl_error.cpp
 )
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

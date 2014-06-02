@@ -1,23 +1,23 @@
 /* 
- * File:   CurlPair.h
+ * File:   curl_pair.h
  * Author: Giuseppe
  *
  * Created on March 25, 2014, 10:39 PM
  */
 
-#ifndef CURLPAIR_H
-#define	CURLPAIR_H
+#ifndef curl_pair_H
+#define	curl_pair_H
 
-#include "CurlHttpPost.h"
+#include "curl_http_post.h"
 #include <string>
 
-using curl::CurlHttpPost;
+using curl::curl_http_post;
 using std::string;
 
 namespace curl {
-    template<class T, class K> class CurlPair {
+    template<class T, class K> class curl_pair {
     public:
-        CurlPair(const T option, const K value) : option(option), value(value) {};
+        curl_pair(const T option, const K value) : option(option), value(value) {};
         inline const T first() const noexcept {
             return this->option;
         }
@@ -30,9 +30,9 @@ namespace curl {
     };
     
     // Template specialization for strings
-    template<class T> class CurlPair<T,string> {
+    template<class T> class curl_pair<T,string> {
     public:
-        CurlPair(const T option, const string value) : option(option), value(value) {};
+        curl_pair(const T option, const string value) : option(option), value(value) {};
         inline const T first() const noexcept {
             return this->option;
         }
@@ -44,10 +44,10 @@ namespace curl {
         const string value;
     };
     
-    // Template specialization for CurlHttpPost type
-    template<class T> class CurlPair<T,CurlHttpPost> {
+    // Template specialization for curl_http_post type
+    template<class T> class curl_pair<T,curl_http_post> {
     public:
-        CurlPair(const T option, const CurlHttpPost value) : option(option), value(value) {}
+        curl_pair(const T option, const curl_http_post value) : option(option), value(value) {}
         inline const T first() const noexcept {
             return this->option;
         }
@@ -56,8 +56,8 @@ namespace curl {
         }
     private:
         const T option;
-        const CurlHttpPost value;
+        const curl_http_post value;
     };
 }
 
-#endif	/* CURLPAIR_H */
+#endif	/* curl_pair_H */

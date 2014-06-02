@@ -1,30 +1,30 @@
 /* 
- * File:   CurlHeader.h
+ * File:   curl_header.h
  * Author: Giuseppe
  *
  * Created on March 25, 2014, 10:45 PM
  */
 
-#ifndef CURLHEADER_H
-#define	CURLHEADER_H
+#ifndef curl_header_H
+#define	curl_header_H
 
 #include <vector>
 #include <string>
 #include <list>
 #include <curl/curl.h>
-#include "CurlError.h"
+#include "curl_error.h"
 
 using std::string;
 using std::vector;
 using std::list;
-using curl::CurlError;
+using curl::curl_error;
 
 namespace curl {
-    class CurlHeader {
+    class curl_header {
     public:
-        CurlHeader() : headers(nullptr) {};
-        CurlHeader(const size_t);
-        ~CurlHeader();
+        curl_header() : headers(nullptr) {};
+        curl_header(const size_t);
+        ~curl_header();
         void add(const string);
         void add(const vector<string> &);
         void add(const list<string> &);
@@ -40,4 +40,4 @@ namespace curl {
     };
 }
 
-#endif	/* CURLHEADER_H */
+#endif	/* curl_header_H */
