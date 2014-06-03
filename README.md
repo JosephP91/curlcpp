@@ -52,7 +52,11 @@ int main(int argc, const char **argv) {
     try {
         easy.perform();
     } catch (CurlError error) {
-        cout<<error.what()<<endl;
+        // If you want to get the entire error stack we can do:
+        stack<pair<string,string>> errors = error.what();
+        // Otherwise we could print the stack like this:
+        error.printTraceback();
+        // Note that the printing the stack will erase it
     }
     return 0;
 }
@@ -84,7 +88,11 @@ int main(int argc, const char * argv[]) {
     try {
         easy.perform();
     } catch (CurlError error) {
-        cout<<error.what()<<endl;
+        // If you want to get the entire error stack we can do:
+        stack<pair<string,string>> errors = error.what();
+        // Otherwise we could print the stack like this:
+        error.printTraceback();
+        // Note that the printing the stack will erase it
     }
     return 0;
 }
