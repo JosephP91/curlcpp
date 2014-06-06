@@ -38,20 +38,20 @@ Here's an example of a simple HTTP request to get google web page, using the cur
 
 `````c++
 #include <iostream>
-#include "../include/CurlEasy.h"
-// only "CurlEasy.h" if you use above submodule-way of compilation and linking
+#include "../include/curl_easy.h"
+// only "curl_easy.h" if you use above submodule-way of compilation and linking
 
 using std::cout;
 using std::endl;
-using curl::CurlEasy;
+using curl::curl_easy;
 
 int main(int argc, const char **argv) {
-    CurlEasy easy;
-    easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.add(CurlPair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    curl_easy easy;
+    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
+    easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
     try {
         easy.perform();
-    } catch (CurlError error) {
+    } catch (curl_error error) {
         // If you want to get the entire error stack we can do:
         stack<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
@@ -66,31 +66,31 @@ Here's instead, the creation of an HTTPS POST login form:
 
 `````c++
 #include <iostream>
-#include "CurlEasy.h"
-#include "CurlHttpPost.h"
-// only "CurlEasy.h" and "CurlHttpPost.h" if you use above submodule-way of compilation and linking
+#include "curl_easy.h"
+#include "curl_http_post.h"
+// only "curl_easy.h" and "curl_http_post.h" if you use above submodule-way of compilation and linking
 
 using std::cout;
 using std::endl;
-using curl::CurlEasy;
-using curl::CurlHttpPost;
+using curl::curl_easy;
+using curl::curl_http_post;
 
 int main(int argc, const char * argv[]) {
-    CurlEasy easy;
-    CurlHttpPost post;
+    curl_easy easy;
+    curl_http_post post;
     
     // First example form
-    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username")); 
+    post.add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username")); 
     
     // Second example form
-    post.add(CurlPair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"), CurlPair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
+    post.add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"), curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
                  
-    easy.add(CurlPair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
-    easy.add(CurlPair<CURLoption,CurlHttpPost>(CURLOPT_HTTPPOST,post));
+    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
+    easy.add(curl_pair<CURLoption,curl_http_post>(CURLOPT_HTTPPOST,post));
 
     try {
         easy.perform();
-    } catch (CurlError error) {
+    } catch (curl_error error) {
         // If you want to get the entire error stack we can do:
         stack<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
