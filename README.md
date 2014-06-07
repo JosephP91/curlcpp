@@ -55,7 +55,7 @@ int main(int argc, const char **argv) {
         // If you want to get the entire error stack we can do:
         stack<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
-        error.printTraceback();
+        error.print_traceback();
         // Note that the printing the stack will erase it
     }
     return 0;
@@ -94,9 +94,44 @@ int main(int argc, const char * argv[]) {
         // If you want to get the entire error stack we can do:
         stack<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
-        error.printTraceback();
+        error.print_traceback();
         // Note that the printing the stack will erase it
     }
+    return 0;
+}
+`````
+
+And if we would like to put the returned content in a file? Nothing easier than:
+
+`````c++
+#include <iostream>
+#include "curl_easy.h"
+#include <fstream>
+
+using std::cout;
+using std::endl;
+using std::ofstream;
+using curl::curl_easy;
+
+int main(int argc, const char * argv[]) {
+    
+    ofstream myfile;
+    // Create a file
+    myfile.open ("/Users/Giuseppe/Desktop/test.txt");
+    // Pass it to the easy constructor and watch the content returned in that file!
+    curl_easy easy(myfile);
+    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
+    easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    try {
+        easy.perform();
+    } catch (curl_error error) {
+        // If you want to get the entire error stack we can do:
+        stack<pair<string,string>> errors = error.what();
+        // Otherwise we could print the stack like this:
+        error.print_traceback();
+        // Note that the printing the stack will erase it
+    }
+    myfile.close();
     return 0;
 }
 `````
