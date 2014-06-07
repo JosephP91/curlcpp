@@ -22,9 +22,9 @@ using curl::curl_pair;
 namespace curl {
     class curl_share : public curl_interface<CURLSH,CURLSHcode> {
     public:
-        curl_share() : curl_interface(curl_share_init()) {}
-        curl_share(const long flag) : curl_interface(curl_share_init(),flag) {}
-        ~curl_share();
+        explicit curl_share() : curl_interface(curl_share_init()) {}
+        explicit curl_share(const long flag) : curl_interface(curl_share_init(),flag) {}
+        ~curl_share() noexcept;
         template<typename T> void add(const curl_pair<CURLSHoption,T> &);
         template<typename T> void add(const vector<curl_pair<CURLSHoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLSHoption,T>> &);

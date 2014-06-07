@@ -1,4 +1,4 @@
-/*
+/* 
  * File:   curl_easy.h
  * Author: Giuseppe
  *
@@ -22,6 +22,7 @@ using std::vector;
 using std::list;
 using std::unique_ptr;
 using std::for_each;
+using std::ostream;
 using curl::curl_pair;
 using curl::curl_interface;
 
@@ -29,9 +30,9 @@ namespace curl  {
     class curl_easy : public curl_interface<CURL,CURLcode> {
     public:
         curl_easy();
+        explicit curl_easy(ostream &);
         explicit curl_easy(const long flag);
-		explicit curl_easy(std::ostream& outstream);
-        curl_easy(const long flag, std::ostream& outstream);
+        explicit curl_easy(const long, ostream &);
         ~curl_easy() noexcept;
         template<typename T> void add(const curl_pair<CURLoption,T> &);
         template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
@@ -41,11 +42,10 @@ namespace curl  {
         void unescape(string &);
         void perform();
         void reset() noexcept;
-		void set_out_stream ( std::ostream& out );
     protected:
         const string to_string(const CURLcode) const noexcept;
     };
-
+    
     // Implementation of addOption method
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> &pair) {
         const CURLcode code = curl_easy_setopt(this->get_url(),pair.first(),pair.second());

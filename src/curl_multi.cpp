@@ -24,7 +24,7 @@ curl_multi::curl_multi(const long flag) : curl_interface(curl_multi_init(),flag)
 }
 
 // Implementation of destructor.
-curl_multi::~curl_multi() {
+curl_multi::~curl_multi() noexcept{
     for_each(this->handlers.begin(),this->handlers.end(),[this](curl_easy handler) {
         curl_multi_remove_handle(this->get_url(),handler.get_url());
     });

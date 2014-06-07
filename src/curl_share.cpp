@@ -11,7 +11,7 @@
 using curl::curl_share;
 
 // Implementation of destructor
-curl_share::~curl_share() {
+curl_share::~curl_share() noexcept {
     curl_share_cleanup(this->get_url());
 }
 

@@ -17,7 +17,7 @@ namespace curl {
     public:
         class CurlMessage {
         public:
-            CurlMessage(CURLMSG message, curl_easy easy, void *whatever, CURLcode result) : message(message), easy(easy), whatever(whatever), result(result) {};
+            explicit CurlMessage(CURLMSG message, curl_easy easy, void *whatever, CURLcode result) : message(message), easy(easy), whatever(whatever), result(result) {};
             // Returns the message
             inline const CURLMSG getMessage() const noexcept {
                 return this->message;
@@ -40,9 +40,9 @@ namespace curl {
             const void *whatever;
             const CURLcode result;
         };
-        curl_multi();
-        curl_multi(const long);
-        ~curl_multi();
+        explicit curl_multi();
+        explicit curl_multi(const long);
+        ~curl_multi() noexcept;
         template<typename T> void add(const curl_pair<CURLMoption,T> &);
         template<typename T> void add(const vector<curl_pair<CURLMoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLMoption,T>> &);
