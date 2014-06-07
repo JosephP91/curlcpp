@@ -13,7 +13,7 @@ using curl::curl_easy;
 namespace curl {
     size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
         const size_t realsize = size * nmemb;
-        std::ostream* const mem = static_cast<std::ostream*>(userp);
+        ostream* const mem = static_cast<ostream*>(userp);
         mem->write(static_cast<const char*>(contents), realsize);
         return realsize;
     }
