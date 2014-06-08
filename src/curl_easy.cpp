@@ -10,7 +10,7 @@
 using curl::curl_easy;
 
 // Default memory write callback.
-namespace curl {
+namespace {
     size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
         const size_t realsize = size * nmemb;
         ostream* const mem = static_cast<ostream*>(userp);
