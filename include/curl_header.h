@@ -24,6 +24,9 @@ namespace curl {
     public:
         curl_header() : headers(nullptr) {};
         curl_header(const size_t);
+        // These two must be implemented
+        //curl_header(const curl_header &);
+        //curl_header &operator=(const curl_header &);
         ~curl_header();
         void add(const string);
         void add(const vector<string> &);
@@ -32,10 +35,9 @@ namespace curl {
         void confirm();
         const vector<string> get() const;
     protected:
-        void set(const string);
         void setSize(const size_t);
     private:
-        vector<string> tmpHeaders;
+        vector<string> headers_vector;
         struct curl_slist *headers;
     };
 }

@@ -67,32 +67,35 @@ Here's instead, the creation of an HTTPS POST login form:
 `````c++
 #include <iostream>
 #include "curl_easy.h"
-#include "curl_http_post.h"
-// only "curl_easy.h" and "curl_http_post.h" if you use above submodule-way of compilation and linking
+#include "curl_form.h"
+// only "curl_easy.h" and "curl_form.h" if you use above submodule-way of compilation and linking
 
 using std::cout;
 using std::endl;
 using curl::curl_easy;
-using curl::curl_http_post;
+using curl::curl_form;
 
 int main(int argc, const char * argv[]) {
     curl_easy easy;
-    curl_http_post post;
+    curl_form form;
     
-    // First example form
-    post.add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"user"),curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"username")); 
+    // Create form name and content for username
+    curl_form::name name(CURLFORM_COPYNAME,"user");
+    curl_form::content content(CURLFORM_COPYCONTENTS,"your username");
     
-    // Second example form
-    post.add(curl_pair<CURLformoption,string>(CURLFORM_COPYNAME,"passw"), curl_pair<CURLformoption,string>(CURLFORM_COPYCONTENTS,"password"));
-                 
-    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"https://xxxxx/"));
-    easy.add(curl_pair<CURLoption,curl_http_post>(CURLOPT_HTTPPOST,post));
-
+    // Create form name and content for password
+    curl_form::name passw(CURLFORM_COPYNAME,"passw");
+    curl_form::content content_p(CURLFORM_COPYCONTENTS,"your password");
+    
     try {
+        // Add the two forms
+        form.add(name,content);
+        form.add(passw,content_p);
+        easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"https://xxxxxx"));
+        easy.add(curl_pair<CURLoption,bool>(CURLOPT_SSL_VERIFYPEER,false));
+        easy.add(curl_pair<CURLoption,curl_form>(CURLOPT_HTTPPOST,form));
         easy.perform();
     } catch (curl_error error) {
-        // If you want to get the entire error stack we can do:
-        stack<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
         error.print_traceback();
         // Note that the printing the stack will erase it

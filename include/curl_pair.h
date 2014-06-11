@@ -8,13 +8,14 @@
 #ifndef curl_pair_H
 #define	curl_pair_H
 
-#include "curl_http_post.h"
+#include "curl_form.h"
 #include <string>
 
-using curl::curl_http_post;
+using curl::curl_form;
 using std::string;
 
 namespace curl {
+    // Generic pair of objects.
     template<class T, class K> class curl_pair {
     public:
         curl_pair(const T option, const K value) : option(option), value(value) {};
@@ -29,7 +30,7 @@ namespace curl {
         const K value;
     };
     
-    // Template specialization for strings
+    // Template specialization for strings.
     template<class T> class curl_pair<T,string> {
     public:
         curl_pair(const T option, const string value) : option(option), value(value) {};
@@ -44,10 +45,10 @@ namespace curl {
         const string value;
     };
     
-    // Template specialization for curl_http_post type
-    template<class T> class curl_pair<T,curl_http_post> {
+    // Template specialization for curl_form type
+    template<class T> class curl_pair<T,curl_form> {
     public:
-        curl_pair(const T option, const curl_http_post value) : option(option), value(value) {}
+        curl_pair(const T option, const curl_form &value) : option(option), value(value) {}
         inline const T first() const noexcept {
             return this->option;
         }
@@ -56,7 +57,7 @@ namespace curl {
         }
     private:
         const T option;
-        const curl_http_post value;
+        const curl_form &value;
     };
 }
 

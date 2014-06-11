@@ -27,43 +27,55 @@ using curl::curl_pair;
 using curl::curl_interface;
 
 namespace curl  {
-    class curl_easy : public curl_interface<CURL,CURLcode> {
+    class curl_easy : public curl_interface<CURLcode> {
     public:
         curl_easy();
         explicit curl_easy(ostream &);
-        explicit curl_easy(const long flag);
+        explicit curl_easy(const long);
         explicit curl_easy(const long, ostream &);
+        curl_easy(const curl_easy &);
+        curl_easy &operator=(const curl_easy &);
         ~curl_easy() noexcept;
-        template<typename T> void add(const curl_pair<CURLoption,T> &);
+        template<typename T> void add(const curl_pair<CURLoption,T>);
         template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLoption,T>> &);
-        template<typename T> unique_ptr<T> getSessionInfo(const CURLINFO, T *) const;
+        template<typename T> unique_ptr<T> get_session_info(const CURLINFO, T *) const;
         void escape(string &);
         void unescape(string &);
         void perform();
         void reset() noexcept;
+        CURL *get_curl() const;
     protected:
         const string to_string(const CURLcode) const noexcept;
+    private:
+        CURL *curl;
     };
     
     // Implementation of addOption method
-    template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> &pair) {
-        const CURLcode code = curl_easy_setopt(this->get_url(),pair.first(),pair.second());
+    template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
+        const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLE_OK) {
             throw curl_error(this->to_string(code),__FUNCTION__);
         }
     }
+    
     // Implementation of overloaded method addOption
     template<typename T> void curl_easy::add(const vector<curl_pair<CURLoption,T>> &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) { this->add(option); } );
+        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) {
+            this->add(option);
+        });
     }
+    
     // Implementation of overloaded method addOption
     template<typename T> void curl_easy::add(const list<curl_pair<CURLoption,T> > &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) { this->add(option); });
+        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) {
+            this->add(option);
+        });
     }
-    // Implementation of getSessionInfo method
-    template<typename T> unique_ptr<T> curl_easy::getSessionInfo(const CURLINFO info, T *ptr_info) const {
-        const CURLcode code = curl_easy_getinfo(this->get_url(),info,ptr_info);
+    
+    // Implementation of get_session_info method
+    template<typename T> unique_ptr<T> curl_easy::get_session_info(const CURLINFO info, T *ptr_info) const {
+        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
         if (code != CURLE_OK && ptr_info) {
             throw curl_error(this->to_string(code),__FUNCTION__);
         }
