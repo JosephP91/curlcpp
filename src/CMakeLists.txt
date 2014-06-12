@@ -1,7 +1,7 @@
 SET(CURLCPP_SOURCE
   curl_easy.cpp
   curl_header.cpp
-  curl_http_post.cpp
+  curl_form.cpp
   curl_multi.cpp
   curl_share.cpp
   curl_version.cpp
