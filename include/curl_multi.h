@@ -15,33 +15,7 @@ using curl::curl_easy;
 namespace curl {
     class curl_multi : public curl_interface<CURLMcode> {
     public:
-        // This object wraps a curl message
-        class curl_message {
-        public:
-            explicit curl_message(CURLMSG message, curl_easy easy, void *whatever, CURLcode result) : message(message), easy(easy), whatever(whatever), result(result) {};
-            // Returns the message
-            inline const CURLMSG get_message() const noexcept {
-                return this->message;
-            }
-            // Returns the exit code
-            inline const CURLcode get_result() const noexcept {
-                return this->result;
-            }
-            // Returns the curl easy handler
-            inline const curl_easy get_curl() const noexcept {
-                return this->easy;
-            }
-            // Returns other stuff.
-            inline const void *get_whatever() const noexcept {
-                return this->whatever;
-            }
-        private:
-            const CURLMSG message;
-            const curl_easy easy;
-            const void *whatever;
-            const CURLcode result;
-        };
-        
+        class curl_handle;
         explicit curl_multi();
         explicit curl_multi(const long);
         curl_multi(const curl_multi &);
@@ -50,10 +24,7 @@ namespace curl {
         template<typename T> void add(const curl_pair<CURLMoption,T> &);
         template<typename T> void add(const vector<curl_pair<CURLMoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLMoption,T>> &);
-        void add(const curl_easy &);
-        void remove(const curl_easy &);
         bool perform();
-        const vector<curl_message> read_info();
         const int get_active_transfers() const noexcept;
         const int get_message_queued() const noexcept;
     protected:
@@ -61,7 +32,6 @@ namespace curl {
     private:
         int message_queued;
         int active_transfers;
-        vector<curl_easy> handlers;
         CURLM *curl;
     };
     

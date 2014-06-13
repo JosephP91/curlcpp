@@ -39,7 +39,8 @@ namespace curl  {
         template<typename T> void add(const curl_pair<CURLoption,T>);
         template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLoption,T>> &);
-        template<typename T> unique_ptr<T> get_session_info(const CURLINFO, T *) const;
+        template<typename T> T *get_session_info(const CURLINFO, T *) const;
+        //vector<string> get_session_info(const CURLINFO, struct curl_slist **) const;
         void escape(string &);
         void unescape(string &);
         void perform();
@@ -74,12 +75,12 @@ namespace curl  {
     }
     
     // Implementation of get_session_info method
-    template<typename T> unique_ptr<T> curl_easy::get_session_info(const CURLINFO info, T *ptr_info) const {
+    template<typename T> T *curl_easy::get_session_info(const CURLINFO info, T *ptr_info) const {
         const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
         if (code != CURLE_OK && ptr_info) {
             throw curl_error(this->to_string(code),__FUNCTION__);
         }
-        return unique_ptr<T>{ptr_info};
+        return ptr_info;
     }
 }
 

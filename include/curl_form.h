@@ -11,12 +11,10 @@
 
 #include <curl/curl.h>
 #include <map>
-#include <memory>
 #include <string>
 #include "curl_error.h"
 
 using std::map;
-using std::unique_ptr;
 using std::string;
 using curl::curl_error;
 

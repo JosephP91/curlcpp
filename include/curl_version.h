@@ -17,21 +17,22 @@ using std::string;
 using std::list;
 
 namespace curl {
-    class curl_version {
+    class curl_info {
     public:
-        curl_version(const curl_version_info_data *);
-        const string getHost() const noexcept;
-        const string getSSLVersion() const noexcept;
-        const string getLibzVersion() const noexcept;
-        const string getAres() const noexcept;
-        const string getLibidn() const noexcept;
-        const string getLibSSHVersion() const noexcept;
-        const unsigned int getVersionNumber() const noexcept;
-        const int getFeatures() const noexcept;
-        const int getAresNumber() const noexcept;
-        const int getIconvVersionNumber() const noexcept;
-        const long getSSLVersionNumber() const noexcept;
-        const list<string> getProtocols() const noexcept;
+        curl_info();
+        curl_info(const CURLversion);
+        const string get_host() const noexcept;
+        const string get_ssl_version() const noexcept;
+        const string get_libz_version() const noexcept;
+        const string get_ares() const noexcept;
+        const string get_libidn() const noexcept;
+        const string get_libssh_version() const noexcept;
+        const unsigned int get_version_number() const noexcept;
+        const int get_features() const noexcept;
+        const int get_ares_number() const noexcept;
+        const int get_iconv_version_number() const noexcept;
+        const long get_ssl_version_number() const noexcept;
+        const list<string> get_protocols() const noexcept;
     private:
         const curl_version_info_data *version;
     };

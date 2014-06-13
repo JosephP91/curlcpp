@@ -123,7 +123,23 @@ void curl_easy::unescape(string &url) {
     url_decoded = nullptr;
 }
 
-// Implementation of reset method
+// Implementation of reset method.
 void curl_easy::reset() noexcept {
     curl_easy_reset(this->curl);
 }
+
+// Implementation of get_session_info overloaded method.
+/*vector<string> curl_easy::get_session_info(const CURLINFO info, struct curl_slist **ptr_info) const {
+    const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
+    if (code != CURLE_OK && ptr_info) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+    vector<string> infos;
+    int i = 0;
+    while ((*ptr_info)->next != nullptr) {
+        cout<<(*ptr_info)->data<<endl;
+        
+        cout<<*(ptr_info+i)<<endl;
+    }
+    return infos;
+}*/
