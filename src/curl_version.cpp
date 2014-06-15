@@ -3,7 +3,6 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 30/03/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #include "curl_version.h"

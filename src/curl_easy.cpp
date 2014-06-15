@@ -129,17 +129,17 @@ void curl_easy::reset() noexcept {
 }
 
 // Implementation of get_session_info overloaded method.
-/*vector<string> curl_easy::get_session_info(const CURLINFO info, struct curl_slist **ptr_info) const {
+vector<string> curl_easy::get_session_info(const CURLINFO info, struct curl_slist **ptr_info) const {
     const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
     if (code != CURLE_OK && ptr_info) {
         throw curl_error(this->to_string(code),__FUNCTION__);
     }
     vector<string> infos;
     int i = 0;
-    while ((*ptr_info)->next != nullptr) {
-        cout<<(*ptr_info)->data<<endl;
-        
-        cout<<*(ptr_info+i)<<endl;
+    while ((*(ptr_info+i))->next != nullptr) {
+        infos.push_back(string((*(ptr_info)+i)->data));
+        ++i;
     }
+    curl_slist_free_all(*ptr_info);
     return infos;
-}*/
+}

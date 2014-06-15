@@ -25,6 +25,8 @@ namespace curl {
         template<typename T> void add(const vector<curl_pair<CURLMoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLMoption,T>> &);
         bool perform();
+        void set_fd(fd_set *, fd_set *, fd_set *, int *);
+        void timeout(long *);
         const int get_active_transfers() const noexcept;
         const int get_message_queued() const noexcept;
     protected:
@@ -37,7 +39,7 @@ namespace curl {
     
     // Implementation of add method
     template<typename T> void curl_multi::add(const curl_pair<CURLMoption,T> &pair) {
-        CURLMcode code = curl_multi_setopt(this->curl,pair.first(),pair.second());
+        const CURLMcode code = curl_multi_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLM_OK) {
             throw curl_error(this->to_string(code),__FUNCTION__);
         }

@@ -19,14 +19,14 @@ using std::vector;
 using std::list;
 using curl::curl_error;
 
+// Definition of a header object.
 namespace curl {
     class curl_header {
     public:
         curl_header() : headers(nullptr) {};
         curl_header(const size_t);
-        // These two must be implemented
-        //curl_header(const curl_header &);
-        //curl_header &operator=(const curl_header &);
+        curl_header(const curl_header &);
+        curl_header &operator=(const curl_header &);
         ~curl_header();
         void add(const string);
         void add(const vector<string> &);
@@ -34,8 +34,6 @@ namespace curl {
         void remove(const string);
         void confirm();
         const vector<string> get() const;
-    protected:
-        void setSize(const size_t);
     private:
         vector<string> headers_vector;
         struct curl_slist *headers;

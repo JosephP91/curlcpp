@@ -57,7 +57,7 @@ const int curl_multi::get_message_queued() const noexcept {
 
 // Implementation of perform method.
 bool curl_multi::perform() {
-    CURLMcode code = curl_multi_perform(this->curl,&this->active_transfers);
+    const CURLMcode code = curl_multi_perform(this->curl,&this->active_transfers);
     if (code == CURLM_CALL_MULTI_PERFORM) {
         return false;
     }
@@ -65,6 +65,22 @@ bool curl_multi::perform() {
         throw curl_error(this->to_string(code),__FUNCTION__);
     }
     return true;
+}
+
+// Implementation of set_fd method.
+void curl_multi::set_fd(fd_set *read, fd_set *write, fd_set *exec, int *max_fd) {
+    const CURLMcode code = curl_multi_fdset(this->curl,read,write,exec,max_fd);
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+}
+
+// Implementation of timeout method.
+void curl_multi::timeout(long *timeout) {
+    const CURLMcode code = curl_multi_timeout(this->curl,timeout);
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
 }
 
 // Implementation of errorto_string method

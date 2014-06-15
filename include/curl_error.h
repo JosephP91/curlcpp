@@ -3,7 +3,6 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 02/06/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #ifndef __curlcpp__curl_error__

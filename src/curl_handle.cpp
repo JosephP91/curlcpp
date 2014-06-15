@@ -3,7 +3,6 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 12/06/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #include "curl_handle.h"
@@ -41,7 +40,7 @@ c_handle::~curl_handle() {
 
 // Implementation of add method.
 void c_handle::add(const curl_easy &handler) {
-    auto code = curl_multi_add_handle((this->multi).curl,handler.get_curl());
+    const CURLMcode code = curl_multi_add_handle((this->multi).curl,handler.get_curl());
     if (code != CURLM_OK) {
         throw curl_error((this->multi).to_string(code),__FUNCTION__);
     }
@@ -49,7 +48,7 @@ void c_handle::add(const curl_easy &handler) {
 
 // Implementation of remove method.
 void c_handle::remove(const curl_easy &handler) {
-    auto code = curl_multi_remove_handle((this->multi).curl,handler.get_curl());
+    const CURLMcode code = curl_multi_remove_handle((this->multi).curl,handler.get_curl());
     if (code != CURLM_OK) {
         throw curl_error((this->multi).to_string(code),__FUNCTION__);
     }

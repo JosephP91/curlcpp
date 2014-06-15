@@ -3,102 +3,90 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 09/06/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #ifndef __curlcpp__curl_form__
 #define __curlcpp__curl_form__
 
 #include <curl/curl.h>
-#include <map>
+#include <vector>
 #include <string>
 #include "curl_error.h"
+#include "curl_pair.h"
 
-using std::map;
 using std::string;
+using std::vector;
+using curl::curl_pair;
 using curl::curl_error;
 
 // Simple class used to handle curl forms.
 namespace curl {
     class curl_form {
-        // Base class for every form content
-        template<class T> class abstract_content {
+        // This class extends curl_pair to add another attribute: the length of the content.
+        template<class T> class curl_double_pair : public curl_pair<CURLformoption,T> {
         public:
-            abstract_content(const CURLformoption option, const T value) : option(option), value(value) {}
-            virtual CURLformoption get_option() const {
-                return this->option;
+            curl_double_pair(const CURLformoption option, const T value, const CURLformoption len_option, const int len) : curl_pair<CURLformoption,T>(option,value), len_option(len_option), len(len) {}
+            int length() const {
+                return len;
             }
-            virtual T get_value() const {
-                return this->value;
+            CURLformoption length_option() const {
+                return this->len_option;
             }
         private:
-            const CURLformoption option;
-            const T value;
-        };
-        // Base class for every form content pointer which extends the previous one.
-        template<class T> class abstract_content_ptr : public abstract_content<T> {
-        public:
-            abstract_content_ptr(const CURLformoption option, const T value, const CURLformoption len_opt, const int len) : abstract_content<T>(option,value), len_opt(len_opt), len(len) {}
-            virtual CURLformoption get_len_option() {
-                return this->len_opt;
-            }
-            virtual int get_length() const {
-                return this->len;
-            }
-        private:
-            const CURLformoption len_opt;
+            CURLformoption len_option;
             const int len;
         };
     public:
         // This nested subclass rapresent the form name
-        class name : public abstract_content<const char *> {
+        class name : public curl_pair<CURLformoption,const char *> {
         public:
-            name(const CURLformoption option, string value) : abstract_content(option,value.c_str()) {}
+            name(const CURLformoption option, const string value) : curl_pair(option,value.c_str()) {}
         };
         
         // This nested class rapresent a pointer to a name
-        class ptr_name : public abstract_content_ptr<char *> {
+        class name_pointer : public curl_double_pair<const char *> {
         public:
-            ptr_name(const CURLformoption option, char *value, const CURLformoption len_opt, const int length) : abstract_content_ptr(option,value,len_opt,length) {}
+            name_pointer(const CURLformoption option, const char *value, const CURLformoption len_opt, const int length) : curl_double_pair(option,value,len_opt,length) {}
         };
         
         // This nested class rapresent the form content
-        class content : public abstract_content<const char *> {
+        class content : public curl_pair<CURLformoption,const char *>  {
         public:
-            content(CURLformoption option, string value) : abstract_content(option,value.c_str()) {}
+            content(CURLformoption option, string value) : curl_pair(option,value.c_str()) {}
         };
         
         // This nested class rapresent a pointer to a form content
-        class ptr_content : public abstract_content_ptr<char *> {
+        class content_pointer : public curl_double_pair<const char *> {
         public:
-            ptr_content(const CURLformoption option, char *value, const CURLformoption len_opt, const int length) : abstract_content_ptr(option,value,len_opt,length) {}
+            content_pointer(const CURLformoption option, const char *value, const CURLformoption len_opt, const int length) : curl_double_pair(option,value,len_opt,length) {}
         };
         
         // This nested class rapresent a form content type
-        class content_type : public abstract_content<const char *> {
+        class content_type : public curl_pair<CURLformoption,const char *> {
         public:
-            content_type(CURLformoption option, string value) : abstract_content(option,value.c_str()) {}
+            content_type(CURLformoption option, string value) : curl_pair(option,value.c_str()) {}
         };
         
         // This nested class rapresent a file to upload
-        class file : public abstract_content<const char *> {
+        class file : public curl_pair<CURLformoption,const char *> {
         public:
-            file(CURLformoption option, const char *value) : abstract_content(option,value) {}
+            file(CURLformoption option, const char *value) : curl_pair(option,value) {}
         };
+        
         // This nested class allows to upload multiple files
-        class multi_file : public abstract_content<map<CURLformoption,string>> {
-        public:
-            multi_file(CURLformoption option, map<CURLformoption,string> value) : abstract_content(option,value) {}
+        class multi_file : public curl_pair<curl_form::name,vector<string>> {
+            multi_file(curl_form::name name, vector<string> value) : curl_pair(name,value) {}
         };
         explicit curl_form();
         ~curl_form() noexcept;
         void add(curl_form::name, curl_form::content);
         void add(curl_form::name, curl_form::content, curl_form::content_type);
-        void add(curl_form::name, curl_form::ptr_content);
-        void add(curl_form::ptr_name, curl_form::ptr_content);
-        void add(curl_form::name, curl_form::ptr_content, curl_form::content_type);
+        void add(curl_form::name, curl_form::content_pointer);
+        void add(curl_form::name_pointer, curl_form::content_pointer);
+        void add(curl_form::name, curl_form::content_pointer, curl_form::content_type);
         void add(curl_form::name, curl_form::file);
         void add(curl_form::name, curl_form::file, curl_form::content_type);
+        void add(curl_form::multi_file);
         struct curl_httppost *get() const;
     private:
         struct curl_httppost *form_post;

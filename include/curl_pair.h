@@ -8,11 +8,15 @@
 #ifndef curl_pair_H
 #define	curl_pair_H
 
-#include "curl_form.h"
 #include <string>
 
-using curl::curl_form;
+// Forward reference to curl_form
+namespace curl {
+    class curl_form;
+}
+
 using std::string;
+using curl::curl_form;
 
 namespace curl {
     // Generic pair of objects.
@@ -29,7 +33,7 @@ namespace curl {
         const T option;
         const K value;
     };
-    
+        
     // Template specialization for strings.
     template<class T> class curl_pair<T,string> {
     public:

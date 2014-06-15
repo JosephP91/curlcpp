@@ -3,7 +3,6 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 30/03/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #ifndef __curlcpp__curl_share__
@@ -37,7 +36,7 @@ namespace curl {
     
     // Implementation of add method
     template<typename T> void curl_share::add(const curl_pair<CURLSHoption,T> &pair) {
-        CURLSHcode code = curl_share_setopt(this->curl,pair.first(),pair.second());
+        const CURLSHcode code = curl_share_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLSHE_OK) {
             throw curl_error(this->to_string(code),__FUNCTION__);
         }

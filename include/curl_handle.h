@@ -3,7 +3,6 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 12/06/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #ifndef __curlcpp__curl_handle__
@@ -23,11 +22,10 @@ public:
     ~curl_handle();
     void add(const curl_easy &);
     void remove(const curl_easy &);
-    // tradurlo in has_done che torna true o false
     vector<curl_message> read_info();
 private:
     vector<curl_easy> handlers;
-    curl_multi multi;
+    curl_multi &multi;
 };
 
 #endif /* defined(__curlcpp__curl_handle__) */

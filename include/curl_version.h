@@ -3,7 +3,6 @@
 //  curlcpp
 //
 //  Created by Giuseppe Persico on 30/03/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
 //
 
 #ifndef __curlcpp__curl_version__
@@ -16,6 +15,7 @@
 using std::string;
 using std::list;
 
+// Curl vesion wrapper. You can use this class to obtain information about curl library
 namespace curl {
     class curl_info {
     public:

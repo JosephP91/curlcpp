@@ -40,7 +40,7 @@ namespace curl  {
         template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLoption,T>> &);
         template<typename T> T *get_session_info(const CURLINFO, T *) const;
-        //vector<string> get_session_info(const CURLINFO, struct curl_slist **) const;
+        vector<string> get_session_info(const CURLINFO, struct curl_slist **) const;
         void escape(string &);
         void unescape(string &);
         void perform();
