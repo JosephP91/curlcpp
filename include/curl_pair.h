@@ -57,7 +57,7 @@ namespace curl {
             return this->option;
         }
         inline const curl_httppost *second() const noexcept {
-            return this->value.get();
+            return (this->value).form_post;
         }
     private:
         const T option;

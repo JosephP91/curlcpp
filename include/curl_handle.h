@@ -17,8 +17,8 @@ public:
     // This object wraps a curl message
     class curl_message;
     explicit curl_handle(curl_multi &);
-    curl_handle(const curl_handle &);
-    curl_handle &operator=(const curl_handle &);
+    curl_handle(const curl_multi::curl_handle &);
+    curl_multi::curl_handle &operator=(const curl_multi::curl_handle &);
     ~curl_handle();
     void add(const curl_easy &);
     void remove(const curl_easy &);

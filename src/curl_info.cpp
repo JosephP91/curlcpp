@@ -5,7 +5,7 @@
 //  Created by Giuseppe Persico on 30/03/14.
 //
 
-#include "curl_version.h"
+#include "curl_info.h"
 
 using curl::curl_info;
 

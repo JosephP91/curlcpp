@@ -11,7 +11,7 @@
 #include <curl/curl.h>
 #include <string>
 #include "curl_error.h"
-#include "curl_version.h"
+#include "curl_info.h"
 
 using std::string;
 using curl::curl_error;

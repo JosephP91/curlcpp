@@ -10,7 +10,6 @@
 
 #include <vector>
 #include <list>
-#include <memory>
 #include <algorithm>
 #include <curl/curl.h>
 #include <ostream>
@@ -20,7 +19,6 @@
 
 using std::vector;
 using std::list;
-using std::unique_ptr;
 using std::for_each;
 using std::ostream;
 using curl::curl_pair;

@@ -4,7 +4,7 @@ SET(CURLCPP_SOURCE
   curl_form.cpp
   curl_multi.cpp
   curl_share.cpp
-  curl_version.cpp
+  curl_info.cpp
   curl_error.cpp
   curl_handle.cpp
   curl_message.cpp
