@@ -23,6 +23,10 @@ curl_form::~curl_form() noexcept {
     }
 }
 
+struct curl_httppost *curl_form::get() const {
+    return this->form_post;
+}
+
 // Implementation of add method.
 void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,string> &form_content) {
     if (curl_formadd(&this->form_post,&this->last_ptr,

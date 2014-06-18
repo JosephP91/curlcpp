@@ -14,7 +14,7 @@
 
 using curl::curl_multi;
 
-// Wrap of
+// Wrap of the value returned by curl_multi_info_read
 class curl_multi::curl_handle::curl_message {
 public:
     explicit curl_message(CURLMSG, curl_easy &, void *, CURLcode);
@@ -25,10 +25,10 @@ public:
     const curl_easy get_curl() const;
     const void *get_whatever() const;
 private:
-    const CURLMSG message;
-    const curl_easy easy;
-    const void *whatever;
-    const CURLcode result;
+    CURLMSG message;
+    curl_easy easy;
+    void *whatever;
+    CURLcode result;
 };
 
 #endif /* defined(__curlcpp__curl_message__) */

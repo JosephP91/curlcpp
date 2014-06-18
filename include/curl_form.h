@@ -22,7 +22,6 @@ using curl::curl_error;
 // Simple class used to handle curl forms.
 namespace curl {
     class curl_form {
-    friend class curl_pair<CURLformoption,string>;
     public:
         explicit curl_form();
         ~curl_form() noexcept;
@@ -32,6 +31,7 @@ namespace curl {
         void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,string> &);
         void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,string> &); 
         void add(const curl_pair<CURLformoption,string> &, const vector<string> &);
+        struct curl_httppost *get() const;
     private:
         struct curl_httppost *form_post;
         struct curl_httppost *last_ptr;

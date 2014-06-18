@@ -8,12 +8,11 @@
 #ifndef __curlcpp__curl_error__
 #define __curlcpp__curl_error__
 
-
 #include <iostream>
 #include <string>
 #include <exception>
 #include <utility>
-#include <stack>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -21,7 +20,7 @@ using std::string;
 using std::exception;
 using std::pair;
 using std::make_pair;
-using std::stack;
+using std::vector;
 
 namespace curl {
     class curl_error : public exception {
@@ -29,10 +28,10 @@ namespace curl {
         curl_error(const string, const string);
         ~curl_error() throw() { /* ... nothing to delete */ }
         using exception::what;
-        const stack<pair<string,string>> what();
+        const vector<pair<string,string>> what();
         const void print_traceback();
     private:
-        static stack<pair<string,string>> traceback;
+        static vector<pair<string,string>> traceback;
     };
 }
 

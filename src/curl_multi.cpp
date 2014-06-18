@@ -9,7 +9,6 @@
 #include "curl_multi.h"
 
 using std::for_each;
-using std::move;
 using curl::curl_multi;
 
 // Implementation of constructor.

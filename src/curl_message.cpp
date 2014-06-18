@@ -7,7 +7,7 @@
 
 #include "curl_message.h"
 
-// That's too deep. Let's typedef somthing.
+// That's too deep. Let's typedef somthing for readability.
 typedef curl_multi::curl_handle::curl_message c_message;
 
 // Implementation of constructor.
@@ -16,8 +16,20 @@ c_message::curl_message(CURLMSG message, curl_easy &easy, void *whatever, CURLco
 }
 
 // Implementation of copy constructor.
-c_message::curl_message(const c_message &message) : message(message.message), easy(message.easy), whatever(message.whatever), result(message.result) {
+c_message::curl_message(const curl_message &message) : message(message.message), easy(message.easy), whatever(message.whatever), result(message.result) {
     // ... nothing to do here ...
+}
+
+// Implementation of assignment operator.
+c_message &c_message::operator=(const curl::curl_multi::curl_handle::curl_message &message) {
+    if (this == &message) {
+        return *this;
+    }
+    this->message = message.message;
+    this->easy = message.easy;
+    this->whatever = message.whatever;
+    this->result = message.result;
+    return *this;
 }
 
 // Implementation of get_message method.
