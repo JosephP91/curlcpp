@@ -81,7 +81,10 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
     }
 }
 
-// Implementation of add overloaded method.
+/**
+ * If you want to upload more than one file, you can pass the form name and a 
+ * vector of filenames
+ */
 void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const vector<string> &files) {
     const size_t size = files.size();
     struct curl_forms *new_files = new struct curl_forms[size];
