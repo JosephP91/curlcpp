@@ -66,9 +66,37 @@ bool curl_multi::perform() {
     return true;
 }
 
+// Implementation of socket_action method.
+bool curl_multi::socket_action(const curl_socket_t sockfd, const int ev_bitmask) {
+    const CURLMcode code = curl_multi_socket_action(this->curl,sockfd,ev_bitmask,&this->active_transfers);
+    if (code == CURLM_CALL_MULTI_PERFORM) {
+        return false;
+    } 
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+    return true;
+}
+
 // Implementation of set_fd method.
 void curl_multi::set_fd(fd_set *read, fd_set *write, fd_set *exec, int *max_fd) {
     const CURLMcode code = curl_multi_fdset(this->curl,read,write,exec,max_fd);
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+}
+
+// Implementation of wait method.
+void curl_multi::wait(struct curl_waitfd extra_fds[], const unsigned int extra_nfds, const int timeout_ms, int *numfds) {
+    const CURLMcode code = curl_multi_wait(this->curl,extra_fds,extra_nfds,timeout_ms,numfds);
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+}
+
+// Implementation of assign method.
+void curl_multi::assign(const curl_socket_t sockfd, void *sockptr) {
+    const CURLMcode code = curl_multi_assign(this->curl,sockfd,sockptr);
     if (code != CURLM_OK) {
         throw curl_error(this->to_string(code),__FUNCTION__);
     }

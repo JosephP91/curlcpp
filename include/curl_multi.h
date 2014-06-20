@@ -25,7 +25,10 @@ namespace curl {
         template<typename T> void add(const vector<curl_pair<CURLMoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLMoption,T>> &);
         bool perform();
+        bool socket_action(const curl_socket_t, const int);
         void set_fd(fd_set *, fd_set *, fd_set *, int *);
+        void wait(struct curl_waitfd [], const unsigned int, const int, int *);
+        void assign(const curl_socket_t, void *); 
         void timeout(long *);
         const int get_active_transfers() const noexcept;
         const int get_message_queued() const noexcept;
