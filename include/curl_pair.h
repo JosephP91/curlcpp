@@ -10,13 +10,15 @@
 
 #include <string>
 
-// Forward reference to curl_form
+// Forward reference to curl_form and curl_header
 namespace curl {
     class curl_form;
+    class curl_header;
 }
 
 using std::string;
 using curl::curl_form;
+using curl::curl_header;
 
 namespace curl {
     // Generic pair of objects.
@@ -62,6 +64,21 @@ namespace curl {
     private:
         const T option;
         const curl_form &value;
+    };
+    
+    // Template specialization for curl_header type
+    template<class T> class curl_pair<T,curl_header> {
+    public:
+        curl_pair(const T option, const curl_header &value) : option(option), value(value) {}
+        inline const T first() const noexcept {
+            return this->option;
+        }
+        inline const curl_slist *second() const noexcept {
+            return (this->value).get();
+        }
+    private:
+        const T option;
+        const curl_header &value;
     };
 }
 

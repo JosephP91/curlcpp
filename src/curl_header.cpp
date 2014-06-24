@@ -6,46 +6,53 @@
  */
 
 #include "curl_header.h"
+#include "curl_error.h"
 #include <algorithm>
 
 using std::for_each;
-using std::find;
 using curl::curl_header;
+using curl::curl_error;
 
-// Implementation of constructor
-curl_header::curl_header(const size_t size) {
-    curl_header();
-    if (size > 0) {
-        this->headers_vector.resize(size);
-    } else {
-        throw curl_error(" *** Headers vector size cannot be less or equal to zero ***",__FUNCTION__);
-    }
+// Implementation of constructor.
+curl_header::curl_header() :  size(0), headers(nullptr) {
+    // ... nothing to do here ...
 }
 
-// Implementation of destructor
-curl_header::~curl_header() {
-    curl_slist_free_all(this->headers);
-    this->headers = nullptr;
-}
-
-// Implementation of copy constructor.
-curl_header::curl_header(const curl_header &header) {
-    this->headers = header.headers;
-    for_each(header.headers_vector.begin(),header.headers_vector.end(),[this](const string header) {
-        this->headers_vector.push_back(header);
+// Implementation of initializer list constructor.
+curl_header::curl_header(initializer_list<string> headers) {
+    for_each(headers.begin(),headers.end(),[this](const string header) {
+        this->add(header);
     });
 }
 
-// Implementation of assignment operator.
+// Implementation of copy constructor.
+curl_header::curl_header(const curl_header &header) : headers(nullptr) {
+    struct curl_slist *tmp_ptr = header.headers;
+    while (tmp_ptr != nullptr) {
+        this->add(tmp_ptr->data);
+        tmp_ptr = tmp_ptr->next;
+    }
+}
+
+// Implementation of assignment operator
 curl_header &curl_header::operator=(const curl_header &header) {
     if (this == &header) {
         return *this;
     }
-    this->headers = header.headers;
-    for_each(header.headers_vector.begin(),header.headers_vector.end(),[this](const string header) {
-        this->headers_vector.push_back(header);
-    });
+    struct curl_slist *tmp_ptr = header.headers;
+    while (tmp_ptr != nullptr) {
+        this->add(tmp_ptr->data);
+        tmp_ptr = tmp_ptr->next;
+    }
     return *this;
+}
+
+// Implementation of destructor.
+curl_header::~curl_header() noexcept {
+    if (this->headers != nullptr) {
+        curl_slist_free_all(this->headers);
+        this->headers = nullptr;
+    }
 }
 
 // Implementation of add method.
@@ -64,25 +71,14 @@ void curl_header::add(const list<string> &headers) {
 
 // Implementation of add overloaded method.
 void curl_header::add(const string header) {
-    this->headers_vector.push_back(header);
+    this->headers = curl_slist_append(this->headers,header.c_str());
+    if (this->headers == nullptr) {
+        throw curl_error("*** Error while adding the header: "+header,__FUNCTION__);
+    }
+    ++this->size;
 }
 
-// Implementation of remove method.
-void curl_header::remove(const string remove) {
-    this->headers_vector.erase(find(headers_vector.begin(),headers_vector.end(),remove));
-}
-
-// Implementation of confirm method
-void curl_header::confirm() {
-    for_each(this->headers_vector.begin(),this->headers_vector.end(),[this](const string header) {
-        this->headers = curl_slist_append(this->headers,header.c_str());
-        if (this->headers == nullptr) {
-            throw curl_error(" *** An error occurred while inserting header: "+header+"***",__FUNCTION__);
-        }
-    });
-}
-
-// Implementation of getHeader method
-const vector<string> curl_header::get() const {
-    return this->headers_vector;
+// Implementation of get method.
+const struct curl_slist *curl_header::get() const {
+    return this->headers;
 }

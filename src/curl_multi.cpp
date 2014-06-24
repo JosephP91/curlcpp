@@ -14,6 +14,9 @@ using curl::curl_multi;
 // Implementation of constructor.
 curl_multi::curl_multi() : curl_interface() {
     this->curl = curl_multi_init();
+    if (this->curl == nullptr) {
+        throw curl_error("*** Error while initializing multi handler ****",__FUNCTION__);
+    }
     this->active_transfers = 0;
     this->message_queued = 0;
 }
@@ -24,8 +27,11 @@ curl_multi::curl_multi(const long flag) : curl_interface(flag) {
 }
 
 // Implementation of copy constructor to respect the rule of three.
-curl_multi::curl_multi(const curl_multi &multi) : message_queued(multi.message_queued), active_transfers(multi.active_transfers), curl(curl_multi_init()) {
-    // ... nothing to do here ...
+curl_multi::curl_multi(const curl_multi &multi) : message_queued(multi.message_queued), active_transfers(multi.active_transfers) {
+    this->curl = curl_multi_init();
+    if (this->curl == nullptr) {
+        throw curl_error("*** Error while initializing multi handler ****",__FUNCTION__);
+    }
 }
 
 // Implementation of assignment operator to perform deep copy.
@@ -33,9 +39,7 @@ curl_multi &curl_multi::operator=(const curl_multi &multi) {
     if (this == &multi) {
         return *this;
     }
-    this->curl = curl_multi_init();
-    this->message_queued = multi.message_queued;
-    this->active_transfers = multi.active_transfers;
+    curl_multi();
     return *this;
 }
 

@@ -16,7 +16,7 @@ namespace curl {
     class curl_multi : public curl_interface<CURLMcode> {
     public:
         class curl_handle;
-        explicit curl_multi();
+        curl_multi();
         explicit curl_multi(const long);
         curl_multi(const curl_multi &);
         curl_multi &operator=(const curl_multi &);

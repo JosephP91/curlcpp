@@ -21,7 +21,7 @@ using curl::curl_pair;
 namespace curl {
     class curl_share : public curl_interface<CURLSHcode> {
     public:
-        explicit curl_share();
+        curl_share();
         explicit curl_share(const long);
         curl_share(const curl_share &);
         curl_share &operator=(const curl_share &);

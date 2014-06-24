@@ -61,18 +61,23 @@ curl_easy::curl_easy(const long flag, ostream &outstream) : curl_interface(flag)
 
 // Implementation of copy constructor to respect the rule of three.
 curl_easy::curl_easy(const curl_easy &easy) {
-    // add ostream as attribute!!
-    this->curl = curl_easy_init();
+    // Let's use a duplication handle function provided by libcurl.
+    this->curl = curl_easy_duphandle(easy.curl);
 }
 
 // Impementation of assignment operator to perform a deep copy.
 curl_easy &curl_easy::operator=(const curl_easy &easy) {
-    // add ostream as attribute!!
     if (this == &easy) {
         return *this;
     }
-    this->curl = curl_easy_init();
+    // We use the duplication handle function also here.
+    this->curl = curl_easy_duphandle(easy.curl);
     return *this;
+}
+
+// Implementation of equality operator overload.
+bool curl_easy::operator==(const curl_easy &easy) const {
+    return this->curl == easy.curl;
 }
 
 // Implementation of destructor.
@@ -142,4 +147,12 @@ vector<string> curl_easy::get_session_info(const CURLINFO info, struct curl_slis
     }
     curl_slist_free_all(*ptr_info);
     return infos;
+}
+
+// Implementation of pause method.
+void curl_easy::pause(const int bitmask) {
+    const CURLcode code = curl_easy_pause(this->curl,bitmask);
+    if (code != CURLE_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
 }

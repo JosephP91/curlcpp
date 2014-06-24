@@ -8,6 +8,8 @@
 #include "curl_handle.h"
 #include "curl_message.h"
 
+using std::find;
+
 // That's too deep. Let's typedef something
 typedef curl_multi::curl_handle c_handle;
 typedef curl_multi::curl_handle::curl_message c_message;
@@ -22,17 +24,25 @@ c_handle::curl_handle(const curl_handle &handle) : handlers(handle.handlers), mu
     // ... nothing to do here ...
 }
 
+// Implementation of constructor with an initializer list.
+c_handle::curl_handle(curl_multi &multi, initializer_list<curl_easy> handlers_list) : multi(multi) {
+    for_each(handlers_list.begin(),handlers_list.end(),[this](curl_easy handle) {
+        this->add(handle);
+    });
+}
+
 // Implementation of assignment operator.
 c_handle &c_handle::operator=(const curl_handle &handle) {
     if (this == &handle) {
         return *this;
     }
+    this->multi = handle.multi;
     this->handlers = handle.handlers;
     return *this;
 }
 
 // Implementation of destructor.
-c_handle::~curl_handle() {
+c_handle::~curl_handle() noexcept {
     for_each(this->handlers.begin(),this->handlers.end(),[this](curl_easy handler) {
         curl_multi_remove_handle(this->multi.curl,handler.get_curl());
     });
@@ -44,6 +54,7 @@ void c_handle::add(const curl_easy &handler) {
     if (code != CURLM_OK) {
         throw curl_error((this->multi).to_string(code),__FUNCTION__);
     }
+    this->handlers.push_back(handler);
 }
 
 // Implementation of remove method.
@@ -52,6 +63,7 @@ void c_handle::remove(const curl_easy &handler) {
     if (code != CURLM_OK) {
         throw curl_error((this->multi).to_string(code),__FUNCTION__);
     }
+    this->handlers.erase(find(this->handlers.begin(),this->handlers.end(),handler));
 }
 
 // Implementation of read_info method.

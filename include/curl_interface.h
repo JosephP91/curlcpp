@@ -21,7 +21,7 @@ namespace curl {
     template<class T> class curl_interface {
     public:
         curl_interface();
-        curl_interface(const long);
+        explicit curl_interface(const long);
         virtual ~curl_interface();
         static time_t get_date(const char *, const time_t *);
     protected:

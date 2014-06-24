@@ -15,12 +15,12 @@
 using std::string;
 using std::list;
 
-// Curl vesion wrapper. You can use this class to obtain information about curl library
+// Curl version wrapper. You can use this class to obtain information about curl library
 namespace curl {
     class curl_info {
     public:
         curl_info();
-        curl_info(const CURLversion);
+        explicit curl_info(const CURLversion);
         const string get_host() const noexcept;
         const string get_ssl_version() const noexcept;
         const string get_libz_version() const noexcept;

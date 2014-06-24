@@ -30,15 +30,17 @@ namespace curl  {
         curl_easy();
         explicit curl_easy(ostream &);
         explicit curl_easy(const long);
-        explicit curl_easy(const long, ostream &);
+        curl_easy(const long, ostream &);
         curl_easy(const curl_easy &);
         curl_easy &operator=(const curl_easy &);
+        bool operator==(const curl_easy &) const;
         ~curl_easy() noexcept;
         template<typename T> void add(const curl_pair<CURLoption,T>);
         template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
         template<typename T> void add(const list<curl_pair<CURLoption,T>> &);
         template<typename T> T *get_session_info(const CURLINFO, T *) const;
         vector<string> get_session_info(const CURLINFO, struct curl_slist **) const;
+        void pause(const int);
         void escape(string &);
         void unescape(string &);
         void perform();
