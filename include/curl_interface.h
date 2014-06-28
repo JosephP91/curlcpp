@@ -14,18 +14,36 @@
 #include "curl_info.h"
 
 using std::string;
+
 using curl::curl_error;
 using curl::curl_info;
 
 namespace curl {
+    /**
+     * This is class is a common interface for all the libcurl interfaces:
+     * easy, multi and share. It provides methods that these three interfaces
+     * has in common with each other.
+     */
     template<class T> class curl_interface {
     public:
+        /**
+         * The default constructor will initializes the curl
+         * environment with the default flag.
+         */
         curl_interface();
+        /**
+         * Overloaded constuctor that initializes curl environment
+         * with user specified flag.
+         */
         explicit curl_interface(const long);
+        /**
+         * The virtual destructor will provide an easy and clean
+         * way to deallocate resources, closing curl environment
+         * correctly.
+         */
         virtual ~curl_interface();
-        static time_t get_date(const char *, const time_t *);
     protected:
-        virtual const string to_string(const T) const noexcept = 0;
+        virtual string to_string(const T) const noexcept = 0;
     };
     
     // Implementation of constructor.
@@ -47,15 +65,6 @@ namespace curl {
     // Implementation of the virtual destructor.
     template<class T> curl_interface<T>::~curl_interface() {
         curl_global_cleanup();
-    }
-    
-    // Implementation of get_date.
-    template<class T> time_t curl_interface<T>::get_date(const char *datetime, const time_t *now) {
-        time_t value = curl_getdate(datetime,now);
-        if (value == -1) {
-            throw curl_error("Error while parsing the date",__FUNCTION__);
-        }
-        return value;
     }
 }
 

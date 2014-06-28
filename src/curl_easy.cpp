@@ -60,7 +60,8 @@ curl_easy::curl_easy(const long flag, ostream &outstream) : curl_interface(flag)
 }
 
 // Implementation of copy constructor to respect the rule of three.
-curl_easy::curl_easy(const curl_easy &easy) {
+curl_easy::curl_easy(const curl_easy &easy) : curl(nullptr) {
+    *this = easy;
     // Let's use a duplication handle function provided by libcurl.
     this->curl = curl_easy_duphandle(easy.curl);
 }
@@ -70,6 +71,7 @@ curl_easy &curl_easy::operator=(const curl_easy &easy) {
     if (this == &easy) {
         return *this;
     }
+    curl_easy_cleanup(this->curl);
     // We use the duplication handle function also here.
     this->curl = curl_easy_duphandle(easy.curl);
     return *this;
@@ -86,16 +88,6 @@ curl_easy::~curl_easy() noexcept {
         curl_easy_cleanup(this->curl);
         this->curl = nullptr;
     }
-}
-
-// Implementation of get method. It simply returns the curl pointer.
-CURL *curl_easy::get_curl() const {
-    return this->curl;
-}
-  
-// Implementation of error to_string method.
-const string curl_easy::to_string(const CURLcode code) const noexcept {
-    return curl_easy_strerror(code);
 }
 
 // Implementation of abstract method perform.
@@ -134,24 +126,46 @@ void curl_easy::reset() noexcept {
 }
 
 // Implementation of get_session_info overloaded method.
-vector<string> curl_easy::get_session_info(const CURLINFO info, struct curl_slist **ptr_info) const {
-    const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
-    if (code != CURLE_OK && ptr_info) {
+vector<string> curl_easy::get_info(const CURLINFO info) const {
+    struct curl_slist *ptr = nullptr;
+    const CURLcode code = curl_easy_getinfo(this->curl,info,ptr);
+    if (code != CURLE_OK) {
+        curl_slist_free_all(ptr);
         throw curl_error(this->to_string(code),__FUNCTION__);
     }
     vector<string> infos;
-    int i = 0;
-    while ((*(ptr_info+i))->next != nullptr) {
-        infos.push_back(string((*(ptr_info)+i)->data));
+    unsigned int i = 0;
+    while ((ptr+i)->next != nullptr) {
+        infos.push_back(string((ptr+i)->data));
         ++i;
     }
-    curl_slist_free_all(*ptr_info);
+    curl_slist_free_all(ptr);
     return infos;
 }
 
 // Implementation of pause method.
 void curl_easy::pause(const int bitmask) {
     const CURLcode code = curl_easy_pause(this->curl,bitmask);
+    if (code != CURLE_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+}
+
+// Implementation of recv method.
+bool curl_easy::receive(void *buffer, size_t buflen, size_t *n) {
+    const CURLcode code = curl_easy_recv(this->curl,buffer,buflen,n);
+    if (code == CURLE_AGAIN) {
+        return false;
+    }
+    if (code != CURLE_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+    return true;
+}
+
+// Implementation of send method.
+void curl_easy::send(const void *buffer, size_t buflen, size_t *n) {
+    const CURLcode code = curl_easy_send(this->curl,buffer,buflen,n);
     if (code != CURLE_OK) {
         throw curl_error(this->to_string(code),__FUNCTION__);
     }

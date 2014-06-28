@@ -48,14 +48,49 @@ curl_multi::~curl_multi() noexcept{
     curl_multi_cleanup(this->curl);
 }
 
-// Implementation of get_active_transfers method.
-const int curl_multi::get_active_transfers() const noexcept {
-    return this->active_transfers;
+// Implementation of add method for easy handlers.
+void curl_multi::add(const curl_easy &easy) {
+    const CURLMcode code = curl_multi_add_handle(this->curl,easy.get_curl());
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
 }
 
-// Implementation of get_message_queued method.
-const int curl_multi::get_message_queued() const noexcept {
-    return this->message_queued;
+// Implementation of overloaded add method for a vector of easy handlers.
+void curl_multi::add(const vector<curl_easy> &easy) {
+    for_each(easy.begin(),easy.end(),[this](curl_easy handler) {
+        this->add(handler);
+    });
+}
+
+// Implementation of overloaded add method for a list of easy handlers.
+void curl_multi::add(const list<curl_easy> &easy) {
+    for_each(easy.begin(),easy.end(),[this](curl_easy handler) {
+        this->add(handler);
+    });
+}
+
+// Implementation of remove for easy handlers.
+void curl_multi::remove(const curl_easy &easy) {
+    const CURLMcode code = curl_multi_remove_handle(this->curl,easy.get_curl());
+    if (code != CURLM_OK) {
+        throw curl_error(this->to_string(code),__FUNCTION__);
+    }
+}
+
+// Implementation of read_info method.
+void curl_multi::read_info() {
+    // Return a vector of infos
+}
+
+// Implementation of overloaded read_info method.
+void curl_multi::read_info(const curl_easy &easy) {
+    CURLMsg *message = nullptr;
+    while ((message = curl_multi_info_read(this->curl,&this->message_queued))) {
+        if (message->easy_handle == easy.get_curl()) {
+            // Find a way to return the info!!
+        }
+    }
 }
 
 // Implementation of perform method.
@@ -112,9 +147,4 @@ void curl_multi::timeout(long *timeout) {
     if (code != CURLM_OK) {
         throw curl_error(this->to_string(code),__FUNCTION__);
     }
-}
-
-// Implementation of errorto_string method
-const string curl_multi::to_string(const CURLMcode code) const noexcept {
-    return string(curl_multi_strerror(code));
 }

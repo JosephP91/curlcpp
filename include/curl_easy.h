@@ -12,6 +12,7 @@
 #include <list>
 #include <algorithm>
 #include <curl/curl.h>
+#include <memory>
 #include <ostream>
 
 #include "curl_interface.h"
@@ -20,39 +21,138 @@
 using std::vector;
 using std::list;
 using std::for_each;
+using std::unique_ptr;
 using std::ostream;
+
 using curl::curl_pair;
 using curl::curl_interface;
 
 namespace curl  {
+    /**
+     * Easy interface is used to make requests and transfers. 
+     * You don't have to worry about freeing data or things like
+     * that. The class will do it for you.
+     */
     class curl_easy : public curl_interface<CURLcode> {
     public:
+        /**
+         * The default constructor will initialize the easy handler
+         * using libcurl functions.
+         */
         curl_easy();
+        /**
+         * This overloaded constructor allows users to specify a
+         * stream where they want to put the output of the libcurl
+         * operations.
+         */
         explicit curl_easy(ostream &);
+        /**
+         * This overloaded constructor allows users to specify a flag
+         * used to initialize libcurl environment.
+         */
         explicit curl_easy(const long);
+        /**
+         * This overloaded constructor allows to specify the environment
+         * initialization flags and a stream where to put libcurl output.
+         */
         curl_easy(const long, ostream &);
+        /**
+         * Copy constructor to handle pointer copy. Internally, it uses
+         * a function which duplicates the easy handler.
+         */
         curl_easy(const curl_easy &);
+        /**
+         * Assignment operator used to perform assignment between object
+         * of this class.
+         */
         curl_easy &operator=(const curl_easy &);
+        /**
+         * Override of equality operator. It has been overridden to check
+         * wheather two curl_easy object are equal.
+         */
         bool operator==(const curl_easy &) const;
+        /**
+         * The destructor will perform cleaning operations.
+         */
         ~curl_easy() noexcept;
+        /**
+         * Allows users to specify an option for the current easy handler,
+         * using a curl_pair object.
+         */
         template<typename T> void add(const curl_pair<CURLoption,T>);
+        /**
+         * Allows users to specify a vector of curl_pair options for the 
+         * current easy handler.
+         */
         template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
+        /**
+         * Allows users to specify a list of curl_pair options for the
+         * current easy handler.
+         */
         template<typename T> void add(const list<curl_pair<CURLoption,T>> &);
-        template<typename T> T *get_session_info(const CURLINFO, T *) const;
-        vector<string> get_session_info(const CURLINFO, struct curl_slist **) const;
+        /**
+         * This method allows users to request internal information from
+         * the curl session. I reccomend to read online documentation for
+         * further informations.
+         */
+        template<typename T> unique_ptr<T> get_info(const CURLINFO) const;
+        /**
+         * get_info overloaded method. It it used when the second argument is
+         * of struct_slist * type.
+         */
+        vector<string> get_info(const CURLINFO) const;
+        /**
+         * This method wraps the libcurl function that receives raw data from
+         * the established connection.
+         */
+        bool receive(void *, size_t, size_t *);
+        /**
+         * This method wraps the libcurl function that sends arbitrary data
+         * over the established connection.
+         */
+        void send(const void *, size_t, size_t *);
+        /**
+         * Using this function, you can explicitly mark a running connection 
+         * to get paused, and you can unpause a connection that was previously
+         * paused.
+         */
         void pause(const int);
+        /**
+         * This function converts the given input string to an URL encoded
+         * string and returns that as a new allocated string.
+         */
         void escape(string &);
+        /**
+         * This function converts the given URL encoded input string to a
+         * "plain string" and returns that in an allocated memory area. 
+         */
         void unescape(string &);
+        /**
+         * This fuctions performs all the operations that user has specified
+         * with the add methods.
+         */
         void perform();
+        /**
+         * Re-initializes all options previously set on a specified CURL handle
+         * to the default values. This puts back the handle to the same state as
+         * it was in when it was just created with.
+         */
         void reset() noexcept;
+        /**
+         * Simple getter method used to return the easy handle.
+         */
         CURL *get_curl() const;
     protected:
-        const string to_string(const CURLcode) const noexcept;
+        /**
+         * Utility function used to convert libcurl error code into
+         * error messages.
+         */
+        string to_string(const CURLcode) const noexcept;
     private:
         CURL *curl;
     };
     
-    // Implementation of addOption method
+    // Implementation of add method.
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLE_OK) {
@@ -60,27 +160,39 @@ namespace curl  {
         }
     }
     
-    // Implementation of overloaded method addOption
+    // Implementation of add overloaded method.
     template<typename T> void curl_easy::add(const vector<curl_pair<CURLoption,T>> &pairs) {
         for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) {
             this->add(option);
         });
     }
     
-    // Implementation of overloaded method addOption
+    // Implementation of add overloaded method.
     template<typename T> void curl_easy::add(const list<curl_pair<CURLoption,T> > &pairs) {
         for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) {
             this->add(option);
         });
     }
     
-    // Implementation of get_session_info method
-    template<typename T> T *curl_easy::get_session_info(const CURLINFO info, T *ptr_info) const {
-        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr_info);
-        if (code != CURLE_OK && ptr_info) {
+    // Implementation of get_session_info method.
+    template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
+        // Use a unique_ptr to automatic destroy the memory reserved with new.
+        unique_ptr<T> ptr(new T);
+        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr.get());
+        if (code != CURLE_OK) {
             throw curl_error(this->to_string(code),__FUNCTION__);
         }
-        return ptr_info;
+        return ptr;
+    }
+
+    // Implementation of get_curl method.
+    inline CURL *curl_easy::get_curl() const {
+        return this->curl;
+    }
+
+    // Implementation of to_string method.
+    inline string curl_easy::to_string(const CURLcode code) const noexcept {
+        return curl_easy_strerror(code);
     }
 }
 

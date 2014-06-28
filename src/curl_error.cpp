@@ -17,14 +17,7 @@ curl_error::curl_error(const string error, const string fun_name) {
     curl_error::traceback.insert(curl_error::traceback.begin(),pair<string,string>(error,fun_name));
 }
 
-// Returns the traceback stack
-const vector<pair<string,string>> curl_error::what() {
-    return curl_error::traceback;
-}
-
-// Simply prints the stack. Check that this method clears the stack to print it.
-const void curl_error::print_traceback() {
-    for (vector<pair<string,string>>::const_iterator it = curl_error::traceback.begin(); it != curl_error::traceback.end(); ++it) {
-        cout<<"ERROR: "<<it->first<<" == FUNCTION: "<<it->second<<endl;
-    }
+// Implementation of destructor.
+curl_error::~curl_error() throw() {
+    // ... nothing to do here ...
 }

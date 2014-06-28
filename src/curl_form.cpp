@@ -15,7 +15,7 @@ curl_form::curl_form() : form_post(nullptr), last_ptr(nullptr) {
     // ... nothing to do here ...
 }
 
-// Implementation of destructor. The form post will be deallocated.
+// Implementation of destructor.
 curl_form::~curl_form() noexcept {
     if (this->form_post != nullptr) {
         curl_formfree(this->form_post);
@@ -24,32 +24,12 @@ curl_form::~curl_form() noexcept {
     }
 }
 
-/**
- * Implementation of copy constructor. We must perform a deep copy of the entire list.
- * We must traverse the new list to copy all the field in the left-object's list.
- * This method puts the node in the tail. Indeed, libcurl keeps two pointers to implement
- * this list: a tail and a head
- */
-curl_form::curl_form(const curl_form &form) {
-    struct curl_httppost *old_head = form.form_post;
-    while (old_head != nullptr) {
-        if (this->form_post == nullptr) {
-            this->is_null(this->last_ptr = this->form_post = (struct curl_httppost *)malloc(sizeof(struct curl_httppost)));
-            this->copy_ptr(&this->last_ptr,old_head);
-        } else {
-            this->is_null(this->last_ptr->next = (struct curl_httppost *)malloc(sizeof(struct curl_httppost)));
-            this->copy_ptr(&this->last_ptr->next,old_head);
-            this->last_ptr = this->last_ptr->next;
-        }
-        old_head = old_head->next;
-    }
-}
-
 // Implementation of assignment operator. Also here, we must perform a deep copy of the entire list.
 curl_form &curl_form::operator=(const curl_form &form) {
     if (this == &form) {
         return *this;
     }
+    curl_formfree(this->form_post);
     struct curl_httppost *old_head = form.form_post;
     while (old_head != nullptr) {
         if (this->form_post == nullptr) {
@@ -63,11 +43,6 @@ curl_form &curl_form::operator=(const curl_form &form) {
         old_head = old_head->next;
     }
     return *this;
-}
-
-// Implementation of get method.
-const struct curl_httppost *curl_form::get() const {
-    return this->form_post;
 }
 
 // Implementation of add method.
@@ -145,9 +120,8 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const vec
                     CURLFORM_END) != 0) {
         delete []new_files;
         throw curl_error(" *** Error while adding the form ***",__FUNCTION__);
-    } else {
-        delete []new_files;
-    }
+    } 
+    delete []new_files;
 }
 
 /**

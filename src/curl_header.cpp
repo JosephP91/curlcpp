@@ -14,7 +14,7 @@ using curl::curl_header;
 using curl::curl_error;
 
 // Implementation of constructor.
-curl_header::curl_header() :  size(0), headers(nullptr) {
+curl_header::curl_header() : size(0), headers(nullptr) {
     // ... nothing to do here ...
 }
 
@@ -25,20 +25,15 @@ curl_header::curl_header(initializer_list<string> headers) {
     });
 }
 
-// Implementation of copy constructor.
-curl_header::curl_header(const curl_header &header) : headers(nullptr) {
-    struct curl_slist *tmp_ptr = header.headers;
-    while (tmp_ptr != nullptr) {
-        this->add(tmp_ptr->data);
-        tmp_ptr = tmp_ptr->next;
-    }
-}
-
-// Implementation of assignment operator
+/** 
+ * Implementation of assignment operator. The object has just been created, so its members have just
+ * been loaded in memory, so we need to give a valid value to them (in this case just to "headers").
+ */
 curl_header &curl_header::operator=(const curl_header &header) {
     if (this == &header) {
         return *this;
     }
+    curl_slist_free_all(this->headers);
     struct curl_slist *tmp_ptr = header.headers;
     while (tmp_ptr != nullptr) {
         this->add(tmp_ptr->data);
@@ -76,9 +71,4 @@ void curl_header::add(const string header) {
         throw curl_error("*** Error while adding the header: "+header,__FUNCTION__);
     }
     ++this->size;
-}
-
-// Implementation of get method.
-const struct curl_slist *curl_header::get() const {
-    return this->headers;
 }
