@@ -12,14 +12,14 @@
 #include <vector>
 #include <string>
 #include <new>
-#include "curl_error.h"
+#include "curl_exception.h"
 #include "curl_pair.h"
 
 using std::string;
 using std::vector;
 using std::bad_alloc;
 using curl::curl_pair;
-using curl::curl_error;
+using curl::curl_exception;
 
 namespace curl {
     /**

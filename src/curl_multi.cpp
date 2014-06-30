@@ -15,7 +15,7 @@ using curl::curl_multi;
 curl_multi::curl_multi() : curl_interface() {
     this->curl = curl_multi_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error while initializing multi handler ****",__FUNCTION__);
+        throw curl_multi_exception("Null pointer intercepted",__FUNCTION__);
     }
     this->active_transfers = 0;
     this->message_queued = 0;
@@ -30,7 +30,7 @@ curl_multi::curl_multi(const long flag) : curl_interface(flag) {
 curl_multi::curl_multi(const curl_multi &multi) : message_queued(multi.message_queued), active_transfers(multi.active_transfers) {
     this->curl = curl_multi_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error while initializing multi handler ****",__FUNCTION__);
+        throw curl_multi_exception("Null pointer intercepted",__FUNCTION__);
     }
 }
 
@@ -52,7 +52,7 @@ curl_multi::~curl_multi() noexcept{
 void curl_multi::add(const curl_easy &easy) {
     const CURLMcode code = curl_multi_add_handle(this->curl,easy.get_curl());
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
 }
 
@@ -74,7 +74,7 @@ void curl_multi::add(const list<curl_easy> &easy) {
 void curl_multi::remove(const curl_easy &easy) {
     const CURLMcode code = curl_multi_remove_handle(this->curl,easy.get_curl());
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
 }
 
@@ -100,7 +100,7 @@ bool curl_multi::perform() {
         return false;
     }
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
     return true;
 }
@@ -112,7 +112,7 @@ bool curl_multi::socket_action(const curl_socket_t sockfd, const int ev_bitmask)
         return false;
     } 
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
     return true;
 }
@@ -121,7 +121,7 @@ bool curl_multi::socket_action(const curl_socket_t sockfd, const int ev_bitmask)
 void curl_multi::set_fd(fd_set *read, fd_set *write, fd_set *exec, int *max_fd) {
     const CURLMcode code = curl_multi_fdset(this->curl,read,write,exec,max_fd);
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
 }
 
@@ -129,7 +129,7 @@ void curl_multi::set_fd(fd_set *read, fd_set *write, fd_set *exec, int *max_fd) 
 void curl_multi::wait(struct curl_waitfd extra_fds[], const unsigned int extra_nfds, const int timeout_ms, int *numfds) {
     const CURLMcode code = curl_multi_wait(this->curl,extra_fds,extra_nfds,timeout_ms,numfds);
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
 }
 
@@ -137,7 +137,7 @@ void curl_multi::wait(struct curl_waitfd extra_fds[], const unsigned int extra_n
 void curl_multi::assign(const curl_socket_t sockfd, void *sockptr) {
     const CURLMcode code = curl_multi_assign(this->curl,sockfd,sockptr);
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
 }
 
@@ -145,6 +145,6 @@ void curl_multi::assign(const curl_socket_t sockfd, void *sockptr) {
 void curl_multi::timeout(long *timeout) {
     const CURLMcode code = curl_multi_timeout(this->curl,timeout);
     if (code != CURLM_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_multi_exception(code,__FUNCTION__);
     }
 }

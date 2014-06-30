@@ -17,6 +17,7 @@ using std::vector;
 using std::list;
 using curl::curl_interface;
 using curl::curl_pair;
+using curl::curl_share_exception;
 
 namespace curl {
     /**
@@ -60,12 +61,6 @@ namespace curl {
          * handle.
          */
         template<typename T> void add(const list<curl_pair<CURLSHoption,T>> &);
-    protected:
-        /**
-         * Utility method used to convert share error codes into error
-         * messages.
-         */
-        string to_string(const CURLSHcode) const noexcept;
     private:
         CURLSH *curl;
     };
@@ -84,7 +79,7 @@ namespace curl {
     template<typename T> void curl_share::add(const curl_pair<CURLSHoption,T> &pair) {
         const CURLSHcode code = curl_share_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLSHE_OK) {
-            throw curl_error(this->to_string(code),__FUNCTION__);
+            throw curl_share_exception(code,__FUNCTION__);
         }
     }
     // Implementation of overloaded method add
@@ -98,11 +93,6 @@ namespace curl {
         for_each(pairs.begin(),pairs.end(),[this](const curl_pair<CURLSHoption,T> option) {
             this->add(option);
         });
-    }
-
-    // Implementation of to_string method.
-    inline string curl_share::to_string(const CURLSHcode code) const noexcept {
-        return string(curl_share_strerror(code));
     }
 }
 

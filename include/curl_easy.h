@@ -26,6 +26,7 @@ using std::ostream;
 
 using curl::curl_pair;
 using curl::curl_interface;
+using curl::curl_easy_exception;
 
 namespace curl  {
     /**
@@ -100,17 +101,7 @@ namespace curl  {
          * get_info overloaded method. It it used when the second argument is
          * of struct_slist * type.
          */
-        vector<string> get_info(const CURLINFO) const;
-        /**
-         * This method wraps the libcurl function that receives raw data from
-         * the established connection.
-         */
-        bool receive(void *, size_t, size_t *);
-        /**
-         * This method wraps the libcurl function that sends arbitrary data
-         * over the established connection.
-         */
-        void send(const void *, size_t, size_t *);
+        unique_ptr<vector<string>> get_info(const CURLINFO) const;
         /**
          * Using this function, you can explicitly mark a running connection 
          * to get paused, and you can unpause a connection that was previously
@@ -142,12 +133,6 @@ namespace curl  {
          * Simple getter method used to return the easy handle.
          */
         CURL *get_curl() const;
-    protected:
-        /**
-         * Utility function used to convert libcurl error code into
-         * error messages.
-         */
-        string to_string(const CURLcode) const noexcept;
     private:
         CURL *curl;
     };
@@ -156,7 +141,7 @@ namespace curl  {
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLE_OK) {
-            throw curl_error(this->to_string(code),__FUNCTION__);
+            throw curl_easy_exception(code,__FUNCTION__);
         }
     }
     
@@ -176,11 +161,11 @@ namespace curl  {
     
     // Implementation of get_session_info method.
     template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
-        // Use a unique_ptr to automatic destroy the memory reserved with new.
+        // Use a unique_ptr to automatic destroy the memory reserved with new when the pointer goes out of scope.
         unique_ptr<T> ptr(new T);
         const CURLcode code = curl_easy_getinfo(this->curl,info,ptr.get());
         if (code != CURLE_OK) {
-            throw curl_error(this->to_string(code),__FUNCTION__);
+            throw curl_easy_exception(code,__FUNCTION__);
         }
         return ptr;
     }
@@ -188,11 +173,6 @@ namespace curl  {
     // Implementation of get_curl method.
     inline CURL *curl_easy::get_curl() const {
         return this->curl;
-    }
-
-    // Implementation of to_string method.
-    inline string curl_easy::to_string(const CURLcode code) const noexcept {
-        return curl_easy_strerror(code);
     }
 }
 

@@ -13,7 +13,7 @@ using curl::curl_share;
 curl_share::curl_share() : curl_interface() {
     this->curl = curl_share_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error during curl share pointer initialization ***",__FUNCTION__);
+        throw curl_share_exception("Error during curl share pointer initialization",__FUNCTION__);
     }
 }
 

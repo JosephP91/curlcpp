@@ -6,12 +6,12 @@
  */
 
 #include "curl_header.h"
-#include "curl_error.h"
+#include "curl_exception.h"
 #include <algorithm>
 
 using std::for_each;
 using curl::curl_header;
-using curl::curl_error;
+using curl::curl_exception;
 
 // Implementation of constructor.
 curl_header::curl_header() : size(0), headers(nullptr) {
@@ -68,7 +68,7 @@ void curl_header::add(const list<string> &headers) {
 void curl_header::add(const string header) {
     this->headers = curl_slist_append(this->headers,header.c_str());
     if (this->headers == nullptr) {
-        throw curl_error("*** Error while adding the header: "+header,__FUNCTION__);
+        throw curl_exception("Null pointer exception",__FUNCTION__);
     }
     ++this->size;
 }

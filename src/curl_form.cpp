@@ -51,7 +51,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),
                     CURLFORM_END) != 0) {
-        throw curl_error("*** Error while adding the form *** ",__FUNCTION__);
+        throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
@@ -62,7 +62,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
                     form_content.first(),form_content.second(),
                     content_type.first(),content_type.second(),
                     CURLFORM_END) != 0) {
-        throw curl_error("*** Error while adding the form ***",__FUNCTION__);
+        throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
@@ -72,7 +72,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
                     form_content.first(),form_content.second(),
                     content_length.first(),content_length.second(),
                     CURLFORM_END) != 0) {
-        throw curl_error("*** Error while adding the form ***",__FUNCTION__);
+        throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
@@ -83,7 +83,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
                     form_content.first(),form_content.second(),
                     name_length.first(),name_length.second(),
                     CURLFORM_END) != 0) {
-        throw curl_error("*** Error while adding the form ***",__FUNCTION__);
+        throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
@@ -95,7 +95,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
                     content_length.first(),content_length.second(),
                     content_type.first(),content_type.second(),
                     CURLFORM_END) != 0) {
-        throw curl_error("*** Error while adding the form ***",__FUNCTION__);
+        throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
@@ -119,7 +119,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const vec
                     CURLFORM_ARRAY,new_files,
                     CURLFORM_END) != 0) {
         delete []new_files;
-        throw curl_error(" *** Error while adding the form ***",__FUNCTION__);
+        throw curl_exception("Error while adding the form",__FUNCTION__);
     } 
     delete []new_files;
 }

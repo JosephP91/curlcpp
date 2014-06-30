@@ -11,6 +11,7 @@
 #include "curl_easy.h"
 
 using curl::curl_easy;
+using curl::curl_multi_exception;
 
 namespace curl {
     /**
@@ -181,12 +182,6 @@ namespace curl {
          * Inline getter method used to return the currently queued messages.
          */
         inline int get_message_queued() const noexcept;
-    protected:
-        /**
-         * Utility method which converts error codes in appropriately error
-         * messages.
-         */
-        string to_string(const CURLMcode) const noexcept;
     private:
         int message_queued;
         int active_transfers;
@@ -197,7 +192,7 @@ namespace curl {
     template<typename T> void curl_multi::add(const curl_pair<CURLMoption,T> &pair) {
         const CURLMcode code = curl_multi_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLM_OK) {
-            throw curl_error(this->to_string(code),__FUNCTION__);
+            throw curl_multi_exception(code,__FUNCTION__);
         }
     }
     
@@ -223,11 +218,6 @@ namespace curl {
     // Implementation of get_message_queueed method.
     inline int curl_multi::get_message_queued() const noexcept {
         return this->active_transfers;
-    }
-
-    // Implementation of to_string method.
-    inline string curl_multi::to_string(const CURLMcode code) const noexcept {
-        return string(curl_multi_strerror(code));
     }
 
     // Implementation of curl_message constructor.

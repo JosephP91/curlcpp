@@ -10,12 +10,12 @@
 
 #include <curl/curl.h>
 #include <string>
-#include "curl_error.h"
+#include "curl_exception.h"
 #include "curl_info.h"
 
 using std::string;
 
-using curl::curl_error;
+using curl::curl_exception;
 using curl::curl_info;
 
 namespace curl {
@@ -42,15 +42,13 @@ namespace curl {
          * correctly.
          */
         virtual ~curl_interface();
-    protected:
-        virtual string to_string(const T) const noexcept = 0;
     };
     
     // Implementation of constructor.
     template<class T> curl_interface<T>::curl_interface() {
         const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
         if (code != CURLE_OK) {
-            throw curl_error(curl_easy_strerror(code),__FUNCTION__);
+            throw curl_easy_exception(code,__FUNCTION__);
         }
     }
     
@@ -58,7 +56,7 @@ namespace curl {
     template<class T> curl_interface<T>::curl_interface(const long flag) {
         const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
         if (code != CURLE_OK) {
-            throw curl_error(curl_easy_strerror(code),__FUNCTION__);
+            throw curl_easy_exception(code,__FUNCTION__);
         }
     }
     

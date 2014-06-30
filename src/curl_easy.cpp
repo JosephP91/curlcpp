@@ -1,6 +1,6 @@
 /* 
  * File:   curl_easy.cpp
- * Author: Giuseppe
+ * Author: Giuseppe Persico
  * 
  * Created on March 25, 2014, 10:54 PM
  */
@@ -23,7 +23,7 @@ namespace {
 curl_easy::curl_easy() : curl_interface() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error during curl easy pointer initialization ***",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
     this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void *)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
     this->add(curl_pair<CURLoption, void *>(CURLOPT_WRITEDATA, static_cast<void*>(&cout)));
@@ -33,7 +33,7 @@ curl_easy::curl_easy() : curl_interface() {
 curl_easy::curl_easy(ostream &outstream) : curl_interface() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error during curl easy pointer initialization ***",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
     this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void*)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
     this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(&outstream)));
@@ -43,7 +43,7 @@ curl_easy::curl_easy(ostream &outstream) : curl_interface() {
 curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error during curl easy pointer initialization ***",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
     this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void *)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
     this->add(curl_pair<CURLoption, void *>(CURLOPT_WRITEDATA, static_cast<void*>(&cout)));
@@ -53,7 +53,7 @@ curl_easy::curl_easy(const long flag) : curl_interface(flag) {
 curl_easy::curl_easy(const long flag, ostream &outstream) : curl_interface(flag) {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
-        throw curl_error("*** Error during curl easy pointer initialization ***",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
     this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void*)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
     this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(&outstream)));
@@ -94,7 +94,7 @@ curl_easy::~curl_easy() noexcept {
 void curl_easy::perform() {
     const CURLcode code = curl_easy_perform(this->curl);
     if (code != CURLE_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_easy_exception(code,__FUNCTION__);
     }
 }
 
@@ -102,7 +102,7 @@ void curl_easy::perform() {
 void curl_easy::escape(string &url) {
     char *url_encoded = curl_easy_escape(this->curl,url.c_str(),(int)url.length());
     if (url_encoded == nullptr) {
-        throw curl_error("*** null pointer intercepted  ***",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
     url = string(url_encoded);
     curl_free(url_encoded);
@@ -113,7 +113,7 @@ void curl_easy::escape(string &url) {
 void curl_easy::unescape(string &url) {
     char *url_decoded = curl_easy_unescape(this->curl,url.c_str(),(int)url.length(),nullptr);
     if (url_decoded == nullptr) {
-        throw curl_error("*** null pointer intercepted ***",__FUNCTION__);
+        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
     url = string(url_decoded);
     curl_free(url_decoded);
@@ -125,48 +125,31 @@ void curl_easy::reset() noexcept {
     curl_easy_reset(this->curl);
 }
 
-// Implementation of get_session_info overloaded method.
-vector<string> curl_easy::get_info(const CURLINFO info) const {
-    struct curl_slist *ptr = nullptr;
-    const CURLcode code = curl_easy_getinfo(this->curl,info,ptr);
-    if (code != CURLE_OK) {
+// Putting the namespace here will avoid the "specialization in different namespace" error.
+namespace curl {
+    template<> unique_ptr<vector<string>> curl_easy::get_info(const CURLINFO info) const {
+        struct curl_slist *ptr = nullptr;
+        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr);
+        if (code != CURLE_OK) {
+            curl_slist_free_all(ptr);
+            throw curl_easy_exception(code,__FUNCTION__);
+        }
+        vector<string> infos;
+        unsigned int i = 0;
+        while ((ptr+i)->next != nullptr) {
+            infos.push_back(string((ptr+i)->data));
+            ++i;
+        }
         curl_slist_free_all(ptr);
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        unique_ptr<vector<string>> ptr_infos{new vector<string>(infos)};
+        return ptr_infos;
     }
-    vector<string> infos;
-    unsigned int i = 0;
-    while ((ptr+i)->next != nullptr) {
-        infos.push_back(string((ptr+i)->data));
-        ++i;
-    }
-    curl_slist_free_all(ptr);
-    return infos;
 }
 
 // Implementation of pause method.
 void curl_easy::pause(const int bitmask) {
     const CURLcode code = curl_easy_pause(this->curl,bitmask);
     if (code != CURLE_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
-    }
-}
-
-// Implementation of recv method.
-bool curl_easy::receive(void *buffer, size_t buflen, size_t *n) {
-    const CURLcode code = curl_easy_recv(this->curl,buffer,buflen,n);
-    if (code == CURLE_AGAIN) {
-        return false;
-    }
-    if (code != CURLE_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
-    }
-    return true;
-}
-
-// Implementation of send method.
-void curl_easy::send(const void *buffer, size_t buflen, size_t *n) {
-    const CURLcode code = curl_easy_send(this->curl,buffer,buflen,n);
-    if (code != CURLE_OK) {
-        throw curl_error(this->to_string(code),__FUNCTION__);
+        throw curl_easy_exception(code,__FUNCTION__);
     }
 }

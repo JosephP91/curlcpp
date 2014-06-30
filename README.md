@@ -37,8 +37,7 @@ Simple usage example
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
-#include "../include/curl_easy.h"
-// only "curl_easy.h" if you use above submodule-way of compilation and linking
+#include "curl_easy.h"
 
 using curl::curl_easy;
 
@@ -48,7 +47,7 @@ int main(int argc, const char **argv) {
     easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
     try {
         easy.perform();
-    } catch (curl_error error) {
+    } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
         vector<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
@@ -64,7 +63,6 @@ Here's instead, the creation of an HTTPS POST login form:
 `````c++
 #include "curl_easy.h"
 #include "curl_form.h"
-// only "curl_easy.h" and "curl_form.h" if you use above submodule-way of compilation and linking
 
 using curl::curl_form;
 using curl::curl_easy;
@@ -89,7 +87,7 @@ int main(int argc, const char * argv[]) {
         easy.add(curl_pair<CURLoption,bool>(CURLOPT_SSL_VERIFYPEER,false));
         easy.add(curl_pair<CURLoption,curl_form>(CURLOPT_HTTPPOST,form));
         easy.perform();
-    } catch (curl_error error) {
+    } catch (curl_easy_exception error) {
     	// Print errors, if any
         error.print_traceback();
     }
@@ -120,7 +118,7 @@ int main(int argc, const char * argv[]) {
     easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
     try {
         easy.perform();
-    } catch (curl_error error) {
+    } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
         vector<pair<string,string>> errors = error.what();
         // Otherwise we could print the stack like this:
@@ -131,4 +129,58 @@ int main(int argc, const char * argv[]) {
 }
 `````
 
-That's it! :)
+I have implemented a sender and a receiver to make it easy to use send/receive without handling
+buffers. For example, a very simple send/receiver would be:
+
+`````c++
+#include "curl_easy.h"
+#include "curl_form.h"
+#include "curl_pair.h"
+#include "curl_receiver.h"
+#include "curl_sender.h"
+
+using curl::curl_form;
+using curl::curl_easy;
+using curl::curl_sender;
+using curl::curl_receiver;
+
+int main() {
+    // Simple request
+    string request = "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n";
+    
+    // Creation of easy object.
+    curl_easy easy;
+    try {
+        easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://example.com"));
+        // Just connect
+        easy.add(curl_pair<CURLoption,bool>(CURLOPT_CONNECT_ONLY,true));
+        easy.perform();
+    } catch (curl_easy_exception error) {
+        // If you want to get the entire error stack we can do:
+        vector<pair<string,string>> errors = error.what();
+        // Print errors if any
+        error.print_traceback();
+    }
+    
+    // Creation of a sender. You should wait here using select to check if socket is ready to send.
+    curl_sender<string> sender(easy);
+    sender.send(request);
+    cout<<"Sent bytes: "<<sender.get_sent_bytes()<<endl;
+    
+    for(;;) {
+        // You should wait here to check if socket is ready to receive
+        try {
+            // Create a receiver
+            curl_receiver<char,1024> receiver;
+            // Receive the content on the easy handler
+            receiver.receive(easy);
+            // Prin
+            cout<<"Receiver bytes: "<<receiver.get_received_bytes()<<endl;
+        } catch (curl_easy_exception error) {
+            // If any errors occurs, exit from the loop
+            break;
+        }
+    }
+    return 0;
+}
+`````
