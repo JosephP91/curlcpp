@@ -165,6 +165,7 @@ int main() {
     // Creation of a sender. You should wait here using select to check if socket is ready to send.
     curl_sender<string> sender(easy);
     sender.send(request);
+    // Prints che sent bytes number.
     cout<<"Sent bytes: "<<sender.get_sent_bytes()<<endl;
     
     for(;;) {
@@ -174,7 +175,7 @@ int main() {
             curl_receiver<char,1024> receiver;
             // Receive the content on the easy handler
             receiver.receive(easy);
-            // Prin
+            // Prints the received bytes number.
             cout<<"Receiver bytes: "<<receiver.get_received_bytes()<<endl;
         } catch (curl_easy_exception error) {
             // If any errors occurs, exit from the loop
