@@ -5,10 +5,8 @@
  * Created on March 25, 2014, 11:02 PM
  */
 
-#include <algorithm>
 #include "curl_multi.h"
 
-using std::for_each;
 using curl::curl_multi;
 
 // Implementation of constructor.
@@ -78,19 +76,27 @@ void curl_multi::remove(const curl_easy &easy) {
     }
 }
 
-// Implementation of read_info method.
-void curl_multi::read_info() {
-    // Return a vector of infos
-}
-
 // Implementation of overloaded read_info method.
-void curl_multi::read_info(const curl_easy &easy) {
+unique_ptr<curl_multi::curl_message> curl_multi::get_info(const curl_easy &easy) {
     CURLMsg *message = nullptr;
     while ((message = curl_multi_info_read(this->curl,&this->message_queued))) {
         if (message->easy_handle == easy.get_curl()) {
-            // Find a way to return the info!!
+            unique_ptr<curl_multi::curl_message> ptr{new curl_multi::curl_message(message)};
+            return ptr;
         }
     }
+    return nullptr;
+}
+
+// Implementation of is_finished method.
+bool curl_multi::is_finished(const curl_easy &easy) {
+    CURLMsg *message = nullptr;
+    while ((message = curl_multi_info_read(this->curl,&this->message_queued))) {
+        if (message->easy_handle == easy.get_curl() and message->msg == CURLMSG_DONE) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // Implementation of perform method.
@@ -147,4 +153,10 @@ void curl_multi::timeout(long *timeout) {
     if (code != CURLM_OK) {
         throw curl_multi_exception(code,__FUNCTION__);
     }
+}
+
+// Implementation of curl_message constructor.
+curl_multi::curl_message::curl_message(const CURLMsg *msg) :
+    message(msg->msg), whatever(msg->data.whatever), code(msg->data.result) {
+    // ... nothing to do here ...
 }

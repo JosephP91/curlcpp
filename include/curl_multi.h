@@ -39,32 +39,26 @@ namespace curl {
              * The attributes will be initialized with constructors parameters. With
              * this constructor we provide a fast way to build this kind of object.
              */
-            curl_message(const CURLMSG, const curl_easy &, void *, const CURLcode);
+            curl_message(const CURLMsg *);
             /**
              * Inline getter method used to return
              * the message for a single handler.
              */
-            inline const CURLMSG get_message() const;
+            const CURLMSG get_message() const;
             /**
              * Inline getter method used to return
              * the code for a single handler.
              */
-            inline const CURLcode get_code() const;
-            /**
-             * Inline getter method used to return
-             * the handler for a single transfer.
-             */
-            inline const curl_easy get_easy() const;
+            const CURLcode get_code() const;
             /**
              * Inline getter method used to return
              * other data.
              */
-            inline const void *get_other() const;
+            const void *get_other() const;
         private:
-            CURLMSG message;
-            curl_easy easy;
-            void *whatever;
-            CURLcode code;
+            const CURLMSG message;
+            const void *whatever;
+            const CURLcode code;
         };
         /**
          * Simple default constructor. It is used to give a
@@ -131,22 +125,21 @@ namespace curl {
          */
         void remove(const curl_easy &);
         /**
-         * This method tries to obtain informations about the transfers currently
-         * active in the multi stack.
-         */
-        void read_info();
-        /**
          * This method tries to obtain informations regarding an easy handler in 
          * particular, that has been added to the multi handler. 
          */
-        void read_info(const curl_easy &);
+        unique_ptr<curl_message> get_info(const curl_easy &);
+        /**
+         * This method checks if the transfer on a curl_easy object is finished.
+         */
+        bool is_finished(const curl_easy &);
         /**
          * Perform all the operations. Go baby!
          */
         bool perform();
         /**
          * This method wraps the libcurl function that reads/writes available data
-         * given an actioni. Read the libcurl online documentation to learn more
+         * given an action. Read the libcurl online documentation to learn more
          * about this function!
          * TODO I would like to wrap curl_socket_t, but I don't know ....
          */
@@ -177,11 +170,11 @@ namespace curl {
         /**
          * Inline getter method used to return the currently active transfers.
          */
-        inline int get_active_transfers() const noexcept;
+        int get_active_transfers() const noexcept;
         /**
          * Inline getter method used to return the currently queued messages.
          */
-        inline int get_message_queued() const noexcept;
+        int get_message_queued() const noexcept;
     private:
         int message_queued;
         int active_transfers;
@@ -220,29 +213,18 @@ namespace curl {
         return this->active_transfers;
     }
 
-    // Implementation of curl_message constructor.
-    curl_multi::curl_message::curl_message(const CURLMSG message, const curl_easy &easy, void *whatever, const CURLcode code)
-        : message(message), easy(easy), whatever(whatever), code(code) {
-        // ... nothing to do here ...    
-    }
-
     // Implementation of curl_message get_message method.
-    const CURLMSG curl_multi::curl_message::get_message() const {
+    inline const CURLMSG curl_multi::curl_message::get_message() const {
         return this->message;
     }
 
     // Implementation of curl_message get_code method.
-    const CURLcode curl_multi::curl_message::get_code() const {
+    inline const CURLcode curl_multi::curl_message::get_code() const {
         return this->code;
     }
 
-    // Implementation of curl_message get_easy method.
-    const curl_easy curl_multi::curl_message::get_easy() const {
-        return this->easy;
-    }
-
     // Implementation of curl_message get_other method.
-    const void *curl_multi::curl_message::get_other() const {
+    inline const void *curl_multi::curl_message::get_other() const {
         return this->whatever;
     }
 }

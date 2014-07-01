@@ -13,6 +13,7 @@
 #include <exception>
 #include <utility>
 #include <vector>
+#include <algorithm>
 #include <curl/curl.h>
 
 using std::cout;
@@ -21,6 +22,7 @@ using std::string;
 using std::exception;
 using std::pair;
 using std::vector;
+using std::for_each;
 
 namespace curl {
     /**

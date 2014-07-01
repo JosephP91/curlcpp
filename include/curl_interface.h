@@ -9,14 +9,9 @@
 #define	curl_interface_H
 
 #include <curl/curl.h>
-#include <string>
 #include "curl_exception.h"
-#include "curl_info.h"
-
-using std::string;
 
 using curl::curl_exception;
-using curl::curl_info;
 
 namespace curl {
     /**
