@@ -19,7 +19,7 @@ make # -j2
 
 Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
-When linking, link against `curlcpp` (e.g.: gcc -std=c++11 example.cpp -o example -lcurlcpp).
+When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp).
 
 Submodule
 ---------
@@ -144,7 +144,7 @@ using curl::curl_easy;
 using curl::curl_sender;
 using curl::curl_receiver;
 
-int main() {
+int main(int argc, const char * argv[]) {
     // Simple request
     string request = "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n";
     
