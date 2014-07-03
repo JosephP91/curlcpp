@@ -134,21 +134,21 @@ namespace curl {
          */
         bool is_finished(const curl_easy &);
         /**
-         * Perform all the operations. Go baby!
+         * Perform all the operations. Go baby! If the performing operations
+         * has finished, the method returns true. Else, returns false. Check
+         * online documentation for further documentation.
          */
         bool perform();
         /**
          * This method wraps the libcurl function that reads/writes available data
          * given an action. Read the libcurl online documentation to learn more
          * about this function!
-         * TODO I would like to wrap curl_socket_t, but I don't know ....
          */
         bool socket_action(const curl_socket_t, const int);
         /**
          * This method wraps the libcurl function that extracts file descriptor 
          * information from the multi handler.
          * Read the libcurl online documentation to learn more about this function.
-         * TODO I would like to wrap fd_set in curl_file_descriptor. We'll see ...
          */
         void set_fd(fd_set *, fd_set *, fd_set *, int *);
         /**

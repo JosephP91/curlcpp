@@ -108,12 +108,16 @@ using std::ofstream;
 using curl::curl_easy;
 
 int main(int argc, const char * argv[]) {
-    
-    ofstream myfile;
     // Create a file
+    ofstream myfile;
     myfile.open ("/Users/Giuseppe/Desktop/test.txt");
+    // Create a writer to handle the stream
+    
+    curl_writer(myfile);
     // Pass it to the easy constructor and watch the content returned in that file!
-    curl_easy easy(myfile);
+    curl_easy easy(writer);
+    
+    // Add some option to the easy handle
     easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
     easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
     try {

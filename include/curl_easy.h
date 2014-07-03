@@ -17,14 +17,15 @@
 
 #include "curl_interface.h"
 #include "curl_pair.h"
+#include "curl_writer.h"
 
 using std::vector;
 using std::list;
 using std::for_each;
 using std::unique_ptr;
-using std::ostream;
 
 using curl::curl_pair;
+using curl::curl_writer;
 using curl::curl_interface;
 using curl::curl_easy_exception;
 
@@ -46,7 +47,7 @@ namespace curl  {
          * stream where they want to put the output of the libcurl
          * operations.
          */
-        explicit curl_easy(ostream &);
+        explicit curl_easy(curl_writer &);
         /**
          * This overloaded constructor allows users to specify a flag
          * used to initialize libcurl environment.
@@ -56,7 +57,7 @@ namespace curl  {
          * This overloaded constructor allows to specify the environment
          * initialization flags and a stream where to put libcurl output.
          */
-        curl_easy(const long, ostream &);
+        curl_easy(const long, curl_writer &);
         /**
          * Copy constructor to handle pointer copy. Internally, it uses
          * a function which duplicates the easy handler.
@@ -120,7 +121,8 @@ namespace curl  {
         void unescape(string &);
         /**
          * This fuctions performs all the operations that user has specified
-         * with the add methods.
+         * with the add methods. If the performing operationd has finished
+         * the method returns true. Else, returns false.
          */
         void perform();
         /**

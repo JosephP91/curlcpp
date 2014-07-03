@@ -9,34 +9,25 @@
 
 using curl::curl_easy;
 
-// Default memory write callback.
-namespace {
-    size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
-        const size_t realsize = size * nmemb;
-        ostream* const mem = static_cast<ostream*>(userp);
-        mem->write(static_cast<const char*>(contents), realsize);
-        return realsize;
-    }
-}
-
 // Implementation of default constructor.
 curl_easy::curl_easy() : curl_interface() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void *)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
-    this->add(curl_pair<CURLoption, void *>(CURLOPT_WRITEDATA, static_cast<void*>(&cout)));
+    curl_writer writer;
+    this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+    this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of default constructor.
-curl_easy::curl_easy(ostream &outstream) : curl_interface() {
+curl_easy::curl_easy(curl_writer &writer) : curl_interface() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void*)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
-    this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(&outstream)));
+    this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+    this->add(curl_pair<CURLoption,void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of overridden constructor.
@@ -45,18 +36,19 @@ curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void *)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
-    this->add(curl_pair<CURLoption, void *>(CURLOPT_WRITEDATA, static_cast<void*>(&cout)));
+    curl_writer writer;
+    this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+    this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of overridden constructor.
-curl_easy::curl_easy(const long flag, ostream &outstream) : curl_interface(flag) {
+curl_easy::curl_easy(const long flag, curl_writer &writer) : curl_interface(flag) {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void*)>(CURLOPT_WRITEFUNCTION, &write_memory_callback));
-    this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(&outstream)));
+    this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void*)>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+    this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of copy constructor to respect the rule of three.
