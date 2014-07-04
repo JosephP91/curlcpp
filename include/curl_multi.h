@@ -125,8 +125,13 @@ namespace curl {
          */
         void remove(const curl_easy &);
         /**
-         * This method tries to obtain informations regarding an easy handler in 
-         * particular, that has been added to the multi handler. 
+         * This method tries to obtain informations about all the handlers added
+         * to the multi handler.
+         */
+        vector<unique_ptr<curl_message>> get_info();
+        /**
+         * This method tries to obtain informations regarding an easy handler 
+         * that has been added to the multi handler.
          */
         unique_ptr<curl_message> get_info(const curl_easy &);
         /**
@@ -150,7 +155,7 @@ namespace curl {
          * information from the multi handler.
          * Read the libcurl online documentation to learn more about this function.
          */
-        void set_fd(fd_set *, fd_set *, fd_set *, int *);
+        void set_descriptors(fd_set *, fd_set *, fd_set *, int *);
         /**
          * This function polls on all file descriptors used by the curl easy handles
          * contained in the given multi handle set.

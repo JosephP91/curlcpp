@@ -76,7 +76,17 @@ void curl_multi::remove(const curl_easy &easy) {
     }
 }
 
-// Implementation of overloaded read_info method.
+// Implementation of get_info method.
+vector<unique_ptr<curl_multi::curl_message>> curl_multi::get_info() {
+    vector<unique_ptr<curl_multi::curl_message>> infos;
+    CURLMsg *message = nullptr;
+    while ((message = curl_multi_info_read(this->curl,&this->message_queued))) {
+        infos.push_back(unique_ptr<curl_multi::curl_message>(new curl_multi::curl_message(message)));
+    }
+    return infos;
+}
+
+// Implementation of overloaded get_info method.
 unique_ptr<curl_multi::curl_message> curl_multi::get_info(const curl_easy &easy) {
     CURLMsg *message = nullptr;
     while ((message = curl_multi_info_read(this->curl,&this->message_queued))) {
@@ -124,7 +134,7 @@ bool curl_multi::socket_action(const curl_socket_t sockfd, const int ev_bitmask)
 }
 
 // Implementation of set_fd method.
-void curl_multi::set_fd(fd_set *read, fd_set *write, fd_set *exec, int *max_fd) {
+void curl_multi::set_descriptors(fd_set *read, fd_set *write, fd_set *exec, int *max_fd) {
     const CURLMcode code = curl_multi_fdset(this->curl,read,write,exec,max_fd);
     if (code != CURLM_OK) {
         throw curl_multi_exception(code,__FUNCTION__);
