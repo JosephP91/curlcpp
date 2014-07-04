@@ -113,7 +113,7 @@ int main(int argc, const char * argv[]) {
     myfile.open ("/Users/Giuseppe/Desktop/test.txt");
     // Create a writer to handle the stream
     
-    curl_writer(myfile);
+    curl_writer writer(myfile);
     // Pass it to the easy constructor and watch the content returned in that file!
     curl_easy easy(writer);
     
