@@ -133,8 +133,7 @@ namespace curl {
             ++i;
         }
         curl_slist_free_all(ptr);
-        unique_ptr<vector<string>> ptr_infos{new vector<string>(infos)};
-        return ptr_infos;
+        return unique_ptr<vector<string>>{new vector<string>(infos)};
     }
 }
 
