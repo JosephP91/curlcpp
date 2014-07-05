@@ -20,7 +20,7 @@ namespace curl {
      * has in common with each other.
      */
     template<class T> class curl_interface {
-    public:
+    protected:
         /**
          * The default constructor will initializes the curl
          * environment with the default flag.
