@@ -8,19 +8,14 @@
 #ifndef curl_easy_H
 #define	curl_easy_H
 
-#include <vector>
-#include <list>
 #include <algorithm>
 #include <curl/curl.h>
 #include <memory>
-#include <ostream>
 
 #include "curl_interface.h"
 #include "curl_pair.h"
 #include "curl_writer.h"
 
-using std::vector;
-using std::list;
 using std::for_each;
 using std::unique_ptr;
 

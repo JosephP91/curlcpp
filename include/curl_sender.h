@@ -9,7 +9,6 @@
 #ifndef __curlcpp__curl_sender__
 #define __curlcpp__curl_sender__
 
-#include <iostream>
 #include "curl_easy.h"
 
 using curl::curl_easy;

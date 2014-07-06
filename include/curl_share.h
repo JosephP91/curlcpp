@@ -8,13 +8,9 @@
 #ifndef __curlcpp__curl_share__
 #define __curlcpp__curl_share__
 
-#include <vector>
-#include <list>
 #include "curl_interface.h"
 #include "curl_pair.h"
 
-using std::vector;
-using std::list;
 using curl::curl_interface;
 using curl::curl_pair;
 using curl::curl_share_exception;
@@ -46,6 +42,10 @@ namespace curl {
          * more objects of this class.
          */
         curl_share &operator=(const curl_share &);
+        /**
+         * The destructor will free the share handler previously 
+         * allocated.
+         */
         ~curl_share() noexcept;
         /**
          * Add method used to add options to the share handle.

@@ -50,20 +50,6 @@ curl_header::~curl_header() noexcept {
     }
 }
 
-// Implementation of add method.
-void curl_header::add(const vector<string> &headers) {
-    for_each(headers.begin(),headers.end(),[this](const string header) {
-        this->add(header);
-    });
-}
-
-// Implementation of add overloaded method.
-void curl_header::add(const list<string> &headers) {
-    for_each(headers.begin(),headers.end(),[this](const string header) {
-        this->add(header);
-    });
-}
-
 // Implementation of add overloaded method.
 void curl_header::add(const string header) {
     this->headers = curl_slist_append(this->headers,header.c_str());

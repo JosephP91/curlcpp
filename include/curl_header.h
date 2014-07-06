@@ -8,15 +8,11 @@
 #ifndef curl_header_H
 #define	curl_header_H
 
-#include <vector>
 #include <string>
-#include <list>
 #include <initializer_list>
 #include <curl/curl.h>
 
 using std::string;
-using std::vector;
-using std::list;
 using std::initializer_list;
 
 namespace curl {
@@ -55,15 +51,10 @@ namespace curl {
          */
         void add(const string);
         /**
-         * This method allows users to add headers specifying a vector
-         * of strings.
+         * This method allows users to add headers specifying an iterable
+         * data structure containing the headers to add.
          */
-        void add(const vector<string> &);
-        /**
-         * This method allows users to add headers specifying a list
-         * of strings.
-         */
-        void add(const list<string> &);
+        template<typename Iterator> void add(Iterator, const Iterator);
         /**
          * Simple getter method that returns the pointer to the headers
          * list.
@@ -82,6 +73,13 @@ namespace curl {
     // Implementation of copy constructor.
     inline curl_header::curl_header(const curl_header &header) : headers(nullptr) {
         *this = header;
+    }
+    
+    // Implementation of overloaded add method.
+    template<typename Iterator> void curl_header::add(Iterator begin, const Iterator end) {
+        for (; begin != end; ++begin) {
+            this->add(*begin);
+        }
     }
 }
 

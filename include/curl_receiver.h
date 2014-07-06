@@ -9,7 +9,6 @@
 #ifndef __curlcpp__curl_receiver__
 #define __curlcpp__curl_receiver__
 
-#include <iostream>
 #include <array>
 #include "curl_easy.h"
 
