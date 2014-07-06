@@ -52,15 +52,11 @@ namespace curl {
          */
         template<typename T> void add(const curl_pair<CURLSHoption,T> &);
         /**
-         * Overloaded add method used to add a vector of options to
-         * the share handle.
+         * Allows users to specify a list of options for the current
+         * easy handler. In this way, you can specify any iterable data
+         * structure.
          */
-        template<typename T> void add(const vector<curl_pair<CURLSHoption,T>> &);
-        /**
-         * Overloaded add method used to add a list of options to share
-         * handle.
-         */
-        template<typename T> void add(const list<curl_pair<CURLSHoption,T>> &);
+        template<typename Iterator> void add(Iterator, const Iterator);
     private:
         CURLSH *curl;
     };
@@ -82,17 +78,12 @@ namespace curl {
             throw curl_share_exception(code,__FUNCTION__);
         }
     }
-    // Implementation of overloaded method add
-    template<typename T> void curl_share::add(const vector<curl_pair<CURLSHoption,T>> &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](const curl_pair<CURLSHoption,T> option) {
-            this->add(option);
-        });
-    }
-    // Implementation of overloaded method add
-    template<typename T> void curl_share::add(const list<curl_pair<CURLSHoption,T> > &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](const curl_pair<CURLSHoption,T> option) {
-            this->add(option);
-        });
+    
+    // Implementation of overloaded add method.
+    template<typename Iterator> void curl_share::add(Iterator begin, const Iterator end) {
+        for (; begin != end; ++begin) {
+            this->add(*begin);
+        }
     }
 }
 

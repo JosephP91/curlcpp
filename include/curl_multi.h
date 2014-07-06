@@ -95,31 +95,17 @@ namespace curl {
          */
         template<typename T> void add(const curl_pair<CURLMoption,T> &);
         /**
-         * Overloaded add method. Allows users to specify a vector of
-         * options to add to the multi handler.
+         * Allows users to specify a list of options for the current
+         * easy handler. In this way, you can specify any iterable data
+         * structure.
          */
-        template<typename T> void add(const vector<curl_pair<CURLMoption,T>> &);
-        /**
-         * Overloaded add method. Allows users to specify a list of options
-         * to add to the multi handler.
-         */
-        template<typename T> void add(const list<curl_pair<CURLMoption,T>> &);
+        template<typename Iterator> void add(Iterator, const Iterator);
         /**
          * Overloaded add method. Allows users to specify an easy handler
          * to add to the multi handler, to perform more transfers at the same
          * time.
          */
         void add(const curl_easy &);
-        /**
-         * Overloaded add method. Allows users to specify a vector of easy handlers
-         * to add to the multi handler, to perform more transfers at the same time.
-         */
-        void add(const vector<curl_easy> &);
-        /**
-         * Overloaded add method. Allows users to specify a list of easy handlers
-         * to add to the multi handler, to perform more transfers at the samee time.
-         */
-        void add(const list<curl_easy> &);
         /**
          * This method allows to remove an easy handler from the multi handler.
          */
@@ -194,18 +180,11 @@ namespace curl {
         }
     }
     
-    // Implementation of add overloaded method
-    template<typename T> void curl_multi::add(const vector<curl_pair<CURLMoption,T>> &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLMoption,T> option) {
-            this->add(option);
-        });
-    }
-    
-    // Implementation of add overloaded method
-    template<typename T> void curl_multi::add(const list<curl_pair<CURLMoption,T>> &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLMoption,T> option) {
-            this->add(option);
-        });
+    // Implementation of overloaded add method.
+    template<typename Iterator> void curl_multi::add(Iterator begin, const Iterator end) {
+        for (; begin != end; ++begin) {
+            this->add(*begin);
+        }
     }
 
     // Implementation of get_active_transfers method.

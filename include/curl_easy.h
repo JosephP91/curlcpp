@@ -83,15 +83,11 @@ namespace curl  {
          */
         template<typename T> void add(const curl_pair<CURLoption,T>);
         /**
-         * Allows users to specify a vector of curl_pair options for the 
-         * current easy handler.
+         * Allows users to specify a list of options for the current
+         * easy handler. In this way, you can specify any iterable data
+         * structure.
          */
-        template<typename T> void add(const vector<curl_pair<CURLoption,T>> &);
-        /**
-         * Allows users to specify a list of curl_pair options for the
-         * current easy handler.
-         */
-        template<typename T> void add(const list<curl_pair<CURLoption,T>> &);
+        template<typename Iterator> void add(Iterator, const Iterator);
         /**
          * This method allows users to request internal information from
          * the curl session. I reccomend to read online documentation for
@@ -139,6 +135,13 @@ namespace curl  {
         CURL *curl;
     };
     
+    // Implementation of overloaded add method.
+    template<typename Iterator> void curl_easy::add(Iterator begin, const Iterator end) {
+        for (; begin != end; ++begin) {
+            this->add(*begin);
+        }
+    }
+    
     // Implementation of add method.
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
@@ -146,21 +149,7 @@ namespace curl  {
             throw curl_easy_exception(code,__FUNCTION__);
         }
     }
-    
-    // Implementation of add overloaded method.
-    template<typename T> void curl_easy::add(const vector<curl_pair<CURLoption,T>> &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) {
-            this->add(option);
-        });
-    }
-    
-    // Implementation of add overloaded method.
-    template<typename T> void curl_easy::add(const list<curl_pair<CURLoption,T> > &pairs) {
-        for_each(pairs.begin(),pairs.end(),[this](curl_pair<CURLoption,T> option) {
-            this->add(option);
-        });
-    }
-    
+
     // Implementation of get_session_info method.
     template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
         // Use a unique_ptr to automatic destroy the memory reserved with new when the pointer goes out of scope.

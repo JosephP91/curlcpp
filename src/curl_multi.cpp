@@ -54,20 +54,6 @@ void curl_multi::add(const curl_easy &easy) {
     }
 }
 
-// Implementation of overloaded add method for a vector of easy handlers.
-void curl_multi::add(const vector<curl_easy> &easy) {
-    for_each(easy.begin(),easy.end(),[this](curl_easy handler) {
-        this->add(handler);
-    });
-}
-
-// Implementation of overloaded add method for a list of easy handlers.
-void curl_multi::add(const list<curl_easy> &easy) {
-    for_each(easy.begin(),easy.end(),[this](curl_easy handler) {
-        this->add(handler);
-    });
-}
-
 // Implementation of remove for easy handlers.
 void curl_multi::remove(const curl_easy &easy) {
     const CURLMcode code = curl_multi_remove_handle(this->curl,easy.get_curl());
