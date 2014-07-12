@@ -1,8 +1,6 @@
-/* 
+/**
  * File:   curl_multi.cpp
- * Author: Giuseppe
- * 
- * Created on March 25, 2014, 11:02 PM
+ * Author: Giuseppe Persico
  */
 
 #include "curl_multi.h"

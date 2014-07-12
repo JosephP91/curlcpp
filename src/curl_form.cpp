@@ -1,9 +1,7 @@
-//
-//  curl_form.cpp
-//  curlcpp
-//
-//  Created by Giuseppe Persico on 09/06/14.
-//
+/**
+ * File:   curl_form.cpp
+ * Author: Giuseppe Persico
+ */
 
 #include <cstring>
 #include "curl_form.h"

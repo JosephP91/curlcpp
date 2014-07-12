@@ -1,9 +1,7 @@
-//
-//  curl_exception.cpp
-//  curlcpp
-//
-//  Created by Giuseppe Persico on 02/06/14.
-//
+/**
+ * File:   curl_exception.cpp
+ * Author: Giuseppe Persico
+ */
 
 #include "curl_exception.h"
 
@@ -18,6 +16,6 @@ curl_exception::curl_exception(const string error, const string fun_name) {
 }
 
 // Implementation of destructor.
-curl_exception::~curl_exception() throw() {
+curl_exception::~curl_exception() noexcept {
     // ... nothing to do here ...
 }

@@ -1,9 +1,7 @@
-//
-//  curl_share.cpp
-//  curlcpp
-//
-//  Created by Giuseppe Persico on 30/03/14.
-//
+/**
+ * File:   curl_share.cpp
+ * Author: Giuseppe Persico
+ */
 
 #include "curl_share.h"
 

@@ -1,8 +1,6 @@
-/* 
+/**
  * File:   curl_header.cpp
- * Author: Giuseppe
- * 
- * Created on March 25, 2014, 10:45 PM
+ * Author: Giuseppe Persico
  */
 
 #include "curl_header.h"

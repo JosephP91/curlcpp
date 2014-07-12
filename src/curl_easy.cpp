@@ -1,8 +1,6 @@
-/* 
+/**
  * File:   curl_easy.cpp
  * Author: Giuseppe Persico
- * 
- * Created on March 25, 2014, 10:54 PM
  */
 
 #include "curl_easy.h"

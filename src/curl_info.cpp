@@ -1,9 +1,7 @@
-//
-//  curl_info.cpp
-//  curlcpp
-//
-//  Created by Giuseppe Persico on 30/03/14.
-//
+/**
+ * File:   curl_info.cpp
+ * Author: Giuseppe Persico
+ */
 
 #include "curl_info.h"
 

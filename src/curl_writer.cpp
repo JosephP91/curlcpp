@@ -1,10 +1,7 @@
-//
-//  curl_writer.cpp
-//  curlcpp
-//
-//  Created by Giuseppe Persico on 03/07/14.
-//  Copyright (c) 2014 Giuseppe Persico. All rights reserved.
-//
+/**
+ * File:   curl_writer.cpp
+ * Author: Giuseppe Persico
+ */
 
 #include "curl_writer.h"
 
