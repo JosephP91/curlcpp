@@ -56,7 +56,7 @@ curl_easy::curl_easy(const curl_easy &easy) : curl(nullptr) {
     this->curl = curl_easy_duphandle(easy.curl);
 }
 
-// Impementation of assignment operator to perform a deep copy.
+// Implementation of assignment operator to perform a deep copy.
 curl_easy &curl_easy::operator=(const curl_easy &easy) {
     if (this == &easy) {
         return *this;

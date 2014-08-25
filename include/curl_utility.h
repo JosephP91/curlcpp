@@ -25,14 +25,14 @@ namespace curl {
          * This method returns the number of seconds since the Epoch, 
          * January 1st 1970 00:00:00 in the UTC time zone, for the date
          * and time that the datestring parameter specifies. Check the
-         * online documentation for more informations about the datetime
+         * online documentation for more information about the datetime
          * parameter.
          */
         static const time_t get_date(const string);
     private:
         /**
          * Build an object of this type have no sense. So let's hide
-         * the costructor.
+         * the constructor.
          */
         curl_utility() {};
     };

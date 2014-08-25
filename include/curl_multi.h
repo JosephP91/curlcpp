@@ -45,9 +45,9 @@ namespace curl {
     class curl_multi : public curl_interface<CURLMcode> {
     public:
         /**
-         * The multi interface gives users the opportunity to get informations about
-         * transfers. These informations are wrapped in the following class. In this
-         * way users can access to these informations in an easy and efficiently way.
+         * The multi interface gives users the opportunity to get information about
+         * transfers. This information is wrapped in the following class. In this
+         * way users can access to these information in an easy and efficiently way.
          * This class is nested because these messages have sense just when using the
          * multi interface.
          */
@@ -93,7 +93,7 @@ namespace curl {
          */
         explicit curl_multi(const long);
         /**
-         * Copy constuctor to perform a correct copy of the curl 
+         * Copy constructor to perform a correct copy of the curl 
          * handler and attributes.
          */
         curl_multi(const curl_multi &);
@@ -129,12 +129,12 @@ namespace curl {
          */
         void remove(const curl_easy &);
         /**
-         * This method tries to obtain informations about all the handlers added
+         * This method tries to obtain information about all the handlers added
          * to the multi handler.
          */
         vector<unique_ptr<curl_message>> get_info();
         /**
-         * This method tries to obtain informations regarding an easy handler 
+         * This method tries to obtain information regarding an easy handler 
          * that has been added to the multi handler.
          */
         unique_ptr<curl_message> get_info(const curl_easy &);
@@ -210,7 +210,7 @@ namespace curl {
         return this->active_transfers;
     }
 
-    // Implementation of get_message_queueed method.
+    // Implementation of get_message_queued method.
     inline int curl_multi::get_message_queued() const noexcept {
         return this->active_transfers;
     }

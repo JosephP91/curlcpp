@@ -48,7 +48,7 @@ namespace curl {
          */
         void send(const T, const size_t);
         /**
-         * Simple getter method that returns the sents byte number.
+         * Simple getter method that returns sent's current byte number.
          */
         size_t get_sent_bytes() const;
     private:
@@ -56,7 +56,7 @@ namespace curl {
         size_t _sent_bytes;
     };
     
-    // Implementatino of constructor.
+    // Implementation of constructor.
     template<class T> curl_sender<T>::curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {
         // ... nothing to do here ...
     }
@@ -98,7 +98,7 @@ namespace curl {
             }
         }
         /**
-         * Simple getter method that returns the sents byte number.
+         * Simple getter method that returns sent's current byte number.
          */
         inline size_t get_sent_bytes() const {
             return _sent_bytes;

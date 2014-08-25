@@ -44,7 +44,7 @@ using std::for_each;
 
 namespace curl {
     /**
-     * This class rapresent a custom exception for libcurl errors. 
+     * This class represents a custom exception for libcurl errors. 
      * If a function throws an error, its name will be added to a
      * vector (treated like a stack, because if I had used a stack,
      * to print it, I should have to remove all the elements), so
@@ -57,7 +57,7 @@ namespace curl {
          */
         curl_exception(const string, const string);
         /**
-         * The destructor, in this case, doesen't do anything.
+         * The destructor, in this case, doesn't do anything.
          */
         ~curl_exception() noexcept;
         using exception::what;
@@ -91,31 +91,31 @@ namespace curl {
     }
     
     /**
-     * Derived class used to rapresent a condition of error returned by the easy
+     * Derived class used to represents a condition of error returned by the easy
      * interface functions.
      */
     class curl_easy_exception : public curl_exception {
     public:
         /**
          * This constructor allows to specify a custom error message and the method name where
-         * the exeption has been thrown.
+         * the exception has been thrown.
          */
         curl_easy_exception(const string error, const string method) : curl_exception(error,method) {}
         /**
-         * The constructor will transfrom a CURLcode error in a proper error message.
+         * The constructor will transform a CURLcode error in a proper error message.
          */
         curl_easy_exception(const CURLcode code, const string method) : curl_exception(curl_easy_strerror(code),method) {}
     };
     
     /**
-     * Derived class used to rapresent a condition of error returned by the multi
+     * Derived class used to represents a condition of error returned by the multi
      * interface functions.
      */
     class curl_multi_exception : public curl_exception {
     public:
         /**
          * This constructor allows to specify a custom error message and the method name where
-         * the exeption has been thrown.
+         * the exception has been thrown.
          */
         curl_multi_exception(const string error, const string method) : curl_exception(error,method) {}
         /**
@@ -125,14 +125,14 @@ namespace curl {
     };
     
     /**
-     * Derived class used to rapresent a condition of error returned by the share
+     * Derived class used to represents a condition of error returned by the share
      * interface functions.
      */
     class curl_share_exception : public curl_exception {
     public:
         /**
          * This constructor allows to specify a custom error message and the method name where
-         * the exeption has been thrown.
+         * the exception has been thrown.
          */
         curl_share_exception(const string error, const string method) : curl_exception(error,method) {}
         /**

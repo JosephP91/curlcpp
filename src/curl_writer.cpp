@@ -47,7 +47,7 @@ ostream *curl_writer::get_stream() const {
     return _stream_ptr;
 }
 
-// Impementation of get_function method.
+// Implementation of get_function method.
 curlcpp_writer_type curl_writer::get_function() const {
     return _writer_ptr;
 }

@@ -30,7 +30,7 @@
 
 using std::ostream;
 
-// Let's typedef this big boy to enheance code readability.
+// Let's typedef this big boy to enhance code readability.
 typedef size_t (*curlcpp_writer_type)(void *, size_t, size_t, void *);
 
 namespace curl {
@@ -53,7 +53,7 @@ namespace curl {
          */
         curl_writer(ostream &);
         /**
-         * This overloaed constructor allows users to specify a writer
+         * This overloaded constructor allows users to specify a writer
          * callback function used specify how to write something on the
          * the default stream which is std::cout;
          */
@@ -64,7 +64,7 @@ namespace curl {
          */
         curl_writer(ostream &, curlcpp_writer_type);
         /**
-         * Simple getter method that returns the stream specifyed in the
+         * Simple getter method that returns the stream specified in the
          * constructor.
          */
         ostream *get_stream() const;

@@ -35,7 +35,7 @@ using std::initializer_list;
 
 namespace curl {
     /**
-     * This class rapresent a generic header. It allows user to add
+     * This class represents a generic header. It allows user to add
      * headers without caring about deallocation of resources.
      */
     class curl_header {
