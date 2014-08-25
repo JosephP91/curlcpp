@@ -16,7 +16,7 @@ curl_header::curl_header() : size(0), headers(nullptr) {
     // ... nothing to do here ...
 }
 
-// Implementation of initializer list constructor.
+// Implementation of the list constructor's initialize method.
 curl_header::curl_header(initializer_list<string> headers) {
     for_each(headers.begin(),headers.end(),[this](const string header) {
         this->add(header);

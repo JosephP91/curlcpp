@@ -35,7 +35,7 @@ using std::list;
 
 namespace curl {
     /**
-     * This class rapresent a structure that provides informations about various
+     * This class represents a structure that provides information about various
      * features in the running version of libcurl.
      */
     class curl_info {
@@ -52,7 +52,7 @@ namespace curl {
         explicit curl_info(const CURLversion);
         /**
          * Returns a string that shows what host information that this
-         * libcurl was buildt for.
+         * libcurl was built for.
          */
         const string get_host() const noexcept;
         /**
@@ -122,7 +122,7 @@ namespace curl {
         return string(this->version->libz_version);
     }
 
-    // Impementation of get_ares method.
+    // Implementation of get_ares method.
     inline const string curl_info::get_ares() const noexcept {
         return string(this->version->ares);
     }

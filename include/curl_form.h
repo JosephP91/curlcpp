@@ -39,7 +39,7 @@ using curl::curl_exception;
 
 namespace curl {
     /**
-     * This class simplify the creation of a form. It wraps all the libcurl
+     * This class simplifies the creation of a form. It wraps all the libcurl
      * functions used to add content to a form and to destroy it.
      */   
     class curl_form {
@@ -89,7 +89,7 @@ namespace curl {
          */
         void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,string> &); 
         /**
-         * Overloaded add method. This version is primarly used to upload multiple files. 
+         * Overloaded add method. This version is primarily used to upload multiple files. 
          * You can pass a vector of filenames to upload them.
          */
         void add(const curl_pair<CURLformoption,string> &, const vector<string> &);

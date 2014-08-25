@@ -41,20 +41,20 @@ namespace curl {
     public:
         /**
          * The default constructor simply initialize the attributes. In this
-         * case just the recieved bytes number is initialized to zero.
+         * case just the received bytes number is initialized to zero.
          */
         curl_receiver();
         /**
-         * In this case the destuctor does not have to release any resource.
+         * In this case the destructor does not have to release any resource.
          */
         ~curl_receiver() {}
         /**
-         * The recieve method wraps curl_easy_recv function and receives raw
+         * The receive method wraps curl_easy_recv function and receives raw
          * data from the established connection on an easy handler.
          */
         bool receive(curl_easy &);
         /**
-         * Simple getter method that returns the buffer with the recieved
+         * Simple getter method that returns the buffer with the received
          * data.
          */
         const array<T,SIZE> get_buffer() const;
@@ -69,7 +69,7 @@ namespace curl {
         size_t _recv_bytes;
     };
     
-    // Impementation of constructor.
+    // Implementation of constructor.
     template<typename T, const size_t SIZE> curl_receiver<T,SIZE>::curl_receiver() : _recv_bytes(0) {
         if (SIZE <= 0) {
             throw curl_exception("Buffer size can not be less or equal to zero",__FUNCTION__);
@@ -88,7 +88,7 @@ namespace curl {
         return true;
     }
     
-    // Implementation of get_buffeer method.
+    // Implementation of get_buffer method.
     template<typename T, const size_t SIZE> inline const array<T,SIZE> curl_receiver<T,SIZE>::get_buffer() const {
         return _buffer;
     }

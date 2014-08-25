@@ -83,7 +83,7 @@ namespace curl  {
         curl_easy &operator=(const curl_easy &);
         /**
          * Override of equality operator. It has been overridden to check
-         * wheather two curl_easy object are equal.
+         * whether two curl_easy object are equal.
          */
         bool operator==(const curl_easy &) const;
         /**
@@ -103,8 +103,8 @@ namespace curl  {
         template<typename Iterator> void add(Iterator, const Iterator);
         /**
          * This method allows users to request internal information from
-         * the curl session. I reccomend to read online documentation for
-         * further informations.
+         * the curl session. I recommend to read online documentation for
+         * further information.
          */
         template<typename T> unique_ptr<T> get_info(const CURLINFO) const;
         /**
@@ -114,7 +114,7 @@ namespace curl  {
         unique_ptr<vector<string>> get_info(const CURLINFO) const;
         /**
          * Using this function, you can explicitly mark a running connection 
-         * to get paused, and you can unpause a connection that was previously
+         * to get paused, and you can resume a connection that was previously
          * paused.
          */
         void pause(const int);
@@ -129,8 +129,8 @@ namespace curl  {
          */
         void unescape(string &);
         /**
-         * This fuctions performs all the operations that user has specified
-         * with the add methods. If the performing operationd has finished
+         * This function performs all the operations that user has specified
+         * with the add methods. If the performing operation has finished
          * the method returns true. Else, returns false.
          */
         void perform();
@@ -165,7 +165,7 @@ namespace curl  {
 
     // Implementation of get_session_info method.
     template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
-        // Use a unique_ptr to automatic destroy the memory reserved with new when the pointer goes out of scope.
+        // Uses a unique_ptr to automatically destroy the memory reserved with new when the pointer goes out of scope.
         unique_ptr<T> ptr(new T);
         const CURLcode code = curl_easy_getinfo(this->curl,info,ptr.get());
         if (code != CURLE_OK) {
