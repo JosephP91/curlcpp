@@ -47,8 +47,8 @@ namespace curl {
         /**
          * The multi interface gives users the opportunity to get information about
          * transfers. This information is wrapped in the following class. In this
-         * way users can access to these information in an easy and efficiently way.
-         * This class is nested because these messages have sense just when using the
+         * way users can access this information in an easy and efficient way.
+         * This class is nested because these messages are only sent when using the
          * multi interface.
          */
         class curl_message {
@@ -82,13 +82,13 @@ namespace curl {
          * Simple default constructor. It is used to give a
          * default value to all the attributes and provide a
          * fast way to create an object of this type. It also
-         * initialize the curl environment with the default
+         * initializes the curl environment with the default
          * values.
          */
         curl_multi();
         /**
          * Overloaded constructor. Gives users the opportunity
-         * to initialize the entire curl environment using customs
+         * to initialize the entire curl environment using custom
          * options.
          */
         explicit curl_multi(const long);
@@ -125,7 +125,7 @@ namespace curl {
          */
         void add(const curl_easy &);
         /**
-         * This method allows to remove an easy handler from the multi handler.
+         * This method removes an easy handler from the multi handler.
          */
         void remove(const curl_easy &);
         /**
@@ -144,7 +144,7 @@ namespace curl {
         bool is_finished(const curl_easy &);
         /**
          * Perform all the operations. Go baby! If the performing operations
-         * has finished, the method returns true. Else, returns false. Check
+         * have finished, the method returns true. Else, returns false. Check
          * online documentation for further documentation.
          */
         bool perform();
@@ -171,7 +171,7 @@ namespace curl {
          */
         void assign(const curl_socket_t, void *); 
         /**
-         * If you are using the libcurl multi interface your should call this method
+         * If you are using the libcurl multi interface you should call this method
          * to figure out how long your application should wait for socket actions
          * - at most - before proceeding.
          */

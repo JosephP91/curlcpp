@@ -54,8 +54,8 @@ namespace curl {
         curl_writer(ostream &);
         /**
          * This overloaded constructor allows users to specify a writer
-         * callback function used specify how to write something on the
-         * the default stream which is std::cout;
+         * callback function used to specify how to write something on
+         * the default stream (which is std::cout;)
          */
         curl_writer(curlcpp_writer_type);
         /**

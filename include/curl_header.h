@@ -35,7 +35,7 @@ using std::initializer_list;
 
 namespace curl {
     /**
-     * This class represents a generic header. It allows user to add
+     * This class represents a generic header. It allows a user to add
      * headers without caring about deallocation of resources.
      */
     class curl_header {
@@ -92,7 +92,7 @@ namespace curl {
     inline curl_header::curl_header(const curl_header &header) : headers(nullptr) {
         *this = header;
     }
-    
+
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_header::add(Iterator begin, const Iterator end) {
         for (; begin != end; ++begin) {

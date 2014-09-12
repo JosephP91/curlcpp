@@ -67,8 +67,8 @@ namespace curl  {
          */
         explicit curl_easy(const long);
         /**
-         * This overloaded constructor allows to specify the environment
-         * initialization flags and a stream where to put libcurl output.
+         * This overloaded constructor specifies the environment
+         * initialization flags and an output stream for the libcurl output.
          */
         curl_easy(const long, curl_writer &);
         /**
@@ -77,17 +77,17 @@ namespace curl  {
          */
         curl_easy(const curl_easy &);
         /**
-         * Assignment operator used to perform assignment between object
+         * Assignment operator used to perform assignment between objects
          * of this class.
          */
         curl_easy &operator=(const curl_easy &);
         /**
          * Override of equality operator. It has been overridden to check
-         * whether two curl_easy object are equal.
+         * whether two curl_easy objects are equal.
          */
         bool operator==(const curl_easy &) const;
         /**
-         * The destructor will perform cleaning operations.
+         * The destructor will perform cleanup operations.
          */
         ~curl_easy() noexcept;
         /**
@@ -103,41 +103,39 @@ namespace curl  {
         template<typename Iterator> void add(Iterator, const Iterator);
         /**
          * This method allows users to request internal information from
-         * the curl session. I recommend to read online documentation for
+         * the curl session. I recommend reading online documentation for
          * further information.
          */
         template<typename T> unique_ptr<T> get_info(const CURLINFO) const;
         /**
          * get_info overloaded method. It it used when the second argument is
-         * of struct_slist * type.
+         * of type struct_slist*.
          */
         unique_ptr<vector<string>> get_info(const CURLINFO) const;
         /**
-         * Using this function, you can explicitly mark a running connection 
-         * to get paused, and you can resume a connection that was previously
-         * paused.
+         * Using this function, you can explicitly pause a running connection, 
+         * and you can resume a previously paused connection.
          */
         void pause(const int);
         /**
          * This function converts the given input string to an URL encoded
-         * string and returns that as a new allocated string.
+         * string and returns a newly allocated string.
          */
         void escape(string &);
         /**
          * This function converts the given URL encoded input string to a
-         * "plain string" and returns that in an allocated memory area. 
+         * "plain string" and returns a newly allocated string.
          */
         void unescape(string &);
         /**
-         * This function performs all the operations that user has specified
+         * This function performs all the operations a user has specified
          * with the add methods. If the performing operation has finished
-         * the method returns true. Else, returns false.
+         * the method returns true otherwise false.
          */
         void perform();
         /**
          * Re-initializes all options previously set on a specified CURL handle
-         * to the default values. This puts back the handle to the same state as
-         * it was in when it was just created with.
+         * to the default values. This puts the handle back to the initial state.
          */
         void reset() noexcept;
         /**
@@ -165,7 +163,6 @@ namespace curl  {
 
     // Implementation of get_session_info method.
     template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
-        // Uses a unique_ptr to automatically destroy the memory reserved with new when the pointer goes out of scope.
         unique_ptr<T> ptr(new T);
         const CURLcode code = curl_easy_getinfo(this->curl,info,ptr.get());
         if (code != CURLE_OK) {

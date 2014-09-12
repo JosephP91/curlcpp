@@ -62,7 +62,7 @@ namespace curl {
         ~curl_exception() noexcept;
         using exception::what;
         /**
-         * Override of exception's what method, used to returns
+         * Override of exception's what method, used to return
          * the vector of errors.
          */
         const vector<pair<string,string>> what();
@@ -73,7 +73,7 @@ namespace curl {
     private:
         /**
          * The error container must be static or will be cleared
-         * when an exceptions is thrown.
+         * when an exception is thrown.
          */
         static vector<pair<string,string>> traceback;
     };
@@ -91,7 +91,7 @@ namespace curl {
     }
     
     /**
-     * Derived class used to represents a condition of error returned by the easy
+     * Derived class represents an error condition returned by the easy
      * interface functions.
      */
     class curl_easy_exception : public curl_exception {
@@ -108,30 +108,30 @@ namespace curl {
     };
     
     /**
-     * Derived class used to represents a condition of error returned by the multi
+     * Derived class represents an error condition returned by the multi
      * interface functions.
      */
     class curl_multi_exception : public curl_exception {
     public:
         /**
-         * This constructor allows to specify a custom error message and the method name where
+         * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
         curl_multi_exception(const string error, const string method) : curl_exception(error,method) {}
         /**
-         * The constructor will transform a CURLMcode error in a proper error message.
+         * The constructor will transform a CURLMcode error to a proper error message.
          */
         curl_multi_exception(const CURLMcode code, const string method) : curl_exception(curl_multi_strerror(code),method) {}
     };
     
     /**
-     * Derived class used to represents a condition of error returned by the share
+     * Derived class used to represent an error condition returned by the share
      * interface functions.
      */
     class curl_share_exception : public curl_exception {
     public:
         /**
-         * This constructor allows to specify a custom error message and the method name where
+         * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
         curl_share_exception(const string error, const string method) : curl_exception(error,method) {}
