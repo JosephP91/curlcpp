@@ -46,8 +46,8 @@ namespace curl {
          */
         curl_info();
         /**
-         * Overloaded constructor that allows users to specify a specific
-         * version of libcurl.
+         * Overloaded constructor that allows users to specify the 
+         * libcurl version.
          */
         explicit curl_info(const CURLversion);
         /**

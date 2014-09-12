@@ -34,13 +34,13 @@ using curl::curl_easy;
 
 namespace curl {
     /**
-     * This class implement a receiver that allows users to receives raw
+     * This class implements a receiver that allow users to receive raw
      * data on an established connection on an easy handler.
      */
     template<class T, const size_t SIZE> class curl_receiver {
     public:
         /**
-         * The default constructor simply initialize the attributes. In this
+         * The default constructor simply initializes the attributes. In this
          * case just the received bytes number is initialized to zero.
          */
         curl_receiver();

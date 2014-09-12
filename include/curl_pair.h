@@ -43,7 +43,7 @@ namespace curl {
     /**
      * This is a class that wraps two objects: an option and the value for
      * that option. It's very useful when building forms or setting options
-     * for easy/multi/share handlers. It let you specify the libcurl option
+     * for easy/multi/share handlers. It lets you specify the libcurl option
      * and its value.
      */
     template<class T, class K> class curl_pair {
@@ -72,7 +72,7 @@ namespace curl {
         
     /**
      * Template specialization for C++ strings. Why do we need this? Because
-     * curl_pair must be passed to C functions that doesen't know how to
+     * curl_pair must be passed to C functions that don't know how to
      * handle C++ string type, so we can specialize curl_pair class in a
      * manner that its methods returns a const char *.
      */
@@ -141,7 +141,7 @@ namespace curl {
     template<class T> class curl_pair<T,curl_header> {
     public:
         /**
-         * Thw two parameters constructor gives users a fast way to build an object
+         * The two parameters constructor gives users a fast way to build an object
          * of this type.
          */
         curl_pair(const T option, const curl_header &value) : option(option), value(value) {}

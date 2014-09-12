@@ -33,19 +33,19 @@ using curl::curl_exception;
 
 namespace curl {
     /**
-     * This is class is a common interface for all the libcurl interfaces:
+     * This class is a common interface for all the libcurl interfaces:
      * easy, multi and share. It provides methods that these three interfaces
-     * has in common with each other.
+     * have in common with each other.
      */
     template<class T> class curl_interface {
     protected:
         /**
-         * The default constructor will initializes the curl
+         * The default constructor will initialize the curl
          * environment with the default flag.
          */
         curl_interface();
         /**
-         * Overloaded constuctor that initializes curl environment
+         * Overloaded constructor that initializes curl environment
          * with user specified flag.
          */
         explicit curl_interface(const long);
@@ -67,7 +67,7 @@ namespace curl {
     
     // Implementation of overloaded constructor.
     template<class T> curl_interface<T>::curl_interface(const long flag) {
-        const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
+        const CURLcode code = curl_global_init(flag);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
         }
