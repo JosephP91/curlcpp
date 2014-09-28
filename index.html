@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Curlcpp by JosephP91</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Curlcpp</h1>
+        <p>An object oriented C++ wrapper for CURL</p>
+
+        <p class="view"><a href="https://github.com/JosephP91/curlcpp">View the Project on GitHub <small>JosephP91/curlcpp</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/JosephP91/curlcpp/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/JosephP91/curlcpp/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/JosephP91/curlcpp">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>curlcpp is an object-oriented C++ wrapper for curl tool based on libcurl.</p>
+
+<p>curl is a command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMTP, SMTPS, Telnet and TFTP. curl supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, HTTP/2, cookies, user+password authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer resume, proxy tunneling and more</p>
+
+<p>If you want to know a bit more about curl, you should go on the official website and read about the three interfaces that curl implements: <a href="http://curl.haxx.se/">http://curl.haxx.se/</a></p>
+
+<h1>
+<a name="compile-and-link" class="anchor" href="#compile-and-link"><span class="octicon octicon-link"></span></a>Compile and link</h1>
+
+<h2>
+<a name="standalone" class="anchor" href="#standalone"><span class="octicon octicon-link"></span></a>Standalone</h2>
+
+<div class="highlight highlight-bash"><pre><span class="nb">cd </span>build
+cmake ..
+make <span class="c"># -j2</span>
+</pre></div>
+
+<p>Then add <code>&lt;curlcpp root&gt;/build/src/</code> to your library path and <code>&lt;curlcpp root&gt;/include/</code> to your include path.</p>
+
+<p>When linking, link against <code>curlcpp</code> (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp).</p>
+
+<h2>
+<a name="submodule" class="anchor" href="#submodule"><span class="octicon octicon-link"></span></a>Submodule</h2>
+
+<p>When using a git submodule and CMake-buildsystem, add the following lines to your <code>CMakeLists.txt</code>:</p>
+
+<pre><code>ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
+INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
+</code></pre>
+
+<h1>
+<a name="simple-usage-example" class="anchor" href="#simple-usage-example"><span class="octicon octicon-link"></span></a>Simple usage example</h1>
+
+<p>Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:</p>
+
+<div class="highlight highlight-c++"><pre><span class="cp">#include "curl_easy.h"</span>
+
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_easy</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">curl_easy</span> <span class="n">easy</span><span class="p">;</span>
+    <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_URL</span><span class="p">,</span><span class="s">"http://www.google.it"</span><span class="p">)</span> <span class="p">);</span>
+    <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span><span class="mi">1L</span><span class="p">));</span>
+    <span class="n">try</span> <span class="p">{</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">perform</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_easy_exception</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// If you want to get the entire error stack we can do:</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">();</span>
+        <span class="c1">// Otherwise we could print the stack like this:</span>
+        <span class="n">error</span><span class="p">.</span><span class="n">print_traceback</span><span class="p">();</span>
+        <span class="c1">// Note that the printing the stack will erase it</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Here's instead, the creation of an HTTPS POST login form:</p>
+
+<div class="highlight highlight-c++"><pre><span class="cp">#include "curl_easy.h"</span>
+<span class="cp">#include "curl_form.h"</span>
+
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_form</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_easy</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">curl_form</span> <span class="n">form</span><span class="p">;</span>
+    <span class="n">curl_easy</span> <span class="n">easy</span><span class="p">;</span>
+
+    <span class="c1">// Forms creation</span>
+    <span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLformoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">name_form</span><span class="p">(</span><span class="n">CURLFORM_COPYNAME</span><span class="p">,</span><span class="s">"user"</span><span class="p">);</span>
+    <span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLformoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">name_cont</span><span class="p">(</span><span class="n">CURLFORM_COPYCONTENTS</span><span class="p">,</span><span class="s">"you username here"</span><span class="p">);</span>
+    <span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLformoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">pass_form</span><span class="p">(</span><span class="n">CURLFORM_COPYNAME</span><span class="p">,</span><span class="s">"passw"</span><span class="p">);</span>
+    <span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLformoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">pass_cont</span><span class="p">(</span><span class="n">CURLFORM_COPYCONTENTS</span><span class="p">,</span><span class="s">"your password here"</span><span class="p">);</span>
+
+    <span class="n">try</span> <span class="p">{</span>
+        <span class="c1">// Form adding</span>
+        <span class="n">form</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">name_form</span><span class="p">,</span><span class="n">name_cont</span><span class="p">);</span>
+        <span class="n">form</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">pass_form</span><span class="p">,</span><span class="n">pass_cont</span><span class="p">);</span>
+
+        <span class="c1">// Add some options to our request</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_URL</span><span class="p">,</span><span class="s">"your url here"</span><span class="p">));</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span><span class="nb">false</span><span class="p">));</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="n">curl_form</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_HTTPPOST</span><span class="p">,</span><span class="n">form</span><span class="p">));</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">perform</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_easy_exception</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Print errors, if any</span>
+        <span class="n">error</span><span class="p">.</span><span class="n">print_traceback</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And if we would like to put the returned content in a file? Nothing easier than:</p>
+
+<div class="highlight highlight-c++"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include "curl_easy.h"</span>
+<span class="cp">#include &lt;fstream&gt;</span>
+
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">ofstream</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_easy</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// Create a file</span>
+    <span class="n">ofstream</span> <span class="n">myfile</span><span class="p">;</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">open</span> <span class="p">(</span><span class="s">"/Users/Giuseppe/Desktop/test.txt"</span><span class="p">);</span>
+    <span class="c1">// Create a writer to handle the stream</span>
+
+    <span class="n">curl_writer</span> <span class="n">writer</span><span class="p">(</span><span class="n">myfile</span><span class="p">);</span>
+    <span class="c1">// Pass it to the easy constructor and watch the content returned in that file!</span>
+    <span class="n">curl_easy</span> <span class="n">easy</span><span class="p">(</span><span class="n">writer</span><span class="p">);</span>
+
+    <span class="c1">// Add some option to the easy handle</span>
+    <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_URL</span><span class="p">,</span><span class="s">"http://www.google.it"</span><span class="p">)</span> <span class="p">);</span>
+    <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_FOLLOWLOCATION</span><span class="p">,</span><span class="mi">1L</span><span class="p">));</span>
+    <span class="n">try</span> <span class="p">{</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">perform</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_easy_exception</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// If you want to get the entire error stack we can do:</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">();</span>
+        <span class="c1">// Otherwise we could print the stack like this:</span>
+        <span class="n">error</span><span class="p">.</span><span class="n">print_traceback</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>I have implemented a sender and a receiver to make it easy to use send/receive without handling
+buffers. For example, a very simple send/receiver would be:</p>
+
+<div class="highlight highlight-c++"><pre><span class="cp">#include "curl_easy.h"</span>
+<span class="cp">#include "curl_form.h"</span>
+<span class="cp">#include "curl_pair.h"</span>
+<span class="cp">#include "curl_receiver.h"</span>
+<span class="cp">#include "curl_sender.h"</span>
+
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_form</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_easy</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_sender</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">curl</span><span class="o">::</span><span class="n">curl_receiver</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// Simple request</span>
+    <span class="n">string</span> <span class="n">request</span> <span class="o">=</span> <span class="s">"GET / HTTP/1.0</span><span class="se">\r\n</span><span class="s">Host: example.com</span><span class="se">\r\n\r\n</span><span class="s">"</span><span class="p">;</span>
+
+    <span class="c1">// Creation of easy object.</span>
+    <span class="n">curl_easy</span> <span class="n">easy</span><span class="p">;</span>
+    <span class="n">try</span> <span class="p">{</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_URL</span><span class="p">,</span><span class="s">"http://example.com"</span><span class="p">));</span>
+        <span class="c1">// Just connect</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">curl_pair</span><span class="o">&lt;</span><span class="n">CURLoption</span><span class="p">,</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="n">CURLOPT_CONNECT_ONLY</span><span class="p">,</span><span class="nb">true</span><span class="p">));</span>
+        <span class="n">easy</span><span class="p">.</span><span class="n">perform</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_easy_exception</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// If you want to get the entire error stack we can do:</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="n">string</span><span class="o">&gt;&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">();</span>
+        <span class="c1">// Print errors if any</span>
+        <span class="n">error</span><span class="p">.</span><span class="n">print_traceback</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Creation of a sender. You should wait here using select to check if socket is ready to send.</span>
+    <span class="n">curl_sender</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">sender</span><span class="p">(</span><span class="n">easy</span><span class="p">);</span>
+    <span class="n">sender</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+    <span class="c1">// Prints che sent bytes number.</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">"Sent bytes: "</span><span class="o">&lt;&lt;</span><span class="n">sender</span><span class="p">.</span><span class="n">get_sent_bytes</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(;;)</span> <span class="p">{</span>
+        <span class="c1">// You should wait here to check if socket is ready to receive</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="c1">// Create a receiver</span>
+            <span class="n">curl_receiver</span><span class="o">&lt;</span><span class="kt">char</span><span class="p">,</span><span class="mi">1024</span><span class="o">&gt;</span> <span class="n">receiver</span><span class="p">;</span>
+            <span class="c1">// Receive the content on the easy handler</span>
+            <span class="n">receiver</span><span class="p">.</span><span class="n">receive</span><span class="p">(</span><span class="n">easy</span><span class="p">);</span>
+            <span class="c1">// Prints the received bytes number.</span>
+            <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">"Receiver bytes: "</span><span class="o">&lt;&lt;</span><span class="n">receiver</span><span class="p">.</span><span class="n">get_received_bytes</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_easy_exception</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// If any errors occurs, exit from the loop</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/JosephP91">JosephP91</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
