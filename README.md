@@ -19,7 +19,11 @@ make # -j2
 
 Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
-When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp).
+When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).
+Or if you want run from terminal,
+
+g++ -std=c++11 example.cpp -L/home/arun/path/to/build/src/ -I/home/arun/path/to/include/ -lcurlcpp -lcurl 
+
 
 Submodule
 ---------
