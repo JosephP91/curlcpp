@@ -82,7 +82,7 @@ namespace curl {
          * The two parameters constructor gives users a fast way to 
          * build an object of this type.
          */
-        curl_pair(const T option, const string &value) : option(option), value(value) {};
+        curl_pair(const T option, const string &value) : option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
         /**
          * Simple method that returns the first field of the pair.
          */
