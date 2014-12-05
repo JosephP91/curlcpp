@@ -69,6 +69,34 @@ namespace curl {
         const T option;
         const K &value;
     };
+    
+    /**
+     * Template specialization for C++ strings and CURLformoption.
+     */
+    template<> class curl_pair<CURLformoption,string> {
+    public:
+        /**
+         * The two parameters constructor gives users a fast way to
+         * build an object of this type.
+         */
+        curl_pair(const CURLformoption option, const string &value) : option(option), value(value) {}
+        /**
+         * Simple method that returns the first field of the pair.
+         */
+        inline const CURLformoption first() const noexcept {
+            return this->option;
+        }
+        /**
+         * Simple method that returns the second field of the pair as
+         * a C string, so a const char *.
+         */
+        inline const char *second() const noexcept {
+            return this->value.c_str();
+        }
+    private:
+        const CURLformoption option;
+        const string &value;
+    };
         
     /**
      * Template specialization for C++ strings. Why do we need this? Because
