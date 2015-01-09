@@ -1,8 +1,8 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-SET(CURL_MIN_VERSION "7.28.0")
+cmake_minimum_required(VERSION 2.8)
+set(CURL_MIN_VERSION "7.28.0")
 
 # Setting up project
-PROJECT(CURLCPP)
+project(CURLCPP)
 
 
 # Add MacPorts
@@ -11,13 +11,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 # Checking for dependencies
-FIND_PACKAGE(CURL ${CURL_MIN_VERSION} REQUIRED)
+find_package(CURL ${CURL_MIN_VERSION} REQUIRED)
 
 # Set up include pathes
-INCLUDE_DIRECTORIES(${CURL_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
+include_directories(${CURL_INCLUDE_DIRS}
+  ${CURLCPP_SOURCE_DIR}/include)
 
 # Set up source directories
-ADD_SUBDIRECTORY(src)
+add_subdirectory(src)
 
 
