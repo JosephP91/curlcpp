@@ -20,4 +20,7 @@ include_directories(${CURL_INCLUDE_DIRS}
 # Set up source directories
 add_subdirectory(src)
 
+get_property(CURLCPP_LIB_LOCATION TARGET curlcpp PROPERTY LOCATION)
 
+configure_file(CMake/curlcppConfig.cmake.in
+  ${CURLCPP_BINARY_DIR}/curlcppConfig.cmake @ONLY)
