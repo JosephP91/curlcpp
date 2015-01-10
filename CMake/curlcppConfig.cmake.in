@@ -1,0 +1,5 @@
+# curlcppConfig.cmake - Configuration file for external projects.
+
+set(CURLCPP_INCLUDE_DIRS "@CURLCPP_SOURCE_DIR@/include")
+set(CURLCPP_LIBRARY_DIRS "@CURLCPP_BINARY_DIR@/src")
+set(CURLCPP_LIBRARIES "@CURLCPP_LIB_LOCATION@")
