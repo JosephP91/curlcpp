@@ -17,13 +17,13 @@ curl_header::curl_header() : size(0), headers(nullptr) {
 }
 
 // Implementation of the list constructor's initialize method.
-curl_header::curl_header(initializer_list<string> headers) {
+curl_header::curl_header(initializer_list<string> headers) : size(0), headers(nullptr) {
     for_each(headers.begin(),headers.end(),[this](const string header) {
         this->add(header);
     });
 }
 
-/** 
+/**
  * Implementation of assignment operator. The object has just been created, so its members have just
  * been loaded in memory, so we need to give a valid value to them (in this case just to "headers").
  */
