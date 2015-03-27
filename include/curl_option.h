@@ -23,42 +23,21 @@
  * SOFTWARE.
  */
 
-#include <type_traits>
 #include <string>
 #include "curl_pair.h"
 
 namespace curl {
-    namespace detail {
-        template <class V>
-        struct value_wrapper_t {
-            using type = V;
-        };
-
-        template <size_t N>
-        struct value_wrapper_t<const char[N]> {
-            using type = std::string;
-        };
-
-        template <size_t N>
-        struct value_wrapper_t<const wchar_t[N]> {
-            using type = std::string;
-        };
-
-        template <class V>
-        using Value_t = typename value_wrapper_t<V>::type;
-    }  // of namespace detail
-
     template <class V>
-    inline curl_pair<CURLoption, detail::Value_t<V>> 
+    inline curl_pair<CURLoption, V> 
         make_option(const CURLoption opt, const V& val)
     {
-        return curl_pair<CURLoption, detail::Value_t<V>>(opt, val);
+        return curl_pair<CURLoption, V>(opt, val);
     }
     
     template <class V>
-    inline curl_pair<CURLformoption, detail::Value_t<V>>
+    inline curl_pair<CURLformoption, V>
         make_formoption(const CURLformoption opt, const V& val)
     {
-        return curl_pair<CURLformoption, detail::Value_t<V>>(opt, val);
+        return curl_pair<CURLformoption, V>(opt, val);
     }
 }  // of namespace curl
