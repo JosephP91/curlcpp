@@ -41,7 +41,7 @@ curl_header &curl_header::operator=(const curl_header &header) {
 }
 
 // Implementation of destructor.
-curl_header::~curl_header() noexcept {
+curl_header::~curl_header() NOEXCEPT {
     if (this->headers != nullptr) {
         curl_slist_free_all(this->headers);
         this->headers = nullptr;

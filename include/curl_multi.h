@@ -106,7 +106,7 @@ namespace curl {
          * Destructor to deallocate all the resources using
          * libcurl.
          */
-        ~curl_multi() noexcept;
+        ~curl_multi() NOEXCEPT;
         /**
          * This method allows users to add an option to the multi
          * handler, using an object of curl_pair type.
@@ -179,11 +179,11 @@ namespace curl {
         /**
          * Inline getter method used to return the currently active transfers.
          */
-        int get_active_transfers() const noexcept;
+        int get_active_transfers() const NOEXCEPT;
         /**
          * Inline getter method used to return the currently queued messages.
          */
-        int get_message_queued() const noexcept;
+        int get_message_queued() const NOEXCEPT;
     private:
         int message_queued;
         int active_transfers;
@@ -206,12 +206,12 @@ namespace curl {
     }
 
     // Implementation of get_active_transfers method.
-    inline int curl_multi::get_active_transfers() const noexcept {
+    inline int curl_multi::get_active_transfers() const NOEXCEPT {
         return this->active_transfers;
     }
 
     // Implementation of get_message_queued method.
-    inline int curl_multi::get_message_queued() const noexcept {
+    inline int curl_multi::get_message_queued() const NOEXCEPT {
         return this->active_transfers;
     }
 

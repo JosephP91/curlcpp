@@ -18,7 +18,7 @@ curl_info::curl_info(const CURLversion version) {
 }
 
 // Implementation of get_protocols method.
-const list<string> curl_info::get_protocols() const noexcept {
+const list<string> curl_info::get_protocols() const NOEXCEPT {
     list<string> protocols;
     const char *const *const prot = this->version->protocols;
     unsigned int i = 0;

@@ -30,6 +30,7 @@
 #include <curl/curl.h>
 #include <memory>
 
+#include "curl_config.h"
 #include "curl_interface.h"
 #include "curl_pair.h"
 #include "curl_writer.h"
@@ -89,7 +90,7 @@ namespace curl  {
         /**
          * The destructor will perform cleanup operations.
          */
-        ~curl_easy() noexcept;
+        ~curl_easy() NOEXCEPT;
         /**
          * Allows users to specify an option for the current easy handler,
          * using a curl_pair object.
@@ -137,7 +138,7 @@ namespace curl  {
          * Re-initializes all options previously set on a specified CURL handle
          * to the default values. This puts the handle back to the initial state.
          */
-        void reset() noexcept;
+        void reset() NOEXCEPT;
         /**
          * Simple getter method used to return the easy handle.
          */

@@ -1,0 +1,8 @@
+bin/
+blocks/
+bii/build
+bii/cmake
+bii/deps
+bii/lib
+bii/.hive.db
+build.log

@@ -25,7 +25,7 @@ curl_share &curl_share::operator=(const curl::curl_share &share) {
 }
 
 // Implementation of destructor
-curl_share::~curl_share() noexcept {
+curl_share::~curl_share() NOEXCEPT {
     if (this->curl != nullptr) {
         curl_share_cleanup(this->curl);
         this->curl = nullptr;

@@ -63,7 +63,7 @@ namespace curl {
          * The destructor will deallocate the resources used to handle
          * the headers list.
          */
-        ~curl_header() noexcept;
+        ~curl_header() NOEXCEPT;
         /**
          * This method allows users to add a header as string.
          */

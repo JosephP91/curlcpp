@@ -16,6 +16,6 @@ curl_exception::curl_exception(const string error, const string fun_name) {
 }
 
 // Implementation of destructor.
-curl_exception::~curl_exception() noexcept {
+curl_exception::~curl_exception() NOEXCEPT {
     // ... nothing to do here ...
 }
