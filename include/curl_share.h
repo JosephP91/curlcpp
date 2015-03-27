@@ -64,7 +64,7 @@ namespace curl {
          * The destructor will free the share handler previously 
          * allocated.
          */
-        ~curl_share() noexcept;
+        ~curl_share() NOEXCEPT;
         /**
          * Add method used to add options to the share handle.
          */

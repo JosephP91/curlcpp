@@ -27,6 +27,7 @@
 #define	curl_pair_H
 
 #include <string>
+#include "curl_config.h"
 
 // Forward reference to curl_form and curl_header
 namespace curl {
@@ -56,13 +57,13 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const noexcept {
+        inline const T first() const NOEXCEPT {
             return this->option;
         }
         /**
          * Simple method that returns the second field of the pair.
          */
-        inline const K second() const noexcept {
+        inline const K second() const NOEXCEPT {
             return this->value;
         }
     private:
@@ -83,14 +84,14 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const CURLformoption first() const noexcept {
+        inline const CURLformoption first() const NOEXCEPT {
             return this->option;
         }
         /**
          * Simple method that returns the second field of the pair as
          * a C string, so a const char *.
          */
-        inline const char *second() const noexcept {
+        inline const char *second() const NOEXCEPT {
             return this->value.c_str();
         }
     private:
@@ -114,14 +115,14 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const noexcept {
+        inline const T first() const NOEXCEPT {
             return this->option;
         }
         /**
          * Simple method that returns the second field of the pair as
          * a C string, so a const char *.
          */
-        inline const char *second() const noexcept {
+        inline const char *second() const NOEXCEPT {
             return this->value.c_str();
         }
     private:
@@ -145,14 +146,14 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const noexcept {
+        inline const T first() const NOEXCEPT {
             return this->option;
         }
         /**
          * Simple method that returns the second field of the pair as a 
          * C struct curl_httppost pointer.
          */
-        inline const curl_httppost *second() const noexcept {
+        inline const curl_httppost *second() const NOEXCEPT {
             return (this->value).get();
         }
     private:
@@ -176,14 +177,14 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const noexcept {
+        inline const T first() const NOEXCEPT {
             return this->option;
         }
         /**
          * Simple method that returns the second field of the pair as a C struct 
          * curl_slist pointer.
          */
-        inline const curl_slist *second() const noexcept {
+        inline const curl_slist *second() const NOEXCEPT {
             return (this->value).get();
         }
     private:

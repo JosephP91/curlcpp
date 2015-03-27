@@ -29,6 +29,8 @@
 #include <curl/curl.h>
 #include <vector>
 #include <new>
+
+#include "curl_config.h"
 #include "curl_exception.h"
 #include "curl_pair.h"
 
@@ -53,7 +55,7 @@ namespace curl {
          * The destructor will free the space allocated for the form content
          * list.
          */
-        ~curl_form() noexcept;
+        ~curl_form() NOEXCEPT;
         /**
          * Copy constructor used to perform a deep copy of the form content
          * list. Without it we would not be able to perform the copy.

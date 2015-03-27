@@ -34,6 +34,8 @@
 #include <algorithm>
 #include <curl/curl.h>
 
+#include "curl_config.h"
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -59,7 +61,7 @@ namespace curl {
         /**
          * The destructor, in this case, doesn't do anything.
          */
-        ~curl_exception() noexcept;
+        ~curl_exception() NOEXCEPT;
         using exception::what;
         /**
          * Override of exception's what method, used to return

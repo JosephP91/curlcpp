@@ -14,7 +14,7 @@ curl_form::curl_form() : form_post(nullptr), last_ptr(nullptr) {
 }
 
 // Implementation of destructor.
-curl_form::~curl_form() noexcept {
+curl_form::~curl_form() NOEXCEPT {
     if (this->form_post != nullptr) {
         curl_formfree(this->form_post);
         this->form_post = nullptr;

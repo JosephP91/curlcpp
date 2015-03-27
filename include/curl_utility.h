@@ -9,10 +9,10 @@
 #define curl_utility_H
 
 #include <string>
-#include "curl_error.h"
+#include "curl_exception.h"
 
 using std::string;
-using curl::curl_error;
+using curl::curl_exception;
 
 namespace curl {
     /**
@@ -41,7 +41,7 @@ namespace curl {
     const time_t curl_utility::get_date(const string format) {
         const time_t value = curl_getdate(format.c_str(),nullptr);
         if (value == -1) {
-            throw curl_error("*** Error while parsing the date ***",__FUNCTION__);
+            throw curl_exception("*** Error while parsing the date ***",__FUNCTION__);
         }
         return value;
     }

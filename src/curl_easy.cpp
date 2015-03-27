@@ -73,7 +73,7 @@ bool curl_easy::operator==(const curl_easy &easy) const {
 }
 
 // Implementation of destructor.
-curl_easy::~curl_easy() noexcept {
+curl_easy::~curl_easy() NOEXCEPT {
     if (this->curl != nullptr) {
         curl_easy_cleanup(this->curl);
         this->curl = nullptr;
@@ -111,7 +111,7 @@ void curl_easy::unescape(string &url) {
 }
 
 // Implementation of reset method.
-void curl_easy::reset() noexcept {
+void curl_easy::reset() NOEXCEPT {
     curl_easy_reset(this->curl);
 }
 

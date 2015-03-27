@@ -40,7 +40,7 @@ curl_multi &curl_multi::operator=(const curl_multi &multi) {
 }
 
 // Implementation of destructor.
-curl_multi::~curl_multi() noexcept{
+curl_multi::~curl_multi() NOEXCEPT{
     curl_multi_cleanup(this->curl);
 }
 

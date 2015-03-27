@@ -1,0 +1,2 @@
+cmake: {generator: Visual Studio 12 2013}
+os: {arch: 32bit, family: Windows, subfamily: '7', version: 6.1.7601}
