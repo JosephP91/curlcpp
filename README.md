@@ -35,6 +35,11 @@ ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to
 INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 ```
 
+Biicode support
+===============
+
+Yes, it's avaiable thanks to @qqiangwu! :)
+
 Simple usage example
 ====================
 
