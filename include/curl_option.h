@@ -26,7 +26,7 @@
 #include <string>
 #include "curl_pair.h"
 
-namespace curl {
+namespace curl {    
     template <class V>
     inline curl_pair<CURLoption, V> 
         make_option(const CURLoption opt, const V& val)
