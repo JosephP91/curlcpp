@@ -56,7 +56,7 @@ namespace curl  {
         template <CURLoption opt>
         using Option_type = typename option_t<opt>::type;
 
-        //CURLCPP_DEFINE_OPTION(CURLOPT_WRITEDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_WRITEDATA, void*);
 
         /* The full URL to get/put */
         CURLCPP_DEFINE_OPTION(CURLOPT_URL, const char*);
@@ -65,33 +65,33 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_PORT, long);
 
         /* Name of proxy to use. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PROXY, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PROXY, const char*);
 
         /* "user:password;options" to use when fetching. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_USERPWD, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_USERPWD, const char*);
 
         /* "user:password" to use with proxy. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PROXYUSERPWD, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PROXYUSERPWD, const char*);
 
         /* Range to get, specified as an ASCII string. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RANGE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RANGE, const char*);
 
         /* not used */
 
         /* Specified file stream to upload from (use as input): */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_READDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_READDATA, void*);
 
         /* Buffer to receive error messages in, must be at least CURL_ERROR_SIZE
         * bytes big. If this is not used, error messages go to stderr instead: */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_ERRORBUFFER, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_ERRORBUFFER, char*);
 
         /* Function that will be called to store the output (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION, size_t(*)(char *ptr, size_t size, size_t nmemb, void *userdata));
 
         /* Function that will be called to read the input (instead of fread). The
         * parameters will use fread() syntax, make sure to follow them. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION, size_t(*)(char *buffer, size_t size, size_t nitems, void *instream));
 
         /* Time-out the read operation after this amount of seconds */
         CURLCPP_DEFINE_OPTION(CURLOPT_TIMEOUT, long);
@@ -108,17 +108,17 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_INFILESIZE, long);
 
         /* POST static input fields. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_POSTFIELDS, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_POSTFIELDS, const char*);
 
         /* Set the referrer page (needed by some CGIs) */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_REFERER, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_REFERER, const char*);
 
         /* Set the FTP PORT string (interface name, named or numerical IP address)
         Use i.e '-' to use default address. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_FTPPORT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_FTPPORT, const char*);
 
         /* Set the User-Agent string (examined by some CGIs) */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_USERAGENT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_USERAGENT, const char*);
 
         /* If the download receives less than "low speed limit" bytes/second
         * during "low speed time" seconds, the operations is aborted.
@@ -141,34 +141,34 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_RESUME_FROM, long);
 
         /* Set cookie in request: */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_COOKIE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_COOKIE, const char*);
 
         /* This points to a linked list of headers, struct curl_slist kind. This
         list is also used for RTSP (in spite of its name) */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_HTTPHEADER, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_HTTPHEADER, curl_slist*);
 
         /* This points to a linked list of post entries, struct curl_httppost */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPOST, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPOST, curl_httppost*);
 
         /* name of the file keeping your private SSL-certificate */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSLCERT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSLCERT, const char*);
 
         /* password for the SSL or SSH private key */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_KEYPASSWD, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_KEYPASSWD, const char*);
 
         /* send TYPE parameter? */
         CURLCPP_DEFINE_OPTION(CURLOPT_CRLF, long);
 
         /* send linked-list of QUOTE commands */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_QUOTE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_QUOTE, curl_slist*);
 
         /* send FILE * or void * to store headers to, if you use a callback it
         is simply passed to the callback unmodified */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_HEADERDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_HEADERDATA, void*);
 
         /* point to a file to read the initial cookies from, also enables
         "cookie awareness" */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_COOKIEFILE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_COOKIEFILE, const char*);
 
         /* What version to specifically try to use.
         See CURL_SSLVERSION defines below. */
@@ -187,17 +187,15 @@ namespace curl  {
         HTTP: DELETE, TRACE and others
         FTP: to use a different list command
         */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CUSTOMREQUEST, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CUSTOMREQUEST, const char*);
 
         /* HTTP request, for odd commands like DELETE, TRACE and others */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_STDERR, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_STDERR, FILE*);
 
         /* 38 is not used */
 
         /* send linked-list of post-transfer QUOTE commands */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_POSTQUOTE, OBJECTPOINT);
-
-       // CURLCPP_DEFINE_OPTION(CURLOPT_OBSOLETE40, OBJECTPOINT); /* OBSOLETE, do not use! */
+        CURLCPP_DEFINE_OPTION(CURLOPT_POSTQUOTE, curl_slist*);
 
         CURLCPP_DEFINE_OPTION(CURLOPT_VERBOSE, long);      /* talk a lot */
         CURLCPP_DEFINE_OPTION(CURLOPT_HEADER, long);       /* throw the header out too */
@@ -246,19 +244,19 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPROXYTUNNEL, long);
 
         /* Set the interface string to use as outgoing network interface */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_INTERFACE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_INTERFACE, const char*);
 
         /* Set the krb4/5 security level, this also enables krb4/5 awareness.  This
         * is a string, 'clear', 'safe', 'confidential' or 'private'.  If the string
         * is set but doesn't match one of these, 'private' will be used.  */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_KRBLEVEL, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_KRBLEVEL, const char*);
 
         /* Set if we should verify the peer in ssl handshake, set 1 to verify. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYPEER, long);
 
         /* The CApath or CAfile used to validate the peer certificate
         this option is used only if SSL_VERIFYPEER is true */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CAINFO, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CAINFO, const char*);
 
         /* 66 = OBSOLETE */
         /* 67 = OBSOLETE */
@@ -271,7 +269,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_FILETIME, long);
 
         /* This points to a linked list of telnet options */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_TELNETOPTIONS, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_TELNETOPTIONS, curl_slist*);
 
         /* Max amount of cached alive connections */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAXCONNECTS, long);
@@ -292,10 +290,10 @@ namespace curl  {
 
         /* Set to a file name that contains random data for libcurl to use to
         seed the random engine when doing SSL connects. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RANDOM_FILE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RANDOM_FILE, const char*);
 
         /* Set to the Entropy Gathering Daemon socket pathname */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_EGDSOCKET, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_EGDSOCKET, const char*);
 
         /* Time-out connect operations after this amount of seconds, if connects are
         OK within this time, then fine... This only aborts the connect phase. */
@@ -317,10 +315,10 @@ namespace curl  {
 
         /* Specify which file name to write all known cookies in after completed
         operation. Set file name to "-" (dash) to make it go to stdout. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_COOKIEJAR, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_COOKIEJAR, const char*);
 
         /* Specify which SSL ciphers to use */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CIPHER_LIST, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CIPHER_LIST, const char*);
 
         /* Specify which HTTP version to use! This must be set to one of the
         CURL_HTTP_VERSION* enums set below. */
@@ -332,43 +330,44 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_FTP_USE_EPSV, long);
 
         /* type of the file keeping your SSL-certificate ("DER", "PEM", "ENG") */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSLCERTTYPE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSLCERTTYPE, const char*);
 
         /* name of the file keeping your private SSL-key */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSLKEY, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSLKEY, const char*);
 
         /* type of the file keeping your private SSL-key ("DER", "PEM", "ENG") */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSLKEYTYPE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSLKEYTYPE, const char*);
 
         /* crypto engine for the SSL-sub system */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSLENGINE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSLENGINE, const char*);
 
         /* set the crypto engine for the SSL-sub system as default
         the param has no meaning...
         */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSLENGINE_DEFAULT, long);
 
-        /* Non-zero value means to use the global dns cache */
-        CURLCPP_DEFINE_OPTION(CURLOPT_DNS_USE_GLOBAL_CACHE, long); /* DEPRECATED, do not use! */
-
         /* DNS cache timeout */
         CURLCPP_DEFINE_OPTION(CURLOPT_DNS_CACHE_TIMEOUT, long);
 
         /* send linked-list of pre-transfer QUOTE commands */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PREQUOTE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PREQUOTE, const char*);
 
         /* set the debug function */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGFUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGFUNCTION, int(*)(CURL *handle,
+            curl_infotype type,
+            char *data,
+            size_t size,
+            void *userptr));
 
         /* set the data for the debug function */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGDATA, void*);
 
         /* mark this as start of a cookie session */
         CURLCPP_DEFINE_OPTION(CURLOPT_COOKIESESSION, long);
 
         /* The CApath directory used to validate the peer certificate
         this option is used only if SSL_VERIFYPEER is true */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CAPATH, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CAPATH, const char*);
 
         /* Instruct libcurl to use a smaller receive buffer */
         CURLCPP_DEFINE_OPTION(CURLOPT_BUFFERSIZE, long);
@@ -379,7 +378,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_NOSIGNAL, long);
 
         /* Provide a CURLShare for mutexing non-ts data */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SHARE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SHARE, CURLSH*);
 
         /* indicates type of proxy. accepted values are CURLPROXY_HTTP (default),
         CURLPROXY_SOCKS4, CURLPROXY_SOCKS4A and CURLPROXY_SOCKS5. */
@@ -388,13 +387,13 @@ namespace curl  {
         /* Set the Accept-Encoding string. Use this to tell a server you would like
         the response to be compressed. Before 7.21.6, this was known as
         CURLOPT_ENCODING */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_ACCEPT_ENCODING, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_ACCEPT_ENCODING, const char*);
 
         /* Set pointer to private data */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PRIVATE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PRIVATE, void*);
 
         /* Set aliases for HTTP 200 in the HTTP Response header */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_HTTP200ALIASES, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_HTTP200ALIASES, curl_slist*);
 
         /* Continue to send authentication (user+password) when following locations,
         even when hostname changed. This can potentially send off the name
@@ -414,11 +413,11 @@ namespace curl  {
         /* Set the ssl context callback function, currently only for OpenSSL ssl_ctx
         in second argument. The function must be matching the
         curl_ssl_ctx_callback proto. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_FUNCTION, CURLcode(*)(CURL *curl, void *ssl_ctx, void *userptr));
 
         /* Set the userdata for the ssl context callback function's third
         argument */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_DATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_DATA, void*);
 
         /* FTP Option that causes missing dirs to be created on the remote server.
         In 7.19.4 we introduced the convenience enums for this option using the
@@ -453,23 +452,23 @@ namespace curl  {
         /* See the comment for INFILESIZE above, but in short, specifies
         * the size of the file being uploaded.  -1 means unknown.
         */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_INFILESIZE_LARGE, OFF_T);
+        CURLCPP_DEFINE_OPTION(CURLOPT_INFILESIZE_LARGE, curl_off_t);
 
         /* Sets the continuation offset.  There is also a long version of this;
         * look above for RESUME_FROM.
         */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RESUME_FROM_LARGE, OFF_T);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RESUME_FROM_LARGE, curl_off_t);
 
         /* Sets the maximum size of data that will be downloaded from
         * an HTTP or FTP server.  See MAXFILESIZE above for the long version.
         */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_MAXFILESIZE_LARGE, OFF_T);
+        CURLCPP_DEFINE_OPTION(CURLOPT_MAXFILESIZE_LARGE, curl_off_t);
 
         /* Set this option to the file name of your .netrc file you want libcurl
         to parse (using the CURLOPT_NETRC option). If not set, libcurl will do
         a poor attempt to find the user's home directory and check for a .netrc
         file in there. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_NETRC_FILE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_NETRC_FILE, const char*);
 
         /* Enable SSL/TLS for FTP, pick one of:
         CURLUSESSL_TRY     - try using SSL, proceed anyway otherwise
@@ -479,18 +478,10 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_USE_SSL, long);
 
         /* The _LARGE version of the standard POSTFIELDSIZE option */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_POSTFIELDSIZE_LARGE, OFF_T);
+        CURLCPP_DEFINE_OPTION(CURLOPT_POSTFIELDSIZE_LARGE, curl_off_t);
 
         /* Enable/disable the TCP Nagle algorithm */
         CURLCPP_DEFINE_OPTION(CURLOPT_TCP_NODELAY, long);
-
-        /* 122 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
-        /* 123 OBSOLETE. Gone in 7.16.0 */
-        /* 124 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
-        /* 125 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
-        /* 126 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
-        /* 127 OBSOLETE. Gone in 7.16.0 */
-        /* 128 OBSOLETE. Gone in 7.16.0 */
 
         /* When FTP over SSL/TLS is selected (with CURLOPT_USE_SSL), this option
         can be used to change libcurl's default action which is to first try
@@ -504,18 +495,15 @@ namespace curl  {
         */
         CURLCPP_DEFINE_OPTION(CURLOPT_FTPSSLAUTH, long);
 
-       // CURLCPP_DEFINE_OPTION(CURLOPT_IOCTLFUNCTION, FUNCTIONPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_IOCTLDATA, OBJECTPOINT);
-
-        /* 132 OBSOLETE. Gone in 7.16.0 */
-        /* 133 OBSOLETE. Gone in 7.16.0 */
+        CURLCPP_DEFINE_OPTION(CURLOPT_IOCTLFUNCTION, curlioerr(*)(CURL *handle, int cmd, void *clientp));
+        CURLCPP_DEFINE_OPTION(CURLOPT_IOCTLDATA, void*);
 
         /* zero terminated string for pass on to the FTP server when asked for
         "account" info */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_FTP_ACCOUNT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_FTP_ACCOUNT, const char*);
 
         /* feed cookies into cookie engine */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_COOKIELIST, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_COOKIELIST, const char*);
 
         /* ignore Content-Length */
         CURLCPP_DEFINE_OPTION(CURLOPT_IGNORE_CONTENT_LENGTH, long);
@@ -544,28 +532,30 @@ namespace curl  {
 
         /* Function that will be called to convert from the
         network encoding (instead of using the iconv calls in libcurl) */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CONV_FROM_NETWORK_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CONV_FROM_NETWORK_FUNCTION, CURLcode(*)(char *ptr, size_t length));
 
         /* Function that will be called to convert to the
         network encoding (instead of using the iconv calls in libcurl) */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CONV_TO_NETWORK_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CONV_TO_NETWORK_FUNCTION, CURLcode(*)(char *ptr, size_t length));
 
         /* Function that will be called to convert from UTF8
         (instead of using the iconv calls in libcurl)
         Note that this is used only for SSL certificate processing */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CONV_FROM_UTF8_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CONV_FROM_UTF8_FUNCTION, CURLcode(*)(char *ptr, size_t length));
 
         /* if the connection proceeds too quickly then need to slow it down */
         /* limit-rate: maximum number of bytes per second to send or receive */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_MAX_SEND_SPEED_LARGE, OFF_T);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_MAX_RECV_SPEED_LARGE, OFF_T);
+        CURLCPP_DEFINE_OPTION(CURLOPT_MAX_SEND_SPEED_LARGE, curl_off_t);
+        CURLCPP_DEFINE_OPTION(CURLOPT_MAX_RECV_SPEED_LARGE, curl_off_t);
 
         /* Pointer to command string to send if USER/PASS fails. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_FTP_ALTERNATIVE_TO_USER, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_FTP_ALTERNATIVE_TO_USER, const char*);
 
         /* callback function for setting socket options */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SOCKOPTFUNCTION, FUNCTIONPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SOCKOPTDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SOCKOPTFUNCTION, int(*)(void *clientp,
+            curl_socket_t curlfd,
+            curlsocktype purpose));
+        CURLCPP_DEFINE_OPTION(CURLOPT_SOCKOPTDATA, void*);
 
         /* set to 0 to disable session ID re-use for this transfer, default is
         enabled (== 1) */
@@ -575,8 +565,8 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_SSH_AUTH_TYPES, long);
 
         /* Used by scp/sftp to do public/private key authentication */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSH_PUBLIC_KEYFILE, OBJECTPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSH_PRIVATE_KEYFILE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSH_PUBLIC_KEYFILE, const char*);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSH_PRIVATE_KEYFILE, const char*);
 
         /* Send CCC (Clear Command Channel) after authentication */
         CURLCPP_DEFINE_OPTION(CURLOPT_FTP_SSL_CCC, long);
@@ -600,30 +590,32 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_POSTREDIR, long);
 
         /* used by scp/sftp to verify the host's public key */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSH_HOST_PUBLIC_KEY_MD5, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSH_HOST_PUBLIC_KEY_MD5, const char*);
 
         /* Callback function for opening socket (instead of socket(2)). Optionally,
         callback is able change the address or refuse to connect returning
         CURL_SOCKET_BAD.  The callback should have type
         curl_opensocket_callback */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETFUNCTION, FUNCTIONPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETFUNCTION, curl_socket_t(*)(void *clientp,
+            curlsocktype purpose,
+            struct curl_sockaddr *address));
+        CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETDATA, void*);
 
         /* POST volatile input fields. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_COPYPOSTFIELDS, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_COPYPOSTFIELDS, const char*);
 
         /* set transfer mode (;type=<a|i>) when doing FTP via an HTTP proxy */
         CURLCPP_DEFINE_OPTION(CURLOPT_PROXY_TRANSFER_MODE, long);
 
         /* Callback function for seeking in the input stream */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SEEKFUNCTION, FUNCTIONPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SEEKDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SEEKFUNCTION, int(*)(void *userp, curl_off_t offset, int origin));
+        CURLCPP_DEFINE_OPTION(CURLOPT_SEEKDATA, void*);
 
         /* CRL file */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CRLFILE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CRLFILE, const char*);
 
         /* Issuer certificate */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_ISSUERCERT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_ISSUERCERT, const char*);
 
         /* (IPv6) Address scope */
         CURLCPP_DEFINE_OPTION(CURLOPT_ADDRESS_SCOPE, long);
@@ -633,12 +625,12 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_CERTINFO, long);
 
         /* "name" and "pwd" to use when fetching. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_USERNAME, OBJECTPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PASSWORD, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_USERNAME, const char*);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PASSWORD, const char*);
 
         /* "name" and "pwd" to use with Proxy when fetching. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PROXYUSERNAME, OBJECTPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PROXYPASSWORD, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PROXYUSERNAME, const char*);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PROXYPASSWORD, const char*);
 
         /* Comma separated list of hostnames defining no-proxy zones. These should
         match both hostnames directly, and hostnames within a domain. For
@@ -647,13 +639,13 @@ namespace curl  {
         implementations of this, .local.com will be considered to be the same as
         local.com. A single * is the only valid wildcard, and effectively
         disables the use of proxy. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_NOPROXY, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_NOPROXY, const char*);
 
         /* block size for TFTP transfers */
         CURLCPP_DEFINE_OPTION(CURLOPT_TFTP_BLKSIZE, long);
 
         /* Socks Service */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SOCKS5_GSSAPI_SERVICE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SOCKS5_GSSAPI_SERVICE, const char*);
 
         /* Socks Service */
         CURLCPP_DEFINE_OPTION(CURLOPT_SOCKS5_GSSAPI_NEC, long);
@@ -671,20 +663,24 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_REDIR_PROTOCOLS, long);
 
         /* set the SSH knownhost file name to use */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KNOWNHOSTS, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KNOWNHOSTS, const char*);
 
         /* set the SSH host key callback, must point to a curl_sshkeycallback
         function */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KEYFUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KEYFUNCTION, int(*)(CURL *easy,
+            const struct curl_khkey *knownkey,
+            const struct curl_khkey *foundkey,
+            enum curl_khmatch,
+            void *clientp));
 
         /* set the SSH host key callback custom pointer */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KEYDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KEYDATA, void*);
 
         /* set the SMTP mail originator */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_FROM, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_FROM, const char*);
 
         /* set the SMTP mail receiver(s) */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_RCPT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_RCPT, curl_slist*);
 
         /* FTP: send PRET before PASV */
         CURLCPP_DEFINE_OPTION(CURLOPT_FTP_USE_PRET, long);
@@ -693,13 +689,13 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_REQUEST, long);
 
         /* The RTSP session identifier */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_SESSION_ID, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_SESSION_ID, const char*);
 
         /* The RTSP stream URI */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_STREAM_URI, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_STREAM_URI, const char*);
 
         /* The Transport: header to use in RTSP requests */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_TRANSPORT, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_TRANSPORT, const char*);
 
         /* Manually initialize the client RTSP CSeq for this handle */
         CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_CLIENT_CSEQ, long);
@@ -708,42 +704,50 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_RTSP_SERVER_CSEQ, long);
 
         /* The stream to pass to INTERLEAVEFUNCTION. */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEDATA, void*);
 
         /* Let the application define a custom write method for RTP data */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr, 
+            size_t size, 
+            size_t nmemb,
+            void *userdata));
 
         /* Turn on wildcard matching */
         CURLCPP_DEFINE_OPTION(CURLOPT_WILDCARDMATCH, long);
 
         /* Directory matching callback called before downloading of an
         individual file (chunk) started */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_BGN_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_BGN_FUNCTION, long(*)(
+            const void *transfer_info, 
+            void *ptr,
+            int remains));
 
         /* Directory matching callback called after the file (chunk)
         was downloaded, or skipped */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_END_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_END_FUNCTION, long(*)(void *ptr));
 
         /* Change match (fnmatch-like) callback for wildcard matching */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_FNMATCH_FUNCTION, FUNCTIONPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_FNMATCH_FUNCTION, int(*)(void *ptr,
+            const char *pattern,
+            const char *string));
 
         /* Let the application define custom chunk data pointer */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_DATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_DATA, void*);
 
         /* FNMATCH_FUNCTION user pointer */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_FNMATCH_DATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_FNMATCH_DATA, void*);
 
         /* send linked-list of name:port:address sets */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_RESOLVE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_RESOLVE, curl_slist*);
 
         /* Set a username for authenticated TLS */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_USERNAME, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_USERNAME, const char*);
 
         /* Set a password for authenticated TLS */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_PASSWORD, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_PASSWORD, const char*);
 
         /* Set authentication type for authenticated TLS */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_TYPE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_TYPE, long);
 
         /* Set to 1 to enable the "TE:" header in HTTP requests to ask for
         compressed transfer-encoded responses. Set to 0 to disable the use of TE:
@@ -759,14 +763,14 @@ namespace curl  {
 
         /* Callback function for closing socket (instead of close(2)). The callback
         should have type curl_closesocket_callback */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CLOSESOCKETFUNCTION, FUNCTIONPOINT);
-       // CURLCPP_DEFINE_OPTION(CURLOPT_CLOSESOCKETDATA, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_CLOSESOCKETFUNCTION, int(*)(void *clientp, curl_socket_t item));
+        CURLCPP_DEFINE_OPTION(CURLOPT_CLOSESOCKETDATA, void*);
 
         /* allow GSSAPI credential delegation */
         CURLCPP_DEFINE_OPTION(CURLOPT_GSSAPI_DELEGATION, long);
 
         /* Set the name servers to use for DNS resolution */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_DNS_SERVERS, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_DNS_SERVERS, const char*);
 
         /* Time-out accept operations (currently for FTP only) after this amount
         of miliseconds. */
@@ -783,7 +787,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_OPTIONS, long);
 
         /* Set the SMTP auth originator */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_AUTH, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_AUTH, const char*);
 
         /* Enable/disable SASL initial response */
         CURLCPP_DEFINE_OPTION(CURLOPT_SASL_IR, long);
@@ -794,23 +798,23 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_XFERINFOFUNCTION, curl_xferinfo_callback);
 
         /* The XOAUTH2 bearer token */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_XOAUTH2_BEARER, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_XOAUTH2_BEARER, const char*);
 
         /* Set the interface string to use as outgoing network
         * interface for DNS requests.
         * Only supported by the c-ares DNS backend */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_DNS_INTERFACE, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_DNS_INTERFACE, const char*);
 
         /* Set the local IPv4 address to use for outgoing DNS requests.
         * Only supported by the c-ares DNS backend */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_DNS_LOCAL_IP4, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_DNS_LOCAL_IP4, const char*);
 
         /* Set the local IPv4 address to use for outgoing DNS requests.
         * Only supported by the c-ares DNS backend */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_DNS_LOCAL_IP6, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_DNS_LOCAL_IP6, const char*);
 
         /* Set authentication options directly */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_LOGIN_OPTIONS, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_LOGIN_OPTIONS, const char*);
 
         /* Enable/disable TLS NPN extension (http2 over ssl might fail without) */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_ENABLE_NPN, long);
@@ -824,29 +828,20 @@ namespace curl  {
 
         /* This points to a linked list of headers used for proxy requests only,
         struct curl_slist kind */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PROXYHEADER, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PROXYHEADER, curl_slist*);
 
         /* Pass in a bitmask of "header options" */
         CURLCPP_DEFINE_OPTION(CURLOPT_HEADEROPT, long);
 
         /* The public key in DER form used to validate the peer public key
         this option is used only if SSL_VERIFYPEER is true */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_PINNEDPUBLICKEY, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PINNEDPUBLICKEY, const char*);
 
         /* Path to Unix domain socket */
-       // CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, OBJECTPOINT);
+        CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, const char*);
 
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
-
-        template <class V>
-        inline V val_shim(V&& v) {
-            return v;
-        }
-
-        inline const char* val_shim(const std::string& v) {
-            return v.c_str();
-        }
     }  // of namespace detail
 
     /**
@@ -967,7 +962,7 @@ namespace curl  {
     }
 
     template <CURLoption Opt> void curl_easy::add(detail::Option_type<Opt> val) {
-        const auto code = curl_easy_setopt(this->curl, Opt, detail::val_shim(val));
+        const auto code = curl_easy_setopt(this->curl, Opt, val);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code, __FUNCTION__);
         }
