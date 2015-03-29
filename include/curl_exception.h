@@ -67,7 +67,7 @@ namespace curl {
          * Override of exception's what method, used to return
          * the vector of errors.
          */
-        const vector<pair<string,string>> what();
+        const vector<pair<string,string>> get_traceback();
         /**
          * Simple method which prints the entire error stack.
          */
@@ -88,7 +88,7 @@ namespace curl {
     }
     
     // Implementation of what method.
-    inline const vector<pair<string,string>> curl_exception::what() {
+    inline const vector<pair<string,string>> curl_exception::get_traceback() {
         return curl_exception::traceback;
     }
     
