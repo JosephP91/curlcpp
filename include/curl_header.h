@@ -30,6 +30,8 @@
 #include <initializer_list>
 #include <curl/curl.h>
 
+#include "curl_config.h"
+
 using std::string;
 using std::initializer_list;
 
