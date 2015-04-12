@@ -17,6 +17,12 @@ cmake ..
 make # -j2
 ```
 
+**Note:** cURL 7.28 is required, but if you are using cURL < 7.41 you have to replace the cmake command with this one:
+
+```bash
+cmake .. -WITHOUT_OCSP_STAPLING=1
+```
+
 Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
 When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).

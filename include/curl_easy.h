@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef curl_easy_H
-#define	curl_easy_H
+#ifndef __curlcpp__curl_easy__
+#define __curlcpp__curl_easy__
 
 #include <algorithm>
 #include <curl/curl.h>
@@ -839,9 +839,10 @@ namespace curl  {
 
         /* Path to Unix domain socket */
         CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, const char*);
-
+#if !defined(WITHOUT_OCSP_STAPLING)
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
+#endif
     }  // of namespace detail
 
     /**
@@ -993,4 +994,4 @@ namespace curl  {
 }
 
 #undef CURLCPP_DEFINE_OPTION
-#endif	/* curl_easy_H */
+#endif	/* defined(__curlcpp__curl_easy__) */

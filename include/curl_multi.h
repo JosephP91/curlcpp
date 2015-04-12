@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef curl_multi_H
-#define	curl_multi_H
+#ifndef __curlcpp__curl_multi__
+#define __curlcpp__curl_multi__
 
 #include "curl_easy.h"
 
@@ -231,4 +231,4 @@ namespace curl {
     }
 }
 
-#endif	/* curl_multi_H */
+#endif	/* defined(__curlcpp__curl_multi__) */

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 - Qiangqiang Wu
+ * Copyright (c) 2015 - Qiangqiang Wu, Ferdinand Thiessen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,14 @@
  * SOFTWARE.
  */
  
-#ifndef QQIANGWU_CURL_CONFIG_H_
-#define QQIANGWU_CURL_CONFIG_H_
+#ifndef __curlcpp__curl_config__
+#define __curlcpp__curl_config__
 
-#ifndef _MSC_VER
-#define NOEXCEPT noexcept
+#if defined(_MSC_VER)
+    #define NOEXCEPT
+    #include <ciso646>
 #else
-#define NOEXCEPT
+    #define NOEXCEPT noexcept
 #endif
 
-#endif //!QQIANGWU_CURL_CONFIG_H_
+#endif /* defined(__curlcpp__curl_config__) */

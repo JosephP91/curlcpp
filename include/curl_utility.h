@@ -5,8 +5,8 @@
  * Created on March 26, 2014, 21:17 PM
  */
 
-#ifndef curl_utility_H
-#define curl_utility_H
+#ifndef __curlcpp__curl_utility__
+#define __curlcpp__curl_utility__
 
 #include <string>
 #include "curl_exception.h"
@@ -47,4 +47,4 @@ namespace curl {
     }
 }
 
-#endif /* curl_interface_H */
+#endif /* defined(__curlcpp__curl_utility__) */
