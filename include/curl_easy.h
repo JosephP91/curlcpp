@@ -839,7 +839,9 @@ namespace curl  {
 
         /* Path to Unix domain socket */
         CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, const char*);
-#if !defined(WITHOUT_OCSP_STAPLING)
+
+		//OCSP STAPLING requires curl 7.41 or later, so check if available
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072900
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
 #endif

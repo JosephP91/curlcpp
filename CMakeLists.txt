@@ -6,12 +6,7 @@ IF(BIICODE)
 ELSE()
     cmake_minimum_required(VERSION 2.8)
     #if using an older VERSION of curl ocsp stapling can be disabled
-    if(WITHOUT_OCSP_STAPLING)
-        set(CURL_MIN_VERSION "7.28.0")
-        add_definitions(-DWITHOUT_OCSP_STAPLING)
-    else()
-        set(CURL_MIN_VERSION "7.41.0")
-    endif()
+    set(CURL_MIN_VERSION "7.28.0")
     # Setting up project
     project(CURLCPP)
 
