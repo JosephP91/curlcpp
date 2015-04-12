@@ -839,9 +839,10 @@ namespace curl  {
 
         /* Path to Unix domain socket */
         CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, const char*);
-
+#if !defined(WITHOUT_OCSP_STAPLING)
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
+#endif
     }  // of namespace detail
 
     /**
