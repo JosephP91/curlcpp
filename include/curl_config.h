@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
  
-#ifndef QQIANGWU_CURL_CONFIG_H_
-#define QQIANGWU_CURL_CONFIG_H_
+#ifndef __curlcpp__curl_config__
+#define __curlcpp__curl_config__
 
 #if defined(_MSC_VER)
     #define NOEXCEPT
@@ -32,4 +32,4 @@
     #define NOEXCEPT noexcept
 #endif
 
-#endif //!QQIANGWU_CURL_CONFIG_H_
+#endif /* defined(__curlcpp__curl_config__) */

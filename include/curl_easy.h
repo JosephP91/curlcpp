@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef curl_easy_H
-#define	curl_easy_H
+#ifndef __curlcpp__curl_easy__
+#define __curlcpp__curl_easy__
 
 #include <algorithm>
 #include <curl/curl.h>
@@ -994,4 +994,4 @@ namespace curl  {
 }
 
 #undef CURLCPP_DEFINE_OPTION
-#endif	/* curl_easy_H */
+#endif	/* defined(__curlcpp__curl_easy__) */
