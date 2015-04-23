@@ -833,14 +833,20 @@ namespace curl  {
         /* Pass in a bitmask of "header options" */
         CURLCPP_DEFINE_OPTION(CURLOPT_HEADEROPT, long);
 
+        // Available since 7.39
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072700
         /* The public key in DER form used to validate the peer public key
         this option is used only if SSL_VERIFYPEER is true */
         CURLCPP_DEFINE_OPTION(CURLOPT_PINNEDPUBLICKEY, const char*);
+#endif
 
+        // Available since 7.40
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072800
         /* Path to Unix domain socket */
         CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, const char*);
+#endif
 
-		//OCSP STAPLING requires curl 7.41 or later, so check if available
+        //OCSP STAPLING requires curl 7.41 or later, so check if available
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072900
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
