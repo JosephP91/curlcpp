@@ -789,14 +789,22 @@ namespace curl  {
         /* Set the SMTP auth originator */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_AUTH, const char*);
 
+        /* Options added in 7.31 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x071F00
         /* Enable/disable SASL initial response */
         CURLCPP_DEFINE_OPTION(CURLOPT_SASL_IR, long);
+#endif
 
+        /* Options added in 7.32 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072000
         /* Function that will be called instead of the internal progress display
         * function. This function should be defined as the curl_xferinfo_callback
         * prototype defines. (Deprecates CURLOPT_PROGRESSFUNCTION) */
         CURLCPP_DEFINE_OPTION(CURLOPT_XFERINFOFUNCTION, curl_xferinfo_callback);
+#endif
 
+        /* Options added in 7.33 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072100
         /* The XOAUTH2 bearer token */
         CURLCPP_DEFINE_OPTION(CURLOPT_XOAUTH2_BEARER, const char*);
 
@@ -812,10 +820,16 @@ namespace curl  {
         /* Set the local IPv4 address to use for outgoing DNS requests.
         * Only supported by the c-ares DNS backend */
         CURLCPP_DEFINE_OPTION(CURLOPT_DNS_LOCAL_IP6, const char*);
+#endif
 
+		/* Options added in 7.34 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072200
         /* Set authentication options directly */
         CURLCPP_DEFINE_OPTION(CURLOPT_LOGIN_OPTIONS, const char*);
+#endif
 
+		/* Options added in 7.36 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072400
         /* Enable/disable TLS NPN extension (http2 over ssl might fail without) */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_ENABLE_NPN, long);
 
@@ -825,22 +839,32 @@ namespace curl  {
         /* Time to wait for a response to a HTTP request containing an
         * Expect: 100-continue header before sending the data anyway. */
         CURLCPP_DEFINE_OPTION(CURLOPT_EXPECT_100_TIMEOUT_MS, long);
+#endif
 
+        /* Options added in 7.37 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072500
         /* This points to a linked list of headers used for proxy requests only,
         struct curl_slist kind */
         CURLCPP_DEFINE_OPTION(CURLOPT_PROXYHEADER, curl_slist*);
 
         /* Pass in a bitmask of "header options" */
         CURLCPP_DEFINE_OPTION(CURLOPT_HEADEROPT, long);
+#endif
 
+        /* Options added in 7.39 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072700
         /* The public key in DER form used to validate the peer public key
         this option is used only if SSL_VERIFYPEER is true */
         CURLCPP_DEFINE_OPTION(CURLOPT_PINNEDPUBLICKEY, const char*);
+#endif
 
+        // Available since 7.40
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072800
         /* Path to Unix domain socket */
         CURLCPP_DEFINE_OPTION(CURLOPT_UNIX_SOCKET_PATH, const char*);
+#endif
 
-		//OCSP STAPLING requires curl 7.41 or later, so check if available
+        //OCSP STAPLING requires curl 7.41 or later, so check if available
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072900
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
