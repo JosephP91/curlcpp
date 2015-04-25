@@ -57,7 +57,7 @@ namespace curl {
          * Simple getter method that returns the buffer with the received
          * data.
          */
-        const array<T,SIZE> get_buffer() const;
+        array<T,SIZE> get_buffer() const;
         /**
          * Simple getter method that returns the number of received bytes.
          * Real applications should check this number to ensure that the
@@ -89,7 +89,7 @@ namespace curl {
     }
     
     // Implementation of get_buffer method.
-    template<typename T, const size_t SIZE> inline const array<T,SIZE> curl_receiver<T,SIZE>::get_buffer() const {
+    template<typename T, const size_t SIZE> inline array<T,SIZE> curl_receiver<T,SIZE>::get_buffer() const {
         return _buffer;
     }
     

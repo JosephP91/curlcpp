@@ -28,7 +28,7 @@ namespace curl {
          * online documentation for more information about the datetime
          * parameter.
          */
-        static const time_t get_date(const string);
+        static time_t get_date(const string);
     private:
         /**
          * Build an object of this type have no sense. So let's hide
@@ -38,7 +38,7 @@ namespace curl {
     };
 
     // Implementation of get_date method.
-    const time_t curl_utility::get_date(const string format) {
+    time_t curl_utility::get_date(const string format) {
         const time_t value = curl_getdate(format.c_str(),nullptr);
         if (value == -1) {
             throw curl_exception("*** Error while parsing the date ***",__FUNCTION__);

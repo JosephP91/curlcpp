@@ -57,13 +57,13 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const NOEXCEPT {
+        inline T first() const NOEXCEPT {
             return this->option;
         }
         /**
          * Simple method that returns the second field of the pair.
          */
-        inline const K second() const NOEXCEPT {
+        inline K second() const NOEXCEPT {
             return this->value;
         }
     private:
@@ -84,7 +84,7 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const CURLformoption first() const NOEXCEPT {
+        inline CURLformoption first() const NOEXCEPT {
             return this->option;
         }
         /**
@@ -115,7 +115,7 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const NOEXCEPT {
+        inline T first() const NOEXCEPT {
             return this->option;
         }
         /**
@@ -146,7 +146,7 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const NOEXCEPT {
+        inline T first() const NOEXCEPT {
             return this->option;
         }
         /**
@@ -177,7 +177,7 @@ namespace curl {
         /**
          * Simple method that returns the first field of the pair.
          */
-        inline const T first() const NOEXCEPT {
+        inline T first() const NOEXCEPT {
             return this->option;
         }
         /**
