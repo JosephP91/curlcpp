@@ -64,8 +64,7 @@ namespace curl {
         ~curl_exception() NOEXCEPT;
         using exception::what;
         /**
-         * Override of exception's what method, used to return
-         * the vector of errors.
+         * Returns the vector of errors.
          */
         const vector<pair<string,string>> get_traceback();
         /**
@@ -87,7 +86,7 @@ namespace curl {
         });
     }
     
-    // Implementation of what method.
+    // Implementation of get_traceback.
     inline const vector<pair<string,string>> curl_exception::get_traceback() {
         return curl_exception::traceback;
     }

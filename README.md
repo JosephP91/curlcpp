@@ -60,7 +60,7 @@ int main(int argc, const char **argv) {
         easy.perform();
     } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        vector<pair<string,string>> errors = error.what();
+        vector<pair<string,string>> errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
         // Note that the printing the stack will erase it
