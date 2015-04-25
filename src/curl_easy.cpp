@@ -50,7 +50,7 @@ curl_easy::curl_easy(const long flag, curl_writer &writer) : curl_interface(flag
 }
 
 // Implementation of copy constructor to respect the rule of three.
-curl_easy::curl_easy(const curl_easy &easy) : curl(nullptr) {
+curl_easy::curl_easy(const curl_easy &easy) : curl_interface(), curl(nullptr) {
     *this = easy;
     // Let's use a duplication handle function provided by libcurl.
     this->curl = curl_easy_duphandle(easy.curl);

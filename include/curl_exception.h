@@ -66,7 +66,7 @@ namespace curl {
         /**
          * Returns the vector of errors.
          */
-        const vector<pair<string,string>> get_traceback();
+        vector<pair<string,string>> get_traceback() const;
         /**
          * Simple method which prints the entire error stack.
          */
@@ -87,7 +87,7 @@ namespace curl {
     }
     
     // Implementation of get_traceback.
-    inline const vector<pair<string,string>> curl_exception::get_traceback() {
+    inline vector<pair<string,string>> curl_exception::get_traceback() const {
         return curl_exception::traceback;
     }
     

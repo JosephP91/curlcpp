@@ -56,111 +56,111 @@ namespace curl {
          * Returns a string that shows what host information that this
          * libcurl was built for.
          */
-        const string get_host() const NOEXCEPT;
+        string get_host() const NOEXCEPT;
         /**
          * Returns a string for the OpenSSL version used. If libcurl has no
          * SSL support, the method returns null.
          */
-        const string get_ssl_version() const NOEXCEPT;
+        string get_ssl_version() const NOEXCEPT;
         /**
          * Returns a string for libz compression library version. If libcurl
          * has no libz support, the method returns null.
          */
-        const string get_libz_version() const NOEXCEPT;
+        string get_libz_version() const NOEXCEPT;
         /**
          * No description supplied for this method.
          */
-        const string get_ares() const NOEXCEPT;
+        string get_ares() const NOEXCEPT;
         /**
          * No description supplied for this method.
          */
-        const string get_libidn() const NOEXCEPT;
+        string get_libidn() const NOEXCEPT;
         /**
          * Returns a string for libssh library version. If libcurl
          * has no libssh support, the method returns null.
          */
-        const string get_libssh_version() const NOEXCEPT;
+        string get_libssh_version() const NOEXCEPT;
         /**
          * Returns the version number.
          */
-        const unsigned int get_version_number() const NOEXCEPT;
+        unsigned int get_version_number() const NOEXCEPT;
         /**
          * Check online documentation for the possible return values.
          */
-        const int get_features() const NOEXCEPT;
+        int get_features() const NOEXCEPT;
         /**
          * No description supplied for this method.
          */
-        const int get_ares_number() const NOEXCEPT;
+        int get_ares_number() const NOEXCEPT;
         /**
          * No description supplied for this method.
          */
-        const int get_iconv_version_number() const NOEXCEPT;
+        int get_iconv_version_number() const NOEXCEPT;
         /**
          * Returns the libssl version number.
          */
-        const long get_ssl_version_number() const NOEXCEPT;
+        long get_ssl_version_number() const NOEXCEPT;
         /**
          * Returns a list of all the protocols supported in the
          * running version of libcurl library.
          */
-        const list<string> get_protocols() const NOEXCEPT;
+        list<string> get_protocols() const NOEXCEPT;
     private:
         const curl_version_info_data *version;
     };
 
     // Implementation of get_host method.
-    inline const string curl_info::get_host() const NOEXCEPT {
+    inline string curl_info::get_host() const NOEXCEPT {
         return string(this->version->host);
     }
 
     // Implementation of get_ssl_version.
-    inline const string curl_info::get_ssl_version() const NOEXCEPT {
+    inline string curl_info::get_ssl_version() const NOEXCEPT {
         return string(this->version->ssl_version);
     }
 
     // Implementation of get_libz_version.
-    inline const string curl_info::get_libz_version() const NOEXCEPT {
+    inline string curl_info::get_libz_version() const NOEXCEPT {
         return string(this->version->libz_version);
     }
 
     // Implementation of get_ares method.
-    inline const string curl_info::get_ares() const NOEXCEPT {
+    inline string curl_info::get_ares() const NOEXCEPT {
         return string(this->version->ares);
     }
 
     // Implementation of get_libidin method.
-    inline const string curl_info::get_libidn() const NOEXCEPT {
+    inline string curl_info::get_libidn() const NOEXCEPT {
         return string(this->version->libidn);
     }
 
     // Implementation of get_libssh_version method.
-    inline const string curl_info::get_libssh_version() const NOEXCEPT {
+    inline string curl_info::get_libssh_version() const NOEXCEPT {
         return string(this->version->libssh_version);
     }
 
     // Implementation of get_version_number method.
-    inline const unsigned int curl_info::get_version_number() const NOEXCEPT {
+    inline unsigned int curl_info::get_version_number() const NOEXCEPT {
         return this->version->version_num;
     }
 
     // Implementation of get_features method.
-    inline const int curl_info::get_features() const NOEXCEPT {
+    inline int curl_info::get_features() const NOEXCEPT {
         return this->version->features;
     }
 
     // Implementation of get_ares_number method.
-    inline const int curl_info::get_ares_number() const NOEXCEPT {
+    inline int curl_info::get_ares_number() const NOEXCEPT {
         return this->version->ares_num;
     }
 
     // Implementation of get_iconv_version_number method.
-    inline const int curl_info::get_iconv_version_number() const NOEXCEPT {
+    inline int curl_info::get_iconv_version_number() const NOEXCEPT {
         return this->version->iconv_ver_num;
     }
 
     // Implementation of get_ssl_version_number method.
-    inline const long curl_info::get_ssl_version_number() const NOEXCEPT {
+    inline long curl_info::get_ssl_version_number() const NOEXCEPT {
         return this->version->ssl_version_num;
     }
 }

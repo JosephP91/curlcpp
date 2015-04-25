@@ -62,12 +62,12 @@ namespace curl {
              * Inline getter method used to return
              * the message for a single handler.
              */
-            const CURLMSG get_message() const;
+            CURLMSG get_message() const;
             /**
              * Inline getter method used to return
              * the code for a single handler.
              */
-            const CURLcode get_code() const;
+            CURLcode get_code() const;
             /**
              * Inline getter method used to return
              * other data.
@@ -216,12 +216,12 @@ namespace curl {
     }
 
     // Implementation of curl_message get_message method.
-    inline const CURLMSG curl_multi::curl_message::get_message() const {
+    inline CURLMSG curl_multi::curl_message::get_message() const {
         return this->message;
     }
 
     // Implementation of curl_message get_code method.
-    inline const CURLcode curl_multi::curl_message::get_code() const {
+    inline CURLcode curl_multi::curl_message::get_code() const {
         return this->code;
     }
 

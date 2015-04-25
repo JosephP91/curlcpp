@@ -85,7 +85,8 @@ namespace curl {
     }
 
     // Implementation of copy constructor.
-    inline curl_share::curl_share(const curl_share &share) {
+    inline curl_share::curl_share(const curl_share &share) : curl_interface() {
+    	(void)share; // unused
         curl_share();
     }
     
