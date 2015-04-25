@@ -23,7 +23,10 @@ curl_multi::curl_multi(const long flag) : curl_interface(flag) {
 }
 
 // Implementation of copy constructor to respect the rule of three.
-curl_multi::curl_multi(const curl_multi &multi) : message_queued(multi.message_queued), active_transfers(multi.active_transfers) {
+curl_multi::curl_multi(const curl_multi &multi)
+	: curl_interface(),
+	  message_queued(multi.message_queued),
+	  active_transfers(multi.active_transfers) {
     this->curl = curl_multi_init();
     if (this->curl == nullptr) {
         throw curl_multi_exception("Null pointer intercepted",__FUNCTION__);
