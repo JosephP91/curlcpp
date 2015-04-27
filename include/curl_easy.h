@@ -228,7 +228,6 @@ namespace curl  {
         /* Data passed to the CURLOPT_PROGRESSFUNCTION and CURLOPT_XFERINFOFUNCTION
         callbacks */
         CURLCPP_DEFINE_OPTION(CURLOPT_PROGRESSDATA, void*);
-#define CURLOPT_XFERINFODATA CURLOPT_PROGRESSDATA
 
         /* We want the referrer field set automatically when following locations */
         CURLCPP_DEFINE_OPTION(CURLOPT_AUTOREFERER, long);
@@ -435,7 +434,6 @@ namespace curl  {
         essentially places a demand on the FTP server to acknowledge commands
         in a timely manner. */
         CURLCPP_DEFINE_OPTION(CURLOPT_FTP_RESPONSE_TIMEOUT, long);
-#define CURLOPT_SERVER_RESPONSE_TIMEOUT CURLOPT_FTP_RESPONSE_TIMEOUT
 
         /* Set this option to one of the CURL_IPRESOLVE_* defines (see below) to
         tell libcurl to resolve names to those IP versions only. This only has
