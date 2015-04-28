@@ -72,23 +72,24 @@ namespace curl {
          */
         void print_traceback() const;
     private:
-        /**
-         * The error container must be static or will be cleared
-         * when an exception is thrown.
-         */
-        static vector<pair<string,string>> traceback;
+        vector<pair<string, string>> traceback;
     };
 
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() const {
-        for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const pair<string,string> &value) {
-            cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<endl;
+        for_each(
+            traceback.begin(),
+            traceback.end(),
+            [](const pair<string, string> &value) {
+                cout << "ERROR: " << value.first
+                     << " ::::: FUNCTION: " << value.second
+                     << endl;
         });
     }
     
     // Implementation of get_traceback.
     inline vector<pair<string,string>> curl_exception::get_traceback() const {
-        return curl_exception::traceback;
+        return traceback;
     }
     
     /**
