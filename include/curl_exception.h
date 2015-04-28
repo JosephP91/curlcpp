@@ -102,11 +102,19 @@ namespace curl {
          * This constructor allows to specify a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_easy_exception(const string &error, const string &method) : curl_exception(error, method) {}
+        curl_easy_exception(const string &error, const string &method) : curl_exception(error, method), code(CURLE_OK) {}
         /**
          * The constructor will transform a CURLcode error in a proper error message.
          */
-        curl_easy_exception(CURLcode code, const string &method) : curl_exception(curl_easy_strerror(code), method) {}
+        curl_easy_exception(CURLcode code, const string &method) : curl_exception(curl_easy_strerror(code), method), code(code) {}
+        /**
+         * Returns the error code if there is one. Returns CURLE_OK if none has been set.
+         */
+        inline CURLcode get_code() const {
+            return code;
+        }
+    private:
+        CURLcode code;
     };
     
     /**
@@ -119,11 +127,19 @@ namespace curl {
          * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_multi_exception(const string &error, const string &method) : curl_exception(error, method) {}
+        curl_multi_exception(const string &error, const string &method) : curl_exception(error, method), code(CURLM_OK) {}
         /**
          * The constructor will transform a CURLMcode error to a proper error message.
          */
-        curl_multi_exception(CURLMcode code, const string &method) : curl_exception(curl_multi_strerror(code), method) {}
+        curl_multi_exception(CURLMcode code, const string &method) : curl_exception(curl_multi_strerror(code), method), code(code) {}
+        /**
+         * Returns the error code if there is one. Returns CURLM_OK if none has been set.
+         */
+        inline CURLMcode get_code() const {
+            return code;
+        }
+    private:
+        CURLMcode code;
     };
     
     /**
@@ -136,11 +152,19 @@ namespace curl {
          * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_share_exception(const string &error, const string &method) : curl_exception(error, method) {}
+        curl_share_exception(const string &error, const string &method) : curl_exception(error, method), code(CURLSHE_OK) {}
         /**
          * The constructor will transform a CURLSHcode error in a proper error message.
          */
-        curl_share_exception(CURLSHcode code, const string &method) : curl_exception(curl_share_strerror(code), method) {}
+        curl_share_exception(CURLSHcode code, const string &method) : curl_exception(curl_share_strerror(code), method), code(code) {}
+        /**
+         * Returns the error code if there is one. Returns CURLSHE_OK if none has been set.
+         */
+        inline CURLSHcode get_code() const {
+            return code;
+        }
+    private:
+        CURLSHcode code;
     };
 }
 
