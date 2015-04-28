@@ -8,10 +8,10 @@
 using curl::curl_exception;
 
 // Constructor implementation. Every call will push into the calls stack the function name and the error occurred.
-curl_exception::curl_exception(const string error, const string fun_name) {
+curl_exception::curl_exception(const string &error, const string &method) {
     traceback.insert(
         traceback.begin(),
-        pair<string, string>(error, fun_name));
+        pair<string, string>(error, method));
 }
 
 // Implementation of destructor.
