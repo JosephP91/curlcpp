@@ -84,11 +84,14 @@ namespace curl {
         for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const pair<string,string> &value) {
             cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<endl;
         });
+        curl_exception::traceback.clear();
     }
     
     // Implementation of get_traceback.
     inline vector<pair<string,string>> curl_exception::get_traceback() const {
-        return curl_exception::traceback;
+        auto copy = curl_exception::traceback;
+        curl_exception::traceback.clear();
+        return copy;
     }
     
     /**
