@@ -26,7 +26,7 @@ ELSE()
     # Set up source directories
     add_subdirectory(src)
 
-    get_property(CURLCPP_LIB_LOCATION TARGET curlcpp PROPERTY LOCATION)
+    set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
 
     configure_file(CMake/curlcppConfig.cmake.in
       ${CURLCPP_BINARY_DIR}/curlcppConfig.cmake @ONLY)
