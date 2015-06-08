@@ -119,16 +119,16 @@ void curl_easy::reset() NOEXCEPT {
 namespace curl {
     template<> unique_ptr<vector<string>> curl_easy::get_info(const CURLINFO info) const {
         struct curl_slist *ptr = nullptr;
-        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr);
+        const CURLcode code = curl_easy_getinfo(this->curl,info,&ptr);
         if (code != CURLE_OK) {
             curl_slist_free_all(ptr);
             throw curl_easy_exception(code,__FUNCTION__);
         }
-        vector<string> infos;
-        unsigned int i = 0;
-        while ((ptr+i)->next != nullptr) {
-            infos.push_back(string((ptr+i)->data));
-            ++i;
+        std::vector<string> infos;
+        struct curl_slist *list = ptr;
+        while (list != nullptr) {
+            infos.push_back(string(list->data));
+            list = list->next;
         }
         curl_slist_free_all(ptr);
         return unique_ptr<vector<string>>{new vector<string>(infos)};

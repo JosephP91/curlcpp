@@ -273,7 +273,12 @@ namespace curl  {
         /* Max amount of cached alive connections */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAXCONNECTS, long);
 
+        /* Deprecated and obsolete after 7.37.0 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM > 0x072500
         CURLCPP_DEFINE_OPTION(CURLOPT_OBSOLETE72, long); /* OBSOLETE, do not use! */
+#else
+        CURLCPP_DEFINE_OPTION(CURLOPT_CLOSEPOLICY, long);
+#endif
 
         /* 73 = OBSOLETE */
 
@@ -705,8 +710,8 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEDATA, void*);
 
         /* Let the application define a custom write method for RTP data */
-        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr, 
-            size_t size, 
+        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr,
+            size_t size,
             size_t nmemb,
             void *userdata));
 
@@ -716,7 +721,7 @@ namespace curl  {
         /* Directory matching callback called before downloading of an
         individual file (chunk) started */
         CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_BGN_FUNCTION, long(*)(
-            const void *transfer_info, 
+            const void *transfer_info,
             void *ptr,
             int remains));
 
@@ -870,7 +875,7 @@ namespace curl  {
     }  // of namespace detail
 
     /**
-     * Easy interface is used to make requests and transfers. 
+     * Easy interface is used to make requests and transfers.
      * You don't have to worry about freeing data or things like
      * that. The class will do it for you.
      */
@@ -946,7 +951,7 @@ namespace curl  {
          */
         unique_ptr<vector<string>> get_info(const CURLINFO) const;
         /**
-         * Using this function, you can explicitly pause a running connection, 
+         * Using this function, you can explicitly pause a running connection,
          * and you can resume a previously paused connection.
          */
         void pause(const int);
@@ -978,7 +983,7 @@ namespace curl  {
     private:
         CURL *curl;
     };
-    
+
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_easy::add(Iterator begin, const Iterator end) {
         for (; begin != end; ++begin) {
@@ -992,7 +997,7 @@ namespace curl  {
             throw curl_easy_exception(code, __FUNCTION__);
         }
     }
-    
+
     // Implementation of add method.
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
