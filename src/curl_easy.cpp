@@ -8,7 +8,7 @@
 using curl::curl_easy;
 
 // Implementation of default constructor.
-curl_easy::curl_easy() : curl_interface() {
+curl_easy::curl_easy() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
@@ -19,7 +19,7 @@ curl_easy::curl_easy() : curl_interface() {
 }
 
 // Implementation of default constructor.
-curl_easy::curl_easy(curl_writer &writer) : curl_interface() {
+curl_easy::curl_easy(curl_writer &writer) {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
@@ -28,29 +28,8 @@ curl_easy::curl_easy(curl_writer &writer) : curl_interface() {
     this->add(curl_pair<CURLoption,void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
-// Implementation of overridden constructor.
-curl_easy::curl_easy(const long flag) : curl_interface(flag) {
-    this->curl = curl_easy_init();
-    if (this->curl == nullptr) {
-        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
-    }
-    curl_writer writer;
-    this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-    this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
-}
-
-// Implementation of overridden constructor.
-curl_easy::curl_easy(const long flag, curl_writer &writer) : curl_interface(flag) {
-    this->curl = curl_easy_init();
-    if (this->curl == nullptr) {
-        throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
-    }
-    this->add(curl_pair<CURLoption, size_t(*)(void*,size_t,size_t,void*)>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-    this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
-}
-
 // Implementation of copy constructor to respect the rule of three.
-curl_easy::curl_easy(const curl_easy &easy) : curl_interface(), curl(nullptr) {
+curl_easy::curl_easy(const curl_easy &easy) : curl(nullptr) {
     *this = easy;
     // Let's use a duplication handle function provided by libcurl.
     this->curl = curl_easy_duphandle(easy.curl);

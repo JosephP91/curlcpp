@@ -31,16 +31,15 @@
 #include <memory>
 
 #include "curl_config.h"
-#include "curl_interface.h"
 #include "curl_pair.h"
 #include "curl_writer.h"
+#include "curl_exception.h"
 
 using std::for_each;
 using std::unique_ptr;
 
 using curl::curl_pair;
 using curl::curl_writer;
-using curl::curl_interface;
 using curl::curl_easy_exception;
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
@@ -879,7 +878,7 @@ namespace curl  {
      * You don't have to worry about freeing data or things like
      * that. The class will do it for you.
      */
-    class curl_easy : public curl_interface<CURLcode> {
+    class curl_easy {
     public:
         /**
          * The default constructor will initialize the easy handler
@@ -892,16 +891,6 @@ namespace curl  {
          * operations.
          */
         explicit curl_easy(curl_writer &);
-        /**
-         * This overloaded constructor allows users to specify a flag
-         * used to initialize libcurl environment.
-         */
-        explicit curl_easy(const long);
-        /**
-         * This overloaded constructor specifies the environment
-         * initialization flags and an output stream for the libcurl output.
-         */
-        curl_easy(const long, curl_writer &);
         /**
          * Copy constructor to handle pointer copy. Internally, it uses
          * a function which duplicates the easy handler.

@@ -42,7 +42,7 @@ namespace curl {
      * 3. Enable the application to wait for action on its own file descriptors and curl's
      *    file descriptors simultaneous easily.
     */
-    class curl_multi : public curl_interface<CURLMcode> {
+    class curl_multi {
     public:
         /**
          * The multi interface gives users the opportunity to get information about
@@ -86,12 +86,6 @@ namespace curl {
          * values.
          */
         curl_multi();
-        /**
-         * Overloaded constructor. Gives users the opportunity
-         * to initialize the entire curl environment using custom
-         * options.
-         */
-        explicit curl_multi(const long);
         /**
          * Copy constructor to perform a correct copy of the curl 
          * handler and attributes.
