@@ -8,7 +8,7 @@
 using curl::curl_share;
 
 // Implementation of default constructor.
-curl_share::curl_share() : curl_interface() {
+curl_share::curl_share() {
     this->curl = curl_share_init();
     if (this->curl == nullptr) {
         throw curl_share_exception("Null pointer intercepted",__FUNCTION__);

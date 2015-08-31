@@ -2,7 +2,7 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 - Giuseppe Persico
- * File - curl_interface.h
+ * File - curl_global.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,42 +23,39 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_interface__
-#define __curlcpp__curl_interface__
+#ifndef __curlcpp__curl_global__
+#define __curlcpp__curl_global__
 
 #include <curl/curl.h>
 #include "curl_exception.h"
 
-using curl::curl_exception;
-
 namespace curl {
     /**
-     * This class is a common interface for all the libcurl interfaces:
-     * easy, multi and share. It provides methods that these three interfaces
-     * have in common with each other.
+     * This class provides global initialization of curl so that use of all curl
+     * interfaces is thread safe.
      */
-    template<class T> class curl_interface {
-    protected:
+    class curl_global {
+    public:
         /**
          * The default constructor will initialize the curl
          * environment with the default flag.
          */
-        curl_interface();
+        curl_global();
         /**
          * Overloaded constructor that initializes curl environment
          * with user specified flag.
          */
-        explicit curl_interface(const long);
+        explicit curl_global(const long);
         /**
          * The virtual destructor will provide an easy and clean
          * way to deallocate resources, closing curl environment
          * correctly.
          */
-        virtual ~curl_interface();
+        virtual ~curl_global();
     };
     
     // Implementation of constructor.
-    template<class T> curl_interface<T>::curl_interface() {
+    curl_global::curl_global() {
         const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
@@ -66,7 +63,7 @@ namespace curl {
     }
     
     // Implementation of overloaded constructor.
-    template<class T> curl_interface<T>::curl_interface(const long flag) {
+    curl_global::curl_global(const long flag) {
         const CURLcode code = curl_global_init(flag);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
@@ -74,9 +71,9 @@ namespace curl {
     }
     
     // Implementation of the virtual destructor.
-    template<class T> curl_interface<T>::~curl_interface() {
+    curl_global::~curl_global() {
         curl_global_cleanup();
     }
 }
 
-#endif	/* defined(__curlcpp__curl_interface__) */
+#endif	/* defined(__curlcpp__curl_global__) */
