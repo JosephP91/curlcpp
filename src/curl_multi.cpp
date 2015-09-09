@@ -148,6 +148,6 @@ void curl_multi::timeout(long *timeout) {
 
 // Implementation of curl_message constructor.
 curl_multi::curl_message::curl_message(const CURLMsg *msg) :
-    message(msg->msg), whatever(msg->data.whatever), code(msg->data.result) {
+    message(msg->msg), curl(msg->easy_handle), whatever(msg->data.whatever), code(msg->data.result) {
     // ... nothing to do here ...
 }
