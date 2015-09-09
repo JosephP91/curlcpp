@@ -65,6 +65,11 @@ namespace curl {
             CURLMSG get_message() const;
             /**
              * Inline getter method used to return
+             * the curl handle.
+             */
+            const CURL *get_curl() const;
+            /**
+             * Inline getter method used to return
              * the code for a single handler.
              */
             CURLcode get_code() const;
@@ -75,6 +80,7 @@ namespace curl {
             const void *get_other() const;
         private:
             const CURLMSG message;
+            const CURL *curl;
             const void *whatever;
             const CURLcode code;
         };
@@ -212,6 +218,11 @@ namespace curl {
     // Implementation of curl_message get_message method.
     inline CURLMSG curl_multi::curl_message::get_message() const {
         return this->message;
+    }
+
+    // Implementation of curl_message get_curl method.
+    inline const CURL *curl_multi::curl_message::get_curl() const {
+        return this->curl;
     }
 
     // Implementation of curl_message get_code method.
