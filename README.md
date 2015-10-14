@@ -121,10 +121,10 @@ using curl::curl_easy;
 int main(int argc, const char * argv[]) {
     // Create a file
     ofstream myfile;
-    myfile.open ("/Users/Giuseppe/Desktop/test.txt");
+    myfile.open ("Path to your file");
     // Create a writer to handle the stream
     
-    curl_writer writer(myfile);
+    curl_writer<ostream> writer(myfile);
     // Pass it to the easy constructor and watch the content returned in that file!
     curl_easy easy(writer);
     
@@ -135,11 +135,45 @@ int main(int argc, const char * argv[]) {
         easy.perform();
     } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        vector<pair<string,string>> errors = error.what();
+        vector<pair<string,string>> errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
     }
     myfile.close();
+    return 0;
+}
+`````
+
+Not interested in files? So let's put the request's output in a variable!
+
+`````c++
+#include "curl_easy.h"
+#include "curl_form.h"
+
+using curl::curl_easy;
+
+int main() {
+    // Create a stream object
+    ostringstream str;
+    // Create a writer object, passing the stream object.
+    curl_writer<ostringstream> writer(&str);
+    
+    // Pass the writer to the easy constructor and watch the content returned in that variable!
+    curl_easy easy(writer);
+    // Add some option to the easy handle
+    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
+    easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    try {
+        easy.perform();
+    } catch (curl_easy_exception error) {
+        // If you want to get the entire error stack we can do:
+        vector<pair<string,string>> errors = error.get_traceback();
+        // Otherwise we could print the stack like this:
+        error.print_traceback();
+    }
+    
+    // Let's print the stream content.
+    cout<<str.str()<<endl;
     return 0;
 }
 `````
