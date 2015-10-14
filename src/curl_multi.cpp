@@ -8,7 +8,7 @@
 using curl::curl_multi;
 
 // Implementation of constructor.
-curl_multi::curl_multi() {
+curl_multi::curl_multi() : curl_interface() {
     this->curl = curl_multi_init();
     if (this->curl == nullptr) {
         throw curl_multi_exception("Null pointer intercepted",__FUNCTION__);
@@ -17,9 +17,15 @@ curl_multi::curl_multi() {
     this->message_queued = 0;
 }
 
+// Implementation of overloaded constructor.
+curl_multi::curl_multi(const long flag) : curl_interface(flag) {
+    curl_multi();
+}
+
 // Implementation of copy constructor to respect the rule of three.
 curl_multi::curl_multi(const curl_multi &multi)
-	: message_queued(multi.message_queued),
+	: curl_interface(),
+	  message_queued(multi.message_queued),
 	  active_transfers(multi.active_transfers) {
     this->curl = curl_multi_init();
     if (this->curl == nullptr) {
@@ -148,6 +154,6 @@ void curl_multi::timeout(long *timeout) {
 
 // Implementation of curl_message constructor.
 curl_multi::curl_message::curl_message(const CURLMsg *msg) :
-    message(msg->msg), curl(msg->easy_handle), whatever(msg->data.whatever), code(msg->data.result) {
+    message(msg->msg), whatever(msg->data.whatever), code(msg->data.result) {
     // ... nothing to do here ...
 }

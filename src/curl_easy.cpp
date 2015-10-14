@@ -8,28 +8,29 @@
 using curl::curl_easy;
 
 // Implementation of default constructor.
-curl_easy::curl_easy() {
+curl_easy::curl_easy() : curl_interface() {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    curl_writer writer;
+    curl_writer<ostream> writer;
     this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
     this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
-// Implementation of default constructor.
-curl_easy::curl_easy(curl_writer &writer) {
+// Implementation of overridden constructor.
+curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     this->curl = curl_easy_init();
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
+    curl_writer<ostream> writer;
     this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-    this->add(curl_pair<CURLoption,void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
+    this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of copy constructor to respect the rule of three.
-curl_easy::curl_easy(const curl_easy &easy) : curl(nullptr) {
+curl_easy::curl_easy(const curl_easy &easy) : curl_interface(), curl(nullptr) {
     *this = easy;
     // Let's use a duplication handle function provided by libcurl.
     this->curl = curl_easy_duphandle(easy.curl);

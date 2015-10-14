@@ -26,10 +26,10 @@
 #ifndef __curlcpp__curl_share__
 #define __curlcpp__curl_share__
 
-#include <curl/curl.h>
+#include "curl_interface.h"
 #include "curl_pair.h"
-#include "curl_exception.h"
 
+using curl::curl_interface;
 using curl::curl_pair;
 using curl::curl_share_exception;
 
@@ -38,13 +38,19 @@ namespace curl {
      * Definition of share interface. The purpose of this interface is to
      * enable data sharing between curl handlers.
      */
-    class curl_share {
+    class curl_share : public curl_interface<CURLSHcode> {
     public:
         /**
          * The default constructor will initialize the share
          * handle to its default value.
          */
         curl_share();
+        /**
+         * The overloaded constructor allows users to initialize
+         * the share handle and initialize the libcurl environment
+         * using customs flags.
+         */
+        explicit curl_share(const long);
         /**
          * Copy constructor to perform the copy of the share handle.
          */ 
@@ -73,8 +79,13 @@ namespace curl {
         CURLSH *curl;
     };
 
+    // Implementation of overloaded constructor.
+    inline curl_share::curl_share(const long flag) : curl_interface(flag) {
+        curl_share();
+    }
+
     // Implementation of copy constructor.
-    inline curl_share::curl_share(const curl_share &share) {
+    inline curl_share::curl_share(const curl_share &share) : curl_interface() {
     	(void)share; // unused
         curl_share();
     }

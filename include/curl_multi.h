@@ -42,7 +42,7 @@ namespace curl {
      * 3. Enable the application to wait for action on its own file descriptors and curl's
      *    file descriptors simultaneous easily.
     */
-    class curl_multi {
+    class curl_multi : public curl_interface<CURLMcode> {
     public:
         /**
          * The multi interface gives users the opportunity to get information about
@@ -65,11 +65,6 @@ namespace curl {
             CURLMSG get_message() const;
             /**
              * Inline getter method used to return
-             * the curl handle.
-             */
-            const CURL *get_curl() const;
-            /**
-             * Inline getter method used to return
              * the code for a single handler.
              */
             CURLcode get_code() const;
@@ -80,7 +75,6 @@ namespace curl {
             const void *get_other() const;
         private:
             const CURLMSG message;
-            const CURL *curl;
             const void *whatever;
             const CURLcode code;
         };
@@ -92,6 +86,12 @@ namespace curl {
          * values.
          */
         curl_multi();
+        /**
+         * Overloaded constructor. Gives users the opportunity
+         * to initialize the entire curl environment using custom
+         * options.
+         */
+        explicit curl_multi(const long);
         /**
          * Copy constructor to perform a correct copy of the curl 
          * handler and attributes.
@@ -218,11 +218,6 @@ namespace curl {
     // Implementation of curl_message get_message method.
     inline CURLMSG curl_multi::curl_message::get_message() const {
         return this->message;
-    }
-
-    // Implementation of curl_message get_curl method.
-    inline const CURL *curl_multi::curl_message::get_curl() const {
-        return this->curl;
     }
 
     // Implementation of curl_message get_code method.

@@ -31,15 +31,16 @@
 #include <memory>
 
 #include "curl_config.h"
+#include "curl_interface.h"
 #include "curl_pair.h"
 #include "curl_writer.h"
-#include "curl_exception.h"
 
 using std::for_each;
 using std::unique_ptr;
 
 using curl::curl_pair;
 using curl::curl_writer;
+using curl::curl_interface;
 using curl::curl_easy_exception;
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
@@ -272,12 +273,7 @@ namespace curl  {
         /* Max amount of cached alive connections */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAXCONNECTS, long);
 
-        /* Deprecated and obsolete after 7.37.0 */
-#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM > 0x072500
         CURLCPP_DEFINE_OPTION(CURLOPT_OBSOLETE72, long); /* OBSOLETE, do not use! */
-#else
-        CURLCPP_DEFINE_OPTION(CURLOPT_CLOSEPOLICY, long);
-#endif
 
         /* 73 = OBSOLETE */
 
@@ -709,8 +705,8 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEDATA, void*);
 
         /* Let the application define a custom write method for RTP data */
-        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr,
-            size_t size,
+        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr, 
+            size_t size, 
             size_t nmemb,
             void *userdata));
 
@@ -720,7 +716,7 @@ namespace curl  {
         /* Directory matching callback called before downloading of an
         individual file (chunk) started */
         CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_BGN_FUNCTION, long(*)(
-            const void *transfer_info,
+            const void *transfer_info, 
             void *ptr,
             int remains));
 
@@ -874,11 +870,11 @@ namespace curl  {
     }  // of namespace detail
 
     /**
-     * Easy interface is used to make requests and transfers.
+     * Easy interface is used to make requests and transfers. 
      * You don't have to worry about freeing data or things like
      * that. The class will do it for you.
      */
-    class curl_easy {
+    class curl_easy : public curl_interface<CURLcode> {
     public:
         /**
          * The default constructor will initialize the easy handler
@@ -890,31 +886,46 @@ namespace curl  {
          * stream where they want to put the output of the libcurl
          * operations.
          */
-        explicit curl_easy(curl_writer &);
+        template<class T> explicit curl_easy(curl_writer<T> &);
+        /**
+         * This overloaded constructor allows users to specify a flag
+         * used to initialize libcurl environment.
+         */
+        explicit curl_easy(const long);
+        /**
+         * This overloaded constructor specifies the environment
+         * initialization flags and an output stream for the libcurl output.
+         */
+        template<class T> curl_easy(const long, curl_writer<T> &);
         /**
          * Copy constructor to handle pointer copy. Internally, it uses
          * a function which duplicates the easy handler.
          */
         curl_easy(const curl_easy &);
+        
         /**
          * Assignment operator used to perform assignment between objects
          * of this class.
          */
         curl_easy &operator=(const curl_easy &);
+        
         /**
          * Override of equality operator. It has been overridden to check
          * whether two curl_easy objects are equal.
          */
         bool operator==(const curl_easy &) const;
+        
         /**
          * The destructor will perform cleanup operations.
          */
         ~curl_easy() NOEXCEPT;
+        
         /**
          * Allows users to specify an option for the current easy handler,
          * using a curl_pair object.
          */
         template<typename T> void add(const curl_pair<CURLoption,T>);
+        
         /**
          * Allows users to specify a list of options for the current
          * easy handler. In this way, you can specify any iterable data
@@ -934,13 +945,15 @@ namespace curl  {
          * further information.
          */
         template<typename T> unique_ptr<T> get_info(const CURLINFO) const;
+        
         /**
          * get_info overloaded method. It it used when the second argument is
-         * of type struct_slist*.
+         * of type struct_slist *.
          */
         unique_ptr<vector<string>> get_info(const CURLINFO) const;
+        
         /**
-         * Using this function, you can explicitly pause a running connection,
+         * Using this function, you can explicitly pause a running connection, 
          * and you can resume a previously paused connection.
          */
         void pause(const int);
@@ -972,7 +985,27 @@ namespace curl  {
     private:
         CURL *curl;
     };
-
+    
+    // Implementation of default constructor.
+    template<class T> curl_easy::curl_easy(curl_writer<T> &writer) : curl_interface() {
+        this->curl = curl_easy_init();
+        if (this->curl == nullptr) {
+            throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
+        }
+        this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+        this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
+    }
+    
+    // Implementation of overridden constructor.
+    template<class T> curl_easy::curl_easy(const long flag, curl_writer<T> &writer) : curl_interface(flag) {
+        this->curl = curl_easy_init();
+        if (this->curl == nullptr) {
+            throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
+        }
+        this->add(curl_pair<CURLoption, curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+        this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
+    }
+    
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_easy::add(Iterator begin, const Iterator end) {
         for (; begin != end; ++begin) {
@@ -980,13 +1013,14 @@ namespace curl  {
         }
     }
 
+    // Implementation of overloaded add method.
     template <CURLoption Opt> void curl_easy::add(detail::Option_type<Opt> val) {
         const auto code = curl_easy_setopt(this->curl, Opt, val);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code, __FUNCTION__);
         }
     }
-
+    
     // Implementation of add method.
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
@@ -995,7 +1029,7 @@ namespace curl  {
         }
     }
 
-    // Implementation of get_session_info method.
+    // Implementation of get_info method.
     template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
         unique_ptr<T> ptr(new T);
         const CURLcode code = curl_easy_getinfo(this->curl,info,ptr.get());
@@ -1004,7 +1038,7 @@ namespace curl  {
         }
         return ptr;
     }
-
+    
     // Implementation of get_curl method.
     inline CURL *curl_easy::get_curl() const {
         return this->curl;
