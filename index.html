@@ -28,11 +28,12 @@
 
     <div class="container">
       <section id="main_content">
-        <p>curlcpp is an object-oriented C++ wrapper for curl tool based on libcurl.</p>
+        <h1>
+<a id="curlcpp" class="anchor" href="#curlcpp" aria-hidden="true"><span class="octicon octicon-link"></span></a>curlcpp</h1>
 
-<p>curl is a command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMTP, SMTPS, Telnet and TFTP. curl supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, HTTP/2, cookies, user+password authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer resume, proxy tunneling and more</p>
+<p>An object-oriented C++ wrapper for cURL tool</p>
 
-<p>If you want to know a bit more about curl, you should go on the official website and read about the three interfaces that curl implements: <a href="http://curl.haxx.se/">http://curl.haxx.se/</a></p>
+<p>If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: <a href="http://curl.haxx.se/">http://curl.haxx.se/</a></p>
 
 <h1>
 <a id="compile-and-link" class="anchor" href="#compile-and-link" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile and link</h1>
@@ -141,10 +142,10 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> * argv[]) {
     <span class="pl-c">// Create a file</span>
     ofstream myfile;
-    myfile.<span class="pl-c1">open</span> (<span class="pl-s"><span class="pl-pds">"</span>/Users/Giuseppe/Desktop/test.txt<span class="pl-pds">"</span></span>);
+    myfile.<span class="pl-c1">open</span> (<span class="pl-s"><span class="pl-pds">"</span>Path to your file<span class="pl-pds">"</span></span>);
     <span class="pl-c">// Create a writer to handle the stream</span>
 
-    curl_writer <span class="pl-smi">writer</span>(myfile);
+    curl_writer&lt;ostream&gt; <span class="pl-c1">writer</span>(myfile);
     <span class="pl-c">// Pass it to the easy constructor and watch the content returned in that file!</span>
     curl_easy <span class="pl-smi">easy</span>(writer);
 
@@ -155,11 +156,43 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
         <span class="pl-c">// If you want to get the entire error stack we can do:</span>
-        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">what</span>();
+        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">get_traceback</span>();
         <span class="pl-c">// Otherwise we could print the stack like this:</span>
         error.<span class="pl-c1">print_traceback</span>();
     }
     myfile.<span class="pl-c1">close</span>();
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+
+<p>Not interested in files? So let's put the request's output in a variable!</p>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_form.h<span class="pl-pds">"</span></span>
+
+<span class="pl-k">using</span> curl::curl_easy;
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-c">// Create a stream object</span>
+    ostringstream str;
+    <span class="pl-c">// Create a writer object, passing the stream object.</span>
+    curl_writer&lt;ostringstream&gt; <span class="pl-c1">writer</span>(&amp;str);
+
+    <span class="pl-c">// Pass the writer to the easy constructor and watch the content returned in that variable!</span>
+    curl_easy <span class="pl-smi">easy</span>(writer);
+    <span class="pl-c">// Add some option to the easy handle</span>
+    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,string&gt;(CURLOPT_URL,<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>) );
+    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,<span class="pl-k">long</span>&gt;(CURLOPT_FOLLOWLOCATION,<span class="pl-c1">1L</span>));
+    <span class="pl-k">try</span> {
+        easy.<span class="pl-c1">perform</span>();
+    } <span class="pl-k">catch</span> (curl_easy_exception error) {
+        <span class="pl-c">// If you want to get the entire error stack we can do:</span>
+        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">get_traceback</span>();
+        <span class="pl-c">// Otherwise we could print the stack like this:</span>
+        error.<span class="pl-c1">print_traceback</span>();
+    }
+
+    <span class="pl-c">// Let's print the stream content.</span>
+    cout&lt;&lt;str.<span class="pl-c1">str</span>()&lt;&lt;endl;
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 
