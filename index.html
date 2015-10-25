@@ -40,7 +40,7 @@
 <h2>
 <a id="standalone" class="anchor" href="#standalone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Standalone</h2>
 
-<div class="highlight highlight-bash"><pre><span class="pl-c1">cd</span> build
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> build
 cmake ..
 make <span class="pl-c"># -j2</span></pre></div>
 
@@ -72,7 +72,7 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 <p>Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:</p>
 
-<div class="highlight highlight-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
 
 <span class="pl-k">using</span> curl::curl_easy;
 
@@ -94,7 +94,7 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 <p>Here's instead, the creation of an HTTPS POST login form:</p>
 
-<div class="highlight highlight-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_form.h<span class="pl-pds">"</span></span>
 
 <span class="pl-k">using</span> curl::curl_form;
@@ -129,7 +129,7 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 <p>And if we would like to put the returned content in a file? Nothing easier than:</p>
 
-<div class="highlight highlight-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>fstream<span class="pl-pds">&gt;</span></span>
 
@@ -166,7 +166,7 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <p>I have implemented a sender and a receiver to make it easy to use send/receive without handling
 buffers. For example, a very simple send/receiver would be:</p>
 
-<div class="highlight highlight-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_form.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_pair.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_receiver.h<span class="pl-pds">"</span></span>
