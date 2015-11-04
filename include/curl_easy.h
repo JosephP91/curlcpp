@@ -145,7 +145,7 @@ namespace curl  {
 
         /* This points to a linked list of headers, struct curl_slist kind. This
         list is also used for RTSP (in spite of its name) */
-        CURLCPP_DEFINE_OPTION(CURLOPT_HTTPHEADER, curl_slist*);
+        CURLCPP_DEFINE_OPTION(CURLOPT_HTTPHEADER, const struct curl_slist*);
 
         /* This points to a linked list of post entries, struct curl_httppost */
         CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPOST, curl_httppost*);
@@ -938,19 +938,6 @@ namespace curl  {
         * specify an option statically and enforce its corresponding type.
         */
         template <CURLoption Opt> void add(detail::Option_type<Opt> val);
-
-        /**
-         * This method allows users to request internal information from
-         * the curl session. I recommend reading online documentation for
-         * further information.
-         */
-        template<typename T> unique_ptr<T> get_info(const CURLINFO) const;
-        
-        /**
-         * get_info overloaded method. It it used when the second argument is
-         * of type struct_slist *.
-         */
-        unique_ptr<vector<string>> get_info(const CURLINFO) const;
         
         /**
          * Using this function, you can explicitly pause a running connection, 
@@ -1027,16 +1014,6 @@ namespace curl  {
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
         }
-    }
-
-    // Implementation of get_info method.
-    template<typename T> unique_ptr<T> curl_easy::get_info(const CURLINFO info) const {
-        unique_ptr<T> ptr(new T);
-        const CURLcode code = curl_easy_getinfo(this->curl,info,ptr.get());
-        if (code != CURLE_OK) {
-            throw curl_easy_exception(code,__FUNCTION__);
-        }
-        return ptr;
     }
     
     // Implementation of get_curl method.

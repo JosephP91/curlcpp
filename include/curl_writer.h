@@ -36,7 +36,7 @@ using std::cout;
 using std::ostringstream;
 
 // Let's typedef this big boy to enhance code readability.
-typedef size_t (*curlcpp_writer_type)(void *, size_t, size_t, void *);
+using curlcpp_writer_type = size_t(*)(void *,size_t,size_t,void *);
 
 namespace {
     size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
@@ -47,7 +47,6 @@ namespace {
     }
     
     size_t write_variable_callback(void *contents, size_t size, size_t nmemb, void *userp) {
-        
         std::ostringstream *stream = (std::ostringstream*)userp;
         size_t count = size * nmemb;
         stream->write(static_cast<const char *>(contents), count);

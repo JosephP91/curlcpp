@@ -95,26 +95,6 @@ void curl_easy::reset() NOEXCEPT {
     curl_easy_reset(this->curl);
 }
 
-// Putting the namespace here will avoid the "specialization in different namespace" error.
-namespace curl {
-    template<> unique_ptr<vector<string>> curl_easy::get_info(const CURLINFO info) const {
-        struct curl_slist *ptr = nullptr;
-        const CURLcode code = curl_easy_getinfo(this->curl,info,&ptr);
-        if (code != CURLE_OK) {
-            curl_slist_free_all(ptr);
-            throw curl_easy_exception(code,__FUNCTION__);
-        }
-        std::vector<string> infos;
-        struct curl_slist *list = ptr;
-        while (list != nullptr) {
-            infos.push_back(string(list->data));
-            list = list->next;
-        }
-        curl_slist_free_all(ptr);
-        return unique_ptr<vector<string>>{new vector<string>(infos)};
-    }
-}
-
 // Implementation of pause method.
 void curl_easy::pause(const int bitmask) {
     const CURLcode code = curl_easy_pause(this->curl,bitmask);

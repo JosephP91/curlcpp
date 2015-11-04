@@ -44,6 +44,10 @@ using std::pair;
 using std::vector;
 using std::for_each;
 
+// We like it short.
+using curlcpp_traceback_object = pair<string,string>;
+using curlcpp_traceback = vector<curlcpp_traceback_object>;
+
 namespace curl {
     /**
      * This class represents a custom exception for libcurl errors. 
@@ -66,7 +70,7 @@ namespace curl {
         /**
          * Returns the vector of errors.
          */
-        vector<pair<string,string>> get_traceback() const;
+        curlcpp_traceback get_traceback() const;
         /**
          * Simple method which prints the entire error stack.
          */
@@ -76,18 +80,18 @@ namespace curl {
          * The error container must be static or will be cleared
          * when an exception is thrown.
          */
-        static vector<pair<string,string>> traceback;
+        static curlcpp_traceback traceback;
     };
 
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() const {
-        for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const pair<string,string> &value) {
+        for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
             cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<endl;
         });
     }
     
     // Implementation of get_traceback.
-    inline vector<pair<string,string>> curl_exception::get_traceback() const {
+    inline curlcpp_traceback curl_exception::get_traceback() const {
         return curl_exception::traceback;
     }
     

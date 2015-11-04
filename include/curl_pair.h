@@ -39,7 +39,6 @@ using std::string;
 using curl::curl_form;
 using curl::curl_header;
 
-
 namespace curl {
     /**
      * This is a class that wraps two objects: an option and the value for

@@ -5,6 +5,7 @@ set(CURLCPP_SOURCE
   curl_multi.cpp
   curl_share.cpp
   curl_info.cpp
+  curl_cookie.cpp
   curl_exception.cpp
 )
 

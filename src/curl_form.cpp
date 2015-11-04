@@ -116,12 +116,10 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const vec
                     form_name.first(),form_name.second(),
                     CURLFORM_ARRAY,new_files,
                     CURLFORM_END) != 0) {
-        free(new_files);
-        new_files = nullptr;
+        delete []new_files;
         throw curl_exception("Error while adding the form",__FUNCTION__);
     } 
-    free(new_files);
-    new_files = nullptr;
+    delete []new_files;
 }
 
 /**
