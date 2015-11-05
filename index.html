@@ -79,13 +79,15 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> **argv) {
     curl_easy easy;
-    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,string&gt;(CURLOPT_URL,<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>) );
-    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,<span class="pl-k">long</span>&gt;(CURLOPT_FOLLOWLOCATION,<span class="pl-c1">1L</span>));
+    <span class="pl-c">// Add some option to the curl_easy object.</span>
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>);
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_FOLLOWLOCATION&gt;(<span class="pl-c1">1L</span>);
     <span class="pl-k">try</span> {
+        <span class="pl-c">// Execute the request.</span>
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
         <span class="pl-c">// If you want to get the entire error stack we can do:</span>
-        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">get_traceback</span>();
+        curlcpp_traceback errors = error.<span class="pl-c1">get_traceback</span>();
         <span class="pl-c">// Otherwise we could print the stack like this:</span>
         error.<span class="pl-c1">print_traceback</span>();
         <span class="pl-c">// Note that the printing the stack will erase it</span>
@@ -104,7 +106,6 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> * argv[]) {
     curl_form form;
     curl_easy easy;
-
     <span class="pl-c">// Forms creation</span>
     curl_pair&lt;CURLformoption,string&gt; <span class="pl-c1">name_form</span>(CURLFORM_COPYNAME,<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>);
     curl_pair&lt;CURLformoption,string&gt; <span class="pl-c1">name_cont</span>(CURLFORM_COPYCONTENTS,<span class="pl-s"><span class="pl-pds">"</span>you username here<span class="pl-pds">"</span></span>);
@@ -117,13 +118,17 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
         form.<span class="pl-c1">add</span>(pass_form,pass_cont);
 
         <span class="pl-c">// Add some options to our request</span>
-        easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,string&gt;(CURLOPT_URL,<span class="pl-s"><span class="pl-pds">"</span>your url here<span class="pl-pds">"</span></span>));
-        easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,<span class="pl-k">bool</span>&gt;(CURLOPT_SSL_VERIFYPEER,<span class="pl-c1">false</span>));
-        easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,curl_form&gt;(CURLOPT_HTTPPOST,form));
+        easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>your url here<span class="pl-pds">"</span></span>);
+        easy.<span class="pl-smi">add</span>&lt;CURLOPT_SSL_VERIFYPEER&gt;(<span class="pl-c1">false</span>);
+        easy.<span class="pl-smi">add</span>&lt;CURLOPT_HTTPPOST&gt;(form);
+        <span class="pl-c">// Execute the request.</span>
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
-        <span class="pl-c">// Print errors, if any</span>
+        <span class="pl-c">// If you want to get the entire error stack we can do:</span>
+        curlcpp_traceback errors = error.<span class="pl-c1">get_traceback</span>();
+        <span class="pl-c">// Otherwise we could print the stack like this:</span>
         error.<span class="pl-c1">print_traceback</span>();
+        <span class="pl-c">// Note that the printing the stack will erase it</span>
     }
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
@@ -143,22 +148,24 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
     <span class="pl-c">// Create a file</span>
     ofstream myfile;
     myfile.<span class="pl-c1">open</span> (<span class="pl-s"><span class="pl-pds">"</span>Path to your file<span class="pl-pds">"</span></span>);
-    <span class="pl-c">// Create a writer to handle the stream</span>
 
-    curl_writer&lt;ostream&gt; <span class="pl-c1">writer</span>(myfile);
+    <span class="pl-c">// Create a curl_ios object to handle the stream</span>
+    curl_ios&lt;ostream&gt; <span class="pl-c1">writer</span>(myfile);
     <span class="pl-c">// Pass it to the easy constructor and watch the content returned in that file!</span>
     curl_easy <span class="pl-smi">easy</span>(writer);
 
     <span class="pl-c">// Add some option to the easy handle</span>
-    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,string&gt;(CURLOPT_URL,<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>) );
-    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,<span class="pl-k">long</span>&gt;(CURLOPT_FOLLOWLOCATION,<span class="pl-c1">1L</span>));
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>);
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_FOLLOWLOCATION&gt;(<span class="pl-c1">1L</span>);
     <span class="pl-k">try</span> {
+        <span class="pl-c">// Execute the request</span>
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
         <span class="pl-c">// If you want to get the entire error stack we can do:</span>
-        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">get_traceback</span>();
+        curlcpp_traceback errors = error.<span class="pl-c1">get_traceback</span>();
         <span class="pl-c">// Otherwise we could print the stack like this:</span>
         error.<span class="pl-c1">print_traceback</span>();
+        <span class="pl-c">// Note that the printing the stack will erase it</span>
     }
     myfile.<span class="pl-c1">close</span>();
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
@@ -172,25 +179,26 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <span class="pl-k">using</span> curl::curl_easy;
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>() {
-    <span class="pl-c">// Create a stream object</span>
+    <span class="pl-c">// Create a stringstream object</span>
     ostringstream str;
-    <span class="pl-c">// Create a writer object, passing the stream object.</span>
-    curl_writer&lt;ostringstream&gt; <span class="pl-c1">writer</span>(&amp;str);
+    <span class="pl-c">// Create a curl_ios object, passing the stream object.</span>
+    curl_ios&lt;ostringstream&gt; <span class="pl-c1">writer</span>(str);
 
     <span class="pl-c">// Pass the writer to the easy constructor and watch the content returned in that variable!</span>
     curl_easy <span class="pl-smi">easy</span>(writer);
     <span class="pl-c">// Add some option to the easy handle</span>
-    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,string&gt;(CURLOPT_URL,<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>) );
-    easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,<span class="pl-k">long</span>&gt;(CURLOPT_FOLLOWLOCATION,<span class="pl-c1">1L</span>));
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>);
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_FOLLOWLOCATION&gt;(<span class="pl-c1">1L</span>);
     <span class="pl-k">try</span> {
+        <span class="pl-c">// Execute the request.</span>
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
         <span class="pl-c">// If you want to get the entire error stack we can do:</span>
-        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">get_traceback</span>();
+        curlcpp_traceback errors = error.<span class="pl-c1">get_traceback</span>();
         <span class="pl-c">// Otherwise we could print the stack like this:</span>
         error.<span class="pl-c1">print_traceback</span>();
+        <span class="pl-c">// Note that the printing the stack will erase it</span>
     }
-
     <span class="pl-c">// Let's print the stream content.</span>
     cout&lt;&lt;str.<span class="pl-c1">str</span>()&lt;&lt;endl;
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
@@ -213,19 +221,20 @@ buffers. For example, a very simple send/receiver would be:</p>
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> * argv[]) {
     <span class="pl-c">// Simple request</span>
     string request = <span class="pl-s"><span class="pl-pds">"</span>GET / HTTP/1.0<span class="pl-cce">\r\n</span>Host: example.com<span class="pl-cce">\r\n\r\n</span><span class="pl-pds">"</span></span>;
-
     <span class="pl-c">// Creation of easy object.</span>
     curl_easy easy;
     <span class="pl-k">try</span> {
-        easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,string&gt;(CURLOPT_URL,<span class="pl-s"><span class="pl-pds">"</span>http://example.com<span class="pl-pds">"</span></span>));
+        easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>http://example.com<span class="pl-pds">"</span></span>);
         <span class="pl-c">// Just connect</span>
-        easy.<span class="pl-c1">add</span>(curl_pair&lt;CURLoption,<span class="pl-k">bool</span>&gt;(CURLOPT_CONNECT_ONLY,<span class="pl-c1">true</span>));
+        easy.<span class="pl-smi">add</span>&lt;CURLOPT_CONNECT_ONLY&gt;(<span class="pl-c1">true</span>);
+        <span class="pl-c">// Execute the request.</span>
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
         <span class="pl-c">// If you want to get the entire error stack we can do:</span>
-        vector&lt;pair&lt;string,string&gt;&gt; errors = error.<span class="pl-c1">what</span>();
-        <span class="pl-c">// Print errors if any</span>
+        curlcpp_traceback errors = error.<span class="pl-c1">get_traceback</span>();
+        <span class="pl-c">// Otherwise we could print the stack like this:</span>
         error.<span class="pl-c1">print_traceback</span>();
+        <span class="pl-c">// Note that the printing the stack will erase it</span>
     }
 
     <span class="pl-c">// Creation of a sender. You should wait here using select to check if socket is ready to send.</span>
@@ -233,7 +242,6 @@ buffers. For example, a very simple send/receiver would be:</p>
     sender.<span class="pl-c1">send</span>(request);
     <span class="pl-c">// Prints che sent bytes number.</span>
     cout&lt;&lt;<span class="pl-s"><span class="pl-pds">"</span>Sent bytes: <span class="pl-pds">"</span></span>&lt;&lt;sender.<span class="pl-c1">get_sent_bytes</span>()&lt;&lt;endl;
-
     <span class="pl-k">for</span>(;;) {
         <span class="pl-c">// You should wait here to check if socket is ready to receive</span>
         <span class="pl-k">try</span> {
