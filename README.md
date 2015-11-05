@@ -54,13 +54,15 @@ using curl::curl_easy;
 
 int main(int argc, const char **argv) {
     curl_easy easy;
-    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    // Add some option to the curl_easy object.
+    easy.add<CURLOPT_URL>("http://www.google.it");
+    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
     try {
+        // Execute the request.
         easy.perform();
     } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        vector<pair<string,string>> errors = error.get_traceback();
+        curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
         // Note that the printing the stack will erase it
@@ -81,7 +83,6 @@ using curl::curl_easy;
 int main(int argc, const char * argv[]) {
     curl_form form;
     curl_easy easy;
-    
     // Forms creation
     curl_pair<CURLformoption,string> name_form(CURLFORM_COPYNAME,"user");
     curl_pair<CURLformoption,string> name_cont(CURLFORM_COPYCONTENTS,"you username here");
@@ -94,13 +95,17 @@ int main(int argc, const char * argv[]) {
         form.add(pass_form,pass_cont);
         
         // Add some options to our request
-        easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"your url here"));
-        easy.add(curl_pair<CURLoption,bool>(CURLOPT_SSL_VERIFYPEER,false));
-        easy.add(curl_pair<CURLoption,curl_form>(CURLOPT_HTTPPOST,form));
+        easy.add<CURLOPT_URL>("your url here");
+        easy.add<CURLOPT_SSL_VERIFYPEER>(false);
+        easy.add<CURLOPT_HTTPPOST>(form);
+        // Execute the request.
         easy.perform();
     } catch (curl_easy_exception error) {
-    	// Print errors, if any
+        // If you want to get the entire error stack we can do:
+        curlcpp_traceback errors = error.get_traceback();
+        // Otherwise we could print the stack like this:
         error.print_traceback();
+        // Note that the printing the stack will erase it
     }
     return 0;
 }
@@ -122,22 +127,24 @@ int main(int argc, const char * argv[]) {
     // Create a file
     ofstream myfile;
     myfile.open ("Path to your file");
-    // Create a writer to handle the stream
     
-    curl_writer<ostream> writer(myfile);
+    // Create a curl_ios object to handle the stream
+    curl_ios<ostream> writer(myfile);
     // Pass it to the easy constructor and watch the content returned in that file!
     curl_easy easy(writer);
     
     // Add some option to the easy handle
-    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    easy.add<CURLOPT_URL>("http://www.google.it");
+    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
     try {
+        // Execute the request
         easy.perform();
     } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        vector<pair<string,string>> errors = error.get_traceback();
+        curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
+        // Note that the printing the stack will erase it
     }
     myfile.close();
     return 0;
@@ -153,25 +160,26 @@ Not interested in files? So let's put the request's output in a variable!
 using curl::curl_easy;
 
 int main() {
-    // Create a stream object
+    // Create a stringstream object
     ostringstream str;
-    // Create a writer object, passing the stream object.
-    curl_writer<ostringstream> writer(&str);
+    // Create a curl_ios object, passing the stream object.
+    curl_ios<ostringstream> writer(str);
     
     // Pass the writer to the easy constructor and watch the content returned in that variable!
     curl_easy easy(writer);
     // Add some option to the easy handle
-    easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://www.google.it") );
-    easy.add(curl_pair<CURLoption,long>(CURLOPT_FOLLOWLOCATION,1L));
+    easy.add<CURLOPT_URL>("http://www.google.it");
+    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
     try {
+        // Execute the request.
         easy.perform();
     } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        vector<pair<string,string>> errors = error.get_traceback();
+        curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
+        // Note that the printing the stack will erase it
     }
-    
     // Let's print the stream content.
     cout<<str.str()<<endl;
     return 0;
@@ -196,19 +204,20 @@ using curl::curl_receiver;
 int main(int argc, const char * argv[]) {
     // Simple request
     string request = "GET / HTTP/1.0\r\nHost: example.com\r\n\r\n";
-    
     // Creation of easy object.
     curl_easy easy;
     try {
-        easy.add(curl_pair<CURLoption,string>(CURLOPT_URL,"http://example.com"));
+        easy.add<CURLOPT_URL>("http://example.com");
         // Just connect
-        easy.add(curl_pair<CURLoption,bool>(CURLOPT_CONNECT_ONLY,true));
+        easy.add<CURLOPT_CONNECT_ONLY>(true);
+        // Execute the request.
         easy.perform();
     } catch (curl_easy_exception error) {
         // If you want to get the entire error stack we can do:
-        vector<pair<string,string>> errors = error.what();
-        // Print errors if any
+        curlcpp_traceback errors = error.get_traceback();
+        // Otherwise we could print the stack like this:
         error.print_traceback();
+        // Note that the printing the stack will erase it
     }
     
     // Creation of a sender. You should wait here using select to check if socket is ready to send.
@@ -216,7 +225,6 @@ int main(int argc, const char * argv[]) {
     sender.send(request);
     // Prints che sent bytes number.
     cout<<"Sent bytes: "<<sender.get_sent_bytes()<<endl;
-    
     for(;;) {
         // You should wait here to check if socket is ready to receive
         try {
