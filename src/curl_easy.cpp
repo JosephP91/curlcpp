@@ -13,8 +13,8 @@ curl_easy::curl_easy() : curl_interface() {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    curl_writer<ostream> writer;
-    this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+    curl_ios<ostream> writer;
+    this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
     this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
@@ -24,8 +24,8 @@ curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    curl_writer<ostream> writer;
-    this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+    curl_ios<ostream> writer;
+    this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
     this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 

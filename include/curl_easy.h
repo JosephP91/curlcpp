@@ -33,13 +33,13 @@
 #include "curl_config.h"
 #include "curl_interface.h"
 #include "curl_pair.h"
-#include "curl_writer.h"
+#include "curl_ios.h"
 
 using std::for_each;
 using std::unique_ptr;
 
 using curl::curl_pair;
-using curl::curl_writer;
+using curl::curl_ios;
 using curl::curl_interface;
 using curl::curl_easy_exception;
 
@@ -886,7 +886,7 @@ namespace curl  {
          * stream where they want to put the output of the libcurl
          * operations.
          */
-        template<class T> explicit curl_easy(curl_writer<T> &);
+        template<class T> explicit curl_easy(curl_ios<T> &);
         /**
          * This overloaded constructor allows users to specify a flag
          * used to initialize libcurl environment.
@@ -896,7 +896,7 @@ namespace curl  {
          * This overloaded constructor specifies the environment
          * initialization flags and an output stream for the libcurl output.
          */
-        template<class T> curl_easy(const long, curl_writer<T> &);
+        template<class T> curl_easy(const long, curl_ios<T> &);
         /**
          * Copy constructor to handle pointer copy. Internally, it uses
          * a function which duplicates the easy handler.
@@ -974,22 +974,22 @@ namespace curl  {
     };
     
     // Implementation of default constructor.
-    template<class T> curl_easy::curl_easy(curl_writer<T> &writer) : curl_interface() {
+    template<class T> curl_easy::curl_easy(curl_ios<T> &writer) : curl_interface() {
         this->curl = curl_easy_init();
         if (this->curl == nullptr) {
             throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
         }
-        this->add(curl_pair<CURLoption,curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+        this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
         this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
     }
     
     // Implementation of overridden constructor.
-    template<class T> curl_easy::curl_easy(const long flag, curl_writer<T> &writer) : curl_interface(flag) {
+    template<class T> curl_easy::curl_easy(const long flag, curl_ios<T> &writer) : curl_interface(flag) {
         this->curl = curl_easy_init();
         if (this->curl == nullptr) {
             throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
         }
-        this->add(curl_pair<CURLoption, curlcpp_writer_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
+        this->add(curl_pair<CURLoption, curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
         this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
     }
     
