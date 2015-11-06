@@ -5,6 +5,11 @@
 using curl::curl_header;
 using curl::curl_easy;
 
+/*
+ * This example shows how to add custom headers to a simple
+ * curl request.
+ */
+
 int main() {
     // Let's create an object which will contain a list of headers.
     curl_header header;

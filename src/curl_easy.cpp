@@ -13,9 +13,6 @@ curl_easy::curl_easy() : curl_interface() {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    curl_ios<ostream> writer;
-    this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-    this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of overridden constructor.
@@ -24,9 +21,6 @@ curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
-    curl_ios<ostream> writer;
-    this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-    this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
 }
 
 // Implementation of copy constructor to respect the rule of three.
@@ -76,7 +70,6 @@ void curl_easy::escape(string &url) {
     }
     url = string(url_encoded);
     curl_free(url_encoded);
-    url_encoded = nullptr;
 }
 
 // Implementation of unescape method.
@@ -87,7 +80,6 @@ void curl_easy::unescape(string &url) {
     }
     url = string(url_decoded);
     curl_free(url_decoded);
-    url_decoded = nullptr;
 }
 
 // Implementation of reset method.

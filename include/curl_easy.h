@@ -87,11 +87,11 @@ namespace curl  {
 
         /* Function that will be called to store the output (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION, size_t(*)(char *ptr, size_t size, size_t nmemb, void *userdata));
+        CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION, size_t(*)(void *ptr, size_t size, size_t nmemb, void *userdata));
 
         /* Function that will be called to read the input (instead of fread). The
         * parameters will use fread() syntax, make sure to follow them. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION, size_t(*)(char *buffer, size_t size, size_t nitems, void *instream));
+        CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION, size_t(*)(void *buffer, size_t size, size_t nitems, void *instream));
 
         /* Time-out the read operation after this amount of seconds */
         CURLCPP_DEFINE_OPTION(CURLOPT_TIMEOUT, long);
@@ -300,7 +300,7 @@ namespace curl  {
 
         /* Function that will be called to store headers (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_HEADERFUNCTION, size_t(*)(char *buffer, size_t size, size_t nitems, void *userdata));
+        CURLCPP_DEFINE_OPTION(CURLOPT_HEADERFUNCTION, size_t(*)(void *buffer, size_t size, size_t nitems, void *userdata));
 
         /* Set this to force the HTTP request to get back to GET. Only really usable
         if POST, PUT or a custom request have been used first.
@@ -882,21 +882,10 @@ namespace curl  {
          */
         curl_easy();
         /**
-         * This overloaded constructor allows users to specify a
-         * stream where they want to put the output of the libcurl
-         * operations.
-         */
-        template<class T> explicit curl_easy(curl_ios<T> &);
-        /**
          * This overloaded constructor allows users to specify a flag
          * used to initialize libcurl environment.
          */
         explicit curl_easy(const long);
-        /**
-         * This overloaded constructor specifies the environment
-         * initialization flags and an output stream for the libcurl output.
-         */
-        template<class T> curl_easy(const long, curl_ios<T> &);
         /**
          * Copy constructor to handle pointer copy. Internally, it uses
          * a function which duplicates the easy handler.
@@ -972,26 +961,6 @@ namespace curl  {
     private:
         CURL *curl;
     };
-    
-    // Implementation of default constructor.
-    template<class T> curl_easy::curl_easy(curl_ios<T> &writer) : curl_interface() {
-        this->curl = curl_easy_init();
-        if (this->curl == nullptr) {
-            throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
-        }
-        this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-        this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
-    }
-    
-    // Implementation of overridden constructor.
-    template<class T> curl_easy::curl_easy(const long flag, curl_ios<T> &writer) : curl_interface(flag) {
-        this->curl = curl_easy_init();
-        if (this->curl == nullptr) {
-            throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
-        }
-        this->add(curl_pair<CURLoption, curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
-        this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
-    }
     
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_easy::add(Iterator begin, const Iterator end) {

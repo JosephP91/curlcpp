@@ -1,10 +1,17 @@
 #include "curl_easy.h"
+#include "curl_exception.h"
 #include "curl_form.h"
 #include "curl_cookie.h"
 
 using curl::curl_header;
 using curl::curl_easy;
+using curl::curl_exception;
 using curl::curl_cookie;
+
+/*
+ * This example shows to how to set and get cookies in a
+ * simple curl request.
+ */
 
 int main() {
     // Easy object to handle the connection.
@@ -16,7 +23,7 @@ int main() {
     curl_cookie cookie(easy);
     // Let's set some cookies.
     cookie.set_cookie_list("Set-Cookie: OLD_PREF=3d141414bf4209321; "
-                           "expires=Sun, 17-Jan-2038 19:14:07 GMT; path=/; domain=.example.com");
+                                   "expires=Sun, 17-Jan-2038 19:14:07 GMT; path=/; domain=.example.com");
     curlcpp_cookies cookies;
     try {
         easy.perform();

@@ -1,5 +1,5 @@
 /**
- * File:   curl_cookies.cpp
+ * File:   curl_cookie.cpp
  * Author: Giuseppe Persico
  */
 
@@ -35,6 +35,11 @@ namespace curl {
     // Implementation of set_cookie_list method.
     void curl_cookie::set_cookie_list(const string list) NOEXCEPT {
         this->easy.add<CURLOPT_COOKIELIST>(list.c_str());
+    }
+
+    // Implementation of overloaded set_cookie_list method.
+    void curl_cookie::set_cookie_list(const char *list) NOEXCEPT {
+        this->easy.add<CURLOPT_COOKIELIST>(list);
     }
     
     // Implementation of overloaded set_cookie_list method.
