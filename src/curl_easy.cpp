@@ -13,6 +13,11 @@ curl_easy::curl_easy() : curl_interface() {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
+    curl_ios<ostream> writer;
+    this->add<CURLOPT_WRITEFUNCTION>(writer.get_function());
+    this->add<CURLOPT_WRITEDATA>(static_cast<void*>(writer.get_stream()));
+    this->add<CURLOPT_HEADERFUNCTION>(writer.get_function());
+    this->add<CURLOPT_HEADERDATA>(static_cast<void *>(writer.get_stream()));
 }
 
 // Implementation of overridden constructor.
@@ -21,6 +26,9 @@ curl_easy::curl_easy(const long flag) : curl_interface(flag) {
     if (this->curl == nullptr) {
         throw curl_easy_exception("Null pointer intercepted",__FUNCTION__);
     }
+    curl_ios<ostream> writer;
+    this->add<CURLOPT_WRITEFUNCTION>(writer.get_function());
+    this->add<CURLOPT_WRITEDATA>(static_cast<void*>(writer.get_stream()));
 }
 
 // Implementation of copy constructor to respect the rule of three.
