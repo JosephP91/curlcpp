@@ -29,17 +29,13 @@
 #include <string>
 #include "curl_config.h"
 
-// Forward reference to curl_form and curl_header
 namespace curl {
+	using std::string;
+
+	// Forward reference to curl_form and curl_header
     class curl_form;
     class curl_header;
-}
 
-using std::string;
-using curl::curl_form;
-using curl::curl_header;
-
-namespace curl {
     /**
      * This is a class that wraps two objects: an option and the value for
      * that option. It's very useful when building forms or setting options

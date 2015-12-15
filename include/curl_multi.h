@@ -26,12 +26,13 @@
 #ifndef __curlcpp__curl_multi__
 #define __curlcpp__curl_multi__
 
+#include <memory>
 #include "curl_easy.h"
 
-using curl::curl_easy;
-using curl::curl_multi_exception;
-
 namespace curl {
+
+	using std::unique_ptr;
+
     /**
      * As libcurl documentation says, the multi interface offers several abilities that
      * the easy interface doesn't. They are mainly:

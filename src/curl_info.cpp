@@ -6,6 +6,9 @@
 #include "curl_info.h"
 
 using curl::curl_info;
+using std::string;
+using std::list;
+
 
 // Implementation of default constructor.
 curl_info::curl_info() {

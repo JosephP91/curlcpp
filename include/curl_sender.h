@@ -28,8 +28,6 @@
 
 #include "curl_easy.h"
 
-using curl::curl_easy;
-
 namespace curl {
     /**
      * This class implements a sender that sends raw data on an established

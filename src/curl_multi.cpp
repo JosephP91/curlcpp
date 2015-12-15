@@ -6,6 +6,7 @@
 #include "curl_multi.h"
 
 using curl::curl_multi;
+using std::vector;
 
 // Implementation of constructor.
 curl_multi::curl_multi() : curl_interface() {

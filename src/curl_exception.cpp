@@ -6,6 +6,7 @@
 #include "curl_exception.h"
 
 using curl::curl_exception;
+using curl::curlcpp_traceback;
 
 // Need to define the traceback here to separate declaration from definition, or we'll get a linker error.
 curlcpp_traceback curl::curl_exception::traceback;

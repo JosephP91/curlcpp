@@ -36,20 +36,24 @@
 
 #include "curl_config.h"
 
-using std::cout;
-using std::endl;
-using std::string;
-using std::exception;
-using std::pair;
-using std::vector;
-using std::for_each;
 
-// We like it short.
-using curlcpp_traceback_object = pair<string,string>;
-using curlcpp_traceback = vector<curlcpp_traceback_object>;
+
 
 namespace curl {
-    /**
+
+	using std::cout;
+	using std::endl;
+	using std::string;
+	using std::exception;
+	using std::pair;
+	using std::vector;
+	using std::for_each;
+
+	// We like it short.
+	using curlcpp_traceback_object = pair<string,string>;
+	using curlcpp_traceback = vector<curlcpp_traceback_object>;
+
+	/**
      * This class represents a custom exception for libcurl errors. 
      * If a function throws an error, its name will be added to a
      * vector (treated like a stack, because if I had used a stack,
@@ -58,6 +62,7 @@ namespace curl {
      */
     class curl_exception : public exception {
     public:
+
         /**
          * This constructor is used to build the error.
          */

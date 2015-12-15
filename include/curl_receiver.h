@@ -29,10 +29,10 @@
 #include <array>
 #include "curl_easy.h"
 
-using std::array;
-using curl::curl_easy;
-
 namespace curl {
+
+	using std::array;
+
     /**
      * This class implements a receiver that allow users to receive raw
      * data on an established connection on an easy handler.

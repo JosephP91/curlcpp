@@ -30,21 +30,22 @@
 #include <ostream>
 #include "curl_easy.h"
 
-using std::string;
-using std::ostringstream;
-using curl::curl_easy;
-
-using curlcpp_cookies = vector<string>;
-
 /**
  * This class represents a generic cookie handler. It allows a user to get
  * and set cookie for a domain, in an easy way and without caring about resources
  * allocation and deallocation.
  */
 namespace curl {
+	using curlcpp_cookies = vector<string>;
+
+	using std::string;
+   	using std::ostringstream;
+
     class curl_cookie {
+
     public:
-        // This constructor allow you to specify a curl_easy object.
+
+   		// This constructor allow you to specify a curl_easy object.
         curl_cookie(curl_easy &easy) : easy(easy) {}
         // This method allow you to get all known cookies for a specific domain.
         const curlcpp_cookies get() const NOEXCEPT;

@@ -32,10 +32,10 @@
 
 #include "curl_config.h"
 
-using std::string;
-using std::list;
-
 namespace curl {
+	using std::string;
+	using std::list;
+
     /**
      * This class represents a structure that provides information about various
      * features in the running version of libcurl.

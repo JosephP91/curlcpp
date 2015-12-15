@@ -35,13 +35,7 @@
 #include "curl_pair.h"
 #include "curl_ios.h"
 
-using std::for_each;
 using std::unique_ptr;
-
-using curl::curl_pair;
-using curl::curl_ios;
-using curl::curl_interface;
-using curl::curl_easy_exception;
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
@@ -49,6 +43,8 @@ using curl::curl_easy_exception;
     }
 
 namespace curl  {
+	using std::for_each;
+
     namespace detail {
         template <CURLoption>
         struct option_t;

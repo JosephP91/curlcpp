@@ -31,41 +31,45 @@
 #include <string>
 #include <sstream>
 
-using std::ostream;
-using std::istream;
-using std::string;
-using std::cout;
-using std::cin;
-using std::ostringstream;
+
 
 // Let's typedef this big boy to enhance code readability.
 using curlcpp_callback_type = size_t(*)(void *,size_t,size_t,void *);
 
 namespace {
+	//TODO can be moved inside the namespace?
+
     // Default in-memory write callback.
     size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
         const size_t realsize = size * nmemb;
-        ostream* const mem = static_cast<ostream*>(userp);
+        std::ostream* const mem = static_cast<std::ostream*>(userp);
         mem->write(static_cast<const char*>(contents), realsize);
         return realsize;
     }
     // Default in-variable write callback.
     size_t write_variable_callback(void *contents, size_t size, size_t nmemb, void *userp) {
         const size_t realsize = size * nmemb;
-        std::ostringstream *stream = static_cast<ostringstream*>(userp);
+        std::ostringstream *stream = static_cast<std::ostringstream*>(userp);
         stream->write(static_cast<const char *>(contents), realsize);
         return realsize;
     }
     // Default in-memory read callback.
     size_t read_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
         const size_t realsize = size * nmemb;
-        istream* const mem = static_cast<istream*>(userp);
+        std::istream* const mem = static_cast<std::istream*>(userp);
         mem->read(static_cast<char*>(contents), realsize);
         return mem->gcount();
     }
 }
 
 namespace curl {
+	using std::ostream;
+	using std::istream;
+	using std::string;
+	using std::cout;
+	using std::cin;
+	using std::ostringstream;
+
     template<class T> class curl_ios {
     public:
         // This constructor allows to specifiy a custom stream and a custom callback pointer.

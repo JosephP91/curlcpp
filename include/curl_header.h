@@ -32,10 +32,10 @@
 
 #include "curl_config.h"
 
-using std::string;
-using std::initializer_list;
-
 namespace curl {
+	using std::string;
+	using std::initializer_list;
+
     /**
      * This class represents a generic header. It allows a user to add
      * headers without caring about deallocation of resources.

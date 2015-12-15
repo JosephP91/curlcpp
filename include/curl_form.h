@@ -34,12 +34,11 @@
 #include "curl_exception.h"
 #include "curl_pair.h"
 
-using std::vector;
-using std::bad_alloc;
-using curl::curl_pair;
-using curl::curl_exception;
-
 namespace curl {
+
+	using std::vector;
+	using std::bad_alloc;
+
     /**
      * This class simplifies the creation of a form. It wraps all the libcurl
      * functions used to add content to a form and to destroy it.

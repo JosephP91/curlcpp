@@ -11,10 +11,8 @@
 #include <string>
 #include "curl_exception.h"
 
-using std::string;
-using curl::curl_exception;
-
 namespace curl {
+	using std::string;
     /**
      * This class provides some utilities that are unrelated to
      * the libcurl interfaces, so they are enclosed in this class.
