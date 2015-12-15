@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "curl_easy.h"
 #include "curl_exception.h"
 #include "curl_form.h"
@@ -5,8 +7,10 @@
 
 using curl::curl_header;
 using curl::curl_easy;
-using curl::curl_exception;
+using curl::curl_easy_exception;
 using curl::curl_cookie;
+using curl::curlcpp_cookies;
+
 
 /*
  * This example shows to how to set and get cookies in a
@@ -36,7 +40,7 @@ int main() {
     }
     // Now let's print them
     for (auto cook : cookies) {
-        cout<<cook<<endl;
+        std::cout<<cook<<std::endl;
     }
     return 0;
 }

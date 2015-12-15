@@ -4,6 +4,8 @@
 
 using curl::curl_header;
 using curl::curl_easy;
+using curl::curl_easy_exception;
+using curl::curlcpp_traceback;
 
 /*
  * This example shows how to add custom headers to a simple
