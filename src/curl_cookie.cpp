@@ -8,6 +8,8 @@
 #include "curl_cookie.h"
 
 using std::vector;
+using std::string;
+using std::ostringstream;
 
 namespace curl {
 

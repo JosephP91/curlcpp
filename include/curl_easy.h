@@ -942,12 +942,12 @@ namespace curl  {
          * This function converts the given input string to an URL encoded
          * string and returns a newly allocated string.
          */
-        void escape(string &);
+        void escape(std::string &);
         /**
          * This function converts the given URL encoded input string to a
          * "plain string" and returns a newly allocated string.
          */
-        void unescape(string &);
+        void unescape(std::string &);
         /**
          * This function performs all the operations a user has specified
          * with the add methods. If the performing operation has finished

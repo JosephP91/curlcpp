@@ -33,8 +33,6 @@
 #include "curl_config.h"
 
 namespace curl {
-	using std::string;
-	using std::list;
 
     /**
      * This class represents a structure that provides information about various
@@ -56,30 +54,30 @@ namespace curl {
          * Returns a string that shows what host information that this
          * libcurl was built for.
          */
-        string get_host() const NOEXCEPT;
+        std::string get_host() const NOEXCEPT;
         /**
          * Returns a string for the OpenSSL version used. If libcurl has no
          * SSL support, the method returns null.
          */
-        string get_ssl_version() const NOEXCEPT;
+        std::string get_ssl_version() const NOEXCEPT;
         /**
          * Returns a string for libz compression library version. If libcurl
          * has no libz support, the method returns null.
          */
-        string get_libz_version() const NOEXCEPT;
+        std::string get_libz_version() const NOEXCEPT;
         /**
          * No description supplied for this method.
          */
-        string get_ares() const NOEXCEPT;
+        std::string get_ares() const NOEXCEPT;
         /**
          * No description supplied for this method.
          */
-        string get_libidn() const NOEXCEPT;
+        std::string get_libidn() const NOEXCEPT;
         /**
          * Returns a string for libssh library version. If libcurl
          * has no libssh support, the method returns null.
          */
-        string get_libssh_version() const NOEXCEPT;
+        std::string get_libssh_version() const NOEXCEPT;
         /**
          * Returns the version number.
          */
@@ -104,39 +102,39 @@ namespace curl {
          * Returns a list of all the protocols supported in the
          * running version of libcurl library.
          */
-        list<string> get_protocols() const NOEXCEPT;
+        std::list<std::string> get_protocols() const NOEXCEPT;
     private:
         const curl_version_info_data *version;
     };
 
     // Implementation of get_host method.
-    inline string curl_info::get_host() const NOEXCEPT {
-        return string(this->version->host);
+    inline std::string curl_info::get_host() const NOEXCEPT {
+        return std::string(this->version->host);
     }
 
     // Implementation of get_ssl_version.
-    inline string curl_info::get_ssl_version() const NOEXCEPT {
-        return string(this->version->ssl_version);
+    inline std::string curl_info::get_ssl_version() const NOEXCEPT {
+        return std::string(this->version->ssl_version);
     }
 
     // Implementation of get_libz_version.
-    inline string curl_info::get_libz_version() const NOEXCEPT {
-        return string(this->version->libz_version);
+    inline std::string curl_info::get_libz_version() const NOEXCEPT {
+        return std::string(this->version->libz_version);
     }
 
     // Implementation of get_ares method.
-    inline string curl_info::get_ares() const NOEXCEPT {
-        return string(this->version->ares);
+    inline std::string curl_info::get_ares() const NOEXCEPT {
+        return std::string(this->version->ares);
     }
 
     // Implementation of get_libidin method.
-    inline string curl_info::get_libidn() const NOEXCEPT {
-        return string(this->version->libidn);
+    inline std::string curl_info::get_libidn() const NOEXCEPT {
+        return std::string(this->version->libidn);
     }
 
     // Implementation of get_libssh_version method.
-    inline string curl_info::get_libssh_version() const NOEXCEPT {
-        return string(this->version->libssh_version);
+    inline std::string curl_info::get_libssh_version() const NOEXCEPT {
+        return std::string(this->version->libssh_version);
     }
 
     // Implementation of get_version_number method.

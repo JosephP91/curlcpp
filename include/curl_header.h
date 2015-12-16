@@ -33,8 +33,6 @@
 #include "curl_config.h"
 
 namespace curl {
-	using std::string;
-	using std::initializer_list;
 
     /**
      * This class represents a generic header. It allows a user to add
@@ -51,7 +49,7 @@ namespace curl {
          * Overloaded constructor that allows users to initialize the
          * headers list with a list of values.
          */
-        curl_header(initializer_list<string>);
+        curl_header(std::initializer_list<std::string>);
         /**
          * Copy constructor. Performs a deep copy of the headers list.
          */
@@ -69,7 +67,7 @@ namespace curl {
         /**
          * This method allows users to add a header as string.
          */
-        void add(const string);
+        void add(const std::string);
         /**
          * This method allows users to add headers specifying an iterable
          * data structure containing the headers to add.

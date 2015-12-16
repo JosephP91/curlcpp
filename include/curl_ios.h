@@ -37,7 +37,6 @@
 using curlcpp_callback_type = size_t(*)(void *,size_t,size_t,void *);
 
 namespace {
-	//TODO can be moved inside the namespace?
 
     // Default in-memory write callback.
     size_t write_memory_callback(void *contents, size_t size, size_t nmemb, void *userp) {
@@ -63,12 +62,6 @@ namespace {
 }
 
 namespace curl {
-	using std::ostream;
-	using std::istream;
-	using std::string;
-	using std::cout;
-	using std::cin;
-	using std::ostringstream;
 
     template<class T> class curl_ios {
     public:
@@ -96,18 +89,18 @@ namespace curl {
     };
     
     // Template specialization for ostream class.
-    template<> class curl_ios<ostream> {
+    template<> class curl_ios<std::ostream> {
     public:
         // This constructor will initialize the stream with cout and the callback with a default in-memory write callback.
-        curl_ios() : _callback_ptr(write_memory_callback), _io_stream(&cout) {}
+        curl_ios() : _callback_ptr(write_memory_callback), _io_stream(&std::cout) {}
         // This constructor will initialize the stream with a customized stream and a default in-memory write callback.
-        curl_ios(ostream &io_stream) : _callback_ptr(write_memory_callback), _io_stream(&io_stream) {}
+        curl_ios(std::ostream &io_stream) : _callback_ptr(write_memory_callback), _io_stream(&io_stream) {}
         // This constructor will initialize the stream with cout and a customized write callback.
-        curl_ios(curlcpp_callback_type callback_ptr) : _io_stream(&cout) {
+        curl_ios(curlcpp_callback_type callback_ptr) : _io_stream(&std::cout) {
             this->set_callback(callback_ptr);
         }
         // This constructor will initialize the the stream with a custom stream and the callback with a customized one.
-        curl_ios(ostream &io_stream, curlcpp_callback_type callback_ptr) : _io_stream(&io_stream) {
+        curl_ios(std::ostream &io_stream, curlcpp_callback_type callback_ptr) : _io_stream(&io_stream) {
             this->set_callback(callback_ptr);
         }
         // This method allow to specify a custom callback pointer.
@@ -115,7 +108,7 @@ namespace curl {
             _callback_ptr = callback_ptr == nullptr ? write_variable_callback : callback_ptr;
         }
         // This method returns the stream pointer.
-        ostream *get_stream() const {
+        std::ostream *get_stream() const {
             return this->_io_stream;
         }
         // This method returns the callback for this curl_ios.
@@ -126,16 +119,16 @@ namespace curl {
         // The callback pointer.
         curlcpp_callback_type _callback_ptr;
         // A stream pointer.
-        ostream *_io_stream;
+        std::ostream *_io_stream;
     };
     
     // Template specialization for ostringstream class.
-    template<> class curl_ios<ostringstream> {
+    template<> class curl_ios<std::ostringstream> {
     public:
         //This constructor allows to specify a custom ostringstream stream.
-        curl_ios(ostringstream &o_stream) : _callback_ptr(write_variable_callback), _o_stream(&o_stream) {}
+        curl_ios(std::ostringstream &o_stream) : _callback_ptr(write_variable_callback), _o_stream(&o_stream) {}
         //This constructor allows to specify a custom stream and a custom callback pointer.
-        curl_ios(ostringstream &o_stream, curlcpp_callback_type callback_ptr) {
+        curl_ios(std::ostringstream &o_stream, curlcpp_callback_type callback_ptr) {
             _o_stream = &o_stream;
             this->set_callback(callback_ptr);
         }
@@ -144,7 +137,7 @@ namespace curl {
             _callback_ptr = callback_ptr == nullptr ? write_variable_callback : callback_ptr;
         }
         // This method returns the stream pointer.
-        ostringstream *get_stream() const {
+        std::ostringstream *get_stream() const {
             return this->_o_stream;
         }
         // This method returns the callback pointer.
@@ -155,25 +148,25 @@ namespace curl {
         // The callback pointer.
         curlcpp_callback_type _callback_ptr;
         // The ostringstream pointer.
-        ostringstream *_o_stream;
+        std::ostringstream *_o_stream;
     };
     
     
     // Template specialization for istream class.
-    template<> class curl_ios<istream> {
+    template<> class curl_ios<std::istream> {
     public:
         // The default constructor will initialize the callback pointer and the stream with default values.
-        curl_ios() : _callback_ptr(read_memory_callback), _i_stream(&cin) {}
+        curl_ios() : _callback_ptr(read_memory_callback), _i_stream(&std::cin) {}
         //This constructor allows to specify an input stream while the a default callback pointer will be used.
-        curl_ios(istream &i_stream) : _callback_ptr(read_memory_callback) {
+        curl_ios(std::istream &i_stream) : _callback_ptr(read_memory_callback) {
             _i_stream = &i_stream;
         }
         // This overloaded constructor allows to specify a custom callback pointer while the stream will be cin.
-        curl_ios(curlcpp_callback_type callback_ptr) : _i_stream(&cin) {
+        curl_ios(curlcpp_callback_type callback_ptr) : _i_stream(&std::cin) {
             this->set_callback(callback_ptr);
         }
         // This method allows to specify a custom stream and a custom callback pointer.
-        curl_ios(istream &i_stream, curlcpp_callback_type callback_ptr) : _i_stream(&i_stream) {
+        curl_ios(std::istream &i_stream, curlcpp_callback_type callback_ptr) : _i_stream(&i_stream) {
             this->set_callback(callback_ptr);
         }
         // This method allows to specify a custom callback pointer.
@@ -181,7 +174,7 @@ namespace curl {
             _callback_ptr = callback_ptr == nullptr ? write_variable_callback : callback_ptr;
         }
         // This method returns the stream pointer.
-        istream *get_stream() const {
+        std::istream *get_stream() const {
             return _i_stream;
         }
         // This method returns the callback pointer.
@@ -192,7 +185,7 @@ namespace curl {
         // The callback pointer.
         curlcpp_callback_type _callback_ptr;
         // The stream pointer.
-        istream *_i_stream;
+        std::istream *_i_stream;
     };
 }
 

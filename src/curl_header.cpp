@@ -7,9 +7,13 @@
 #include "curl_exception.h"
 #include <algorithm>
 
+using std::string;
+using std::initializer_list;
 using std::for_each;
+
 using curl::curl_header;
 using curl::curl_exception;
+
 
 // Implementation of constructor.
 curl_header::curl_header() : size(0), headers(nullptr) {
