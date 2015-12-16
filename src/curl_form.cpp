@@ -8,6 +8,10 @@
 
 using curl::curl_form;
 
+using std::string;
+using std::vector;
+using std::bad_alloc;
+
 // Implementation of constructor.
 curl_form::curl_form() : form_post(nullptr), last_ptr(nullptr) {
     // ... nothing to do here ...

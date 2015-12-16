@@ -30,7 +30,6 @@
 #include "curl_config.h"
 
 namespace curl {
-	using std::string;
 
 	// Forward reference to curl_form and curl_header
     class curl_form;
@@ -69,13 +68,13 @@ namespace curl {
     /**
      * Template specialization for C++ strings and CURLformoption.
      */
-    template<> class curl_pair<CURLformoption,string> {
+    template<> class curl_pair<CURLformoption,std::string> {
     public:
         /**
          * The two parameters constructor gives users a fast way to
          * build an object of this type.
          */
-        curl_pair(const CURLformoption option, const string &value) : option(option), value(value) {}
+        curl_pair(const CURLformoption option, const std::string &value) : option(option), value(value) {}
         /**
          * Simple method that returns the first field of the pair.
          */
@@ -91,7 +90,7 @@ namespace curl {
         }
     private:
         const CURLformoption option;
-        const string &value;
+        const std::string &value;
     };
         
     /**
@@ -100,13 +99,13 @@ namespace curl {
      * handle C++ string type, so we can specialize curl_pair class in a
      * manner that its methods returns a const char *.
      */
-    template<class T> class curl_pair<T,string> {
+    template<class T> class curl_pair<T,std::string> {
     public:
         /**
          * The two parameters constructor gives users a fast way to 
          * build an object of this type.
          */
-        curl_pair(const T option, const string &value) : option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
+        curl_pair(const T option, const std::string &value) : option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
         /**
          * Simple method that returns the first field of the pair.
          */
@@ -122,7 +121,7 @@ namespace curl {
         }
     private:
         const T option;
-        const string &value;
+        const std::string &value;
     };
     
     /**

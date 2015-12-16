@@ -35,7 +35,6 @@
 #include "curl_pair.h"
 #include "curl_ios.h"
 
-using std::unique_ptr;
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
@@ -43,7 +42,6 @@ using std::unique_ptr;
     }
 
 namespace curl  {
-	using std::for_each;
 
     namespace detail {
         template <CURLoption>

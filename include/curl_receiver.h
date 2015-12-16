@@ -31,8 +31,6 @@
 
 namespace curl {
 
-	using std::array;
-
     /**
      * This class implements a receiver that allow users to receive raw
      * data on an established connection on an easy handler.
@@ -57,7 +55,7 @@ namespace curl {
          * Simple getter method that returns the buffer with the received
          * data.
          */
-        array<T,SIZE> get_buffer() const;
+        std::array<T,SIZE> get_buffer() const;
         /**
          * Simple getter method that returns the number of received bytes.
          * Real applications should check this number to ensure that the
@@ -65,7 +63,7 @@ namespace curl {
          */
         size_t get_received_bytes() const;
     private:
-        array<T,SIZE> _buffer;
+        std::array<T,SIZE> _buffer;
         size_t _recv_bytes;
     };
     
@@ -89,7 +87,7 @@ namespace curl {
     }
     
     // Implementation of get_buffer method.
-    template<typename T, const size_t SIZE> inline array<T,SIZE> curl_receiver<T,SIZE>::get_buffer() const {
+    template<typename T, const size_t SIZE> inline std::array<T,SIZE> curl_receiver<T,SIZE>::get_buffer() const {
         return _buffer;
     }
     
