@@ -26,12 +26,13 @@
 #ifndef __curlcpp__curl_multi__
 #define __curlcpp__curl_multi__
 
+#include <memory>
+#include <vector>
+
 #include "curl_easy.h"
 
-using curl::curl_easy;
-using curl::curl_multi_exception;
-
 namespace curl {
+
     /**
      * As libcurl documentation says, the multi interface offers several abilities that
      * the easy interface doesn't. They are mainly:
@@ -132,12 +133,12 @@ namespace curl {
          * This method tries to obtain information about all the handlers added
          * to the multi handler.
          */
-        vector<unique_ptr<curl_message>> get_info();
+        std::vector<std::unique_ptr<curl_message>> get_info();
         /**
          * This method tries to obtain information regarding an easy handler 
          * that has been added to the multi handler.
          */
-        unique_ptr<curl_message> get_info(const curl_easy &);
+        std::unique_ptr<curl_message> get_info(const curl_easy &);
         /**
          * This method checks if the transfer on a curl_easy object is finished.
          */

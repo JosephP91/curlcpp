@@ -36,37 +36,32 @@
 
 #include "curl_config.h"
 
-using std::cout;
-using std::endl;
-using std::string;
-using std::exception;
-using std::pair;
-using std::vector;
-using std::for_each;
-
-// We like it short.
-using curlcpp_traceback_object = pair<string,string>;
-using curlcpp_traceback = vector<curlcpp_traceback_object>;
-
 namespace curl {
-    /**
+
+
+	// We like it short.
+	using curlcpp_traceback_object = std::pair<std::string,std::string>;
+	using curlcpp_traceback = std::vector<curlcpp_traceback_object>;
+
+	/**
      * This class represents a custom exception for libcurl errors. 
      * If a function throws an error, its name will be added to a
      * vector (treated like a stack, because if I had used a stack,
      * to print it, I should have to remove all the elements), so
      * users can keep track of which method threw which exception.
      */
-    class curl_exception : public exception {
+    class curl_exception : public std::exception {
     public:
+
         /**
          * This constructor is used to build the error.
          */
-        curl_exception(const string, const string);
+        curl_exception(const std::string, const std::string);
         /**
          * The destructor, in this case, doesn't do anything.
          */
         ~curl_exception() NOEXCEPT;
-        using exception::what;
+        using std::exception::what;
         /**
          * Returns the vector of errors.
          */
@@ -85,8 +80,8 @@ namespace curl {
 
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() const {
-        for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
-            cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<endl;
+        std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
+            std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
         });
     }
     
@@ -105,11 +100,11 @@ namespace curl {
          * This constructor allows to specify a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_easy_exception(const string error, const string method) : curl_exception(error,method) {}
+        curl_easy_exception(const std::string error, const std::string method) : curl_exception(error,method) {}
         /**
          * The constructor will transform a CURLcode error in a proper error message.
          */
-        curl_easy_exception(const CURLcode code, const string method) : curl_exception(curl_easy_strerror(code),method) {}
+        curl_easy_exception(const CURLcode code, const std::string method) : curl_exception(curl_easy_strerror(code),method) {}
     };
     
     /**
@@ -122,11 +117,11 @@ namespace curl {
          * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_multi_exception(const string error, const string method) : curl_exception(error,method) {}
+        curl_multi_exception(const std::string error, const std::string method) : curl_exception(error,method) {}
         /**
          * The constructor will transform a CURLMcode error to a proper error message.
          */
-        curl_multi_exception(const CURLMcode code, const string method) : curl_exception(curl_multi_strerror(code),method) {}
+        curl_multi_exception(const CURLMcode code, const std::string method) : curl_exception(curl_multi_strerror(code),method) {}
     };
     
     /**
@@ -139,11 +134,11 @@ namespace curl {
          * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_share_exception(const string error, const string method) : curl_exception(error,method) {}
+        curl_share_exception(const std::string error, const std::string method) : curl_exception(error,method) {}
         /**
          * The constructor will transform a CURLSHcode error in a proper error message.
          */
-        curl_share_exception(const  CURLSHcode code, const string method) : curl_exception(curl_share_strerror(code),method) {}
+        curl_share_exception(const  CURLSHcode code, const std::string method) : curl_exception(curl_share_strerror(code),method) {}
     };
 }
 

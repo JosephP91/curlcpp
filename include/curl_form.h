@@ -34,12 +34,8 @@
 #include "curl_exception.h"
 #include "curl_pair.h"
 
-using std::vector;
-using std::bad_alloc;
-using curl::curl_pair;
-using curl::curl_exception;
-
 namespace curl {
+
     /**
      * This class simplifies the creation of a form. It wraps all the libcurl
      * functions used to add content to a form and to destroy it.
@@ -70,31 +66,31 @@ namespace curl {
          * This method allows users to add content to a form, using the
          * curl_pair class.
          */
-        void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &);
+        void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method.
          */
-        void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &);
+        void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method. It adds another curl_pair object to add more
          * contents to the form contents list.
          */
-        void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,int> &);
+        void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,int> &);
         /**
          * Overloaded add method. It adds another curl_pair object to add more
          * contents to the form contents list.
          */
-        void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,string> &);
+        void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method. It adds another curl_pair object to add more
          * contents to the form contents list.
          */
-        void add(const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,string> &);
+        void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method. This version is primarily used to upload multiple files.
          * You can pass a vector of filenames to upload them.
          */
-        void add(const curl_pair<CURLformoption,string> &, const vector<string> &);
+        void add(const curl_pair<CURLformoption,std::string> &, const std::vector<std::string> &);
         /**
          * Simple getter method used to return the head of the list.
          */
@@ -125,7 +121,7 @@ namespace curl {
     // Implementation of utility function to check if a pointer points to null.
     template<typename T> inline void curl_form::is_null(const T *ptr) const {
         if (ptr == nullptr) {
-            throw bad_alloc();
+            throw std::bad_alloc();
         }
     }
 

@@ -3,6 +3,7 @@
 
 using curl::curl_easy;
 using curl::curl_ios;
+using curl::curl_easy_exception;
 using std::ostringstream;
 
 /*
@@ -39,6 +40,6 @@ int main() {
     }
 
     // Let's print ONLY the headers.
-    cout<<header_var.str()<<endl;
+    std::cout<<header_var.str()<<std::endl;
     return 0;
 }

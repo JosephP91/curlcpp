@@ -6,6 +6,8 @@
 #include "curl_easy.h"
 
 using curl::curl_easy;
+using std::ostream;
+using std::string;
 
 // Implementation of default constructor.
 curl_easy::curl_easy() : curl_interface() {

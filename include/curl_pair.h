@@ -29,17 +29,12 @@
 #include <string>
 #include "curl_config.h"
 
-// Forward reference to curl_form and curl_header
 namespace curl {
+
+	// Forward reference to curl_form and curl_header
     class curl_form;
     class curl_header;
-}
 
-using std::string;
-using curl::curl_form;
-using curl::curl_header;
-
-namespace curl {
     /**
      * This is a class that wraps two objects: an option and the value for
      * that option. It's very useful when building forms or setting options
@@ -73,13 +68,13 @@ namespace curl {
     /**
      * Template specialization for C++ strings and CURLformoption.
      */
-    template<> class curl_pair<CURLformoption,string> {
+    template<> class curl_pair<CURLformoption,std::string> {
     public:
         /**
          * The two parameters constructor gives users a fast way to
          * build an object of this type.
          */
-        curl_pair(const CURLformoption option, const string &value) : option(option), value(value) {}
+        curl_pair(const CURLformoption option, const std::string &value) : option(option), value(value) {}
         /**
          * Simple method that returns the first field of the pair.
          */
@@ -95,7 +90,7 @@ namespace curl {
         }
     private:
         const CURLformoption option;
-        const string &value;
+        const std::string &value;
     };
         
     /**
@@ -104,13 +99,13 @@ namespace curl {
      * handle C++ string type, so we can specialize curl_pair class in a
      * manner that its methods returns a const char *.
      */
-    template<class T> class curl_pair<T,string> {
+    template<class T> class curl_pair<T,std::string> {
     public:
         /**
          * The two parameters constructor gives users a fast way to 
          * build an object of this type.
          */
-        curl_pair(const T option, const string &value) : option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
+        curl_pair(const T option, const std::string &value) : option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
         /**
          * Simple method that returns the first field of the pair.
          */
@@ -126,7 +121,7 @@ namespace curl {
         }
     private:
         const T option;
-        const string &value;
+        const std::string &value;
     };
     
     /**

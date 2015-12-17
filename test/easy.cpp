@@ -1,6 +1,7 @@
 #include "curl_easy.h"
 
 using curl::curl_easy;
+using curl::curl_easy_exception;
 
 /*
  * This example shows how to make a simple request with

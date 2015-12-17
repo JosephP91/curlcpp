@@ -29,8 +29,6 @@
 #include <curl/curl.h>
 #include "curl_exception.h"
 
-using curl::curl_exception;
-
 namespace curl {
     /**
      * This class is a common interface for all the libcurl interfaces:

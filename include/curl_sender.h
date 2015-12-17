@@ -28,8 +28,6 @@
 
 #include "curl_easy.h"
 
-using curl::curl_easy;
-
 namespace curl {
     /**
      * This class implements a sender that sends raw data on an established
@@ -79,7 +77,7 @@ namespace curl {
      * functions, so we must treat it as a const char pointer. This is the purpose of
      * this class.
      */
-    template<> class curl_sender<string> {
+    template<> class curl_sender<std::string> {
     public:
         /**
          * The constructor initializes the easy handler and the number of
@@ -91,7 +89,7 @@ namespace curl {
          * on an established connection on an easy handler, treating strings
          * as const char pointers.
          */
-        void send(const string buffer) {
+        void send(const std::string buffer) {
             const CURLcode code = curl_easy_send(_easy.get_curl(),buffer.c_str(),buffer.length(),&_sent_bytes);
             if (code != CURLE_OK) {
                 throw curl_easy_exception(code,__FUNCTION__);

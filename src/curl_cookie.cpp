@@ -3,9 +3,16 @@
  * Author: Giuseppe Persico
  */
 
+#include <vector>
+
 #include "curl_cookie.h"
 
+using std::vector;
+using std::string;
+using std::ostringstream;
+
 namespace curl {
+
     // Implementation of the get method.
     const curlcpp_cookies curl_cookie::get() const NOEXCEPT {
         vector<string> cookies;

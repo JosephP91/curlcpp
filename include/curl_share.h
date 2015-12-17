@@ -29,10 +29,6 @@
 #include "curl_interface.h"
 #include "curl_pair.h"
 
-using curl::curl_interface;
-using curl::curl_pair;
-using curl::curl_share_exception;
-
 namespace curl {
     /**
      * Definition of share interface. The purpose of this interface is to

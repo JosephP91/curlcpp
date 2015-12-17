@@ -35,13 +35,6 @@
 #include "curl_pair.h"
 #include "curl_ios.h"
 
-using std::for_each;
-using std::unique_ptr;
-
-using curl::curl_pair;
-using curl::curl_ios;
-using curl::curl_interface;
-using curl::curl_easy_exception;
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
@@ -49,6 +42,7 @@ using curl::curl_easy_exception;
     }
 
 namespace curl  {
+
     namespace detail {
         template <CURLoption>
         struct option_t;
@@ -948,12 +942,12 @@ namespace curl  {
          * This function converts the given input string to an URL encoded
          * string and returns a newly allocated string.
          */
-        void escape(string &);
+        void escape(std::string &);
         /**
          * This function converts the given URL encoded input string to a
          * "plain string" and returns a newly allocated string.
          */
-        void unescape(string &);
+        void unescape(std::string &);
         /**
          * This function performs all the operations a user has specified
          * with the add methods. If the performing operation has finished

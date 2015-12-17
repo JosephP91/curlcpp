@@ -11,9 +11,6 @@
 #include <string>
 #include "curl_exception.h"
 
-using std::string;
-using curl::curl_exception;
-
 namespace curl {
     /**
      * This class provides some utilities that are unrelated to
@@ -28,7 +25,7 @@ namespace curl {
          * online documentation for more information about the datetime
          * parameter.
          */
-        static time_t get_date(const string);
+        static time_t get_date(const std::string);
     private:
         /**
          * Build an object of this type have no sense. So let's hide
@@ -38,7 +35,7 @@ namespace curl {
     };
 
     // Implementation of get_date method.
-    time_t curl_utility::get_date(const string format) {
+    time_t curl_utility::get_date(const std::string format) {
         const time_t value = curl_getdate(format.c_str(),nullptr);
         if (value == -1) {
             throw curl_exception("*** Error while parsing the date ***",__FUNCTION__);
