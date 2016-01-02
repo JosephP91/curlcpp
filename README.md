@@ -49,8 +49,11 @@ Here's an example of a simple HTTP request to get google web page, using the cur
 
 `````c++
 #include "curl_easy.h"
+#include "curl_exception.h"
 
 using curl::curl_easy;
+using curl::curl_easy_exception;
+using curl::curlcpp_traceback;
 
 int main(int argc, const char **argv) {
     curl_easy easy;
@@ -74,11 +77,20 @@ int main(int argc, const char **argv) {
 Here's instead, the creation of an HTTPS POST login form:
 
 `````c++
+#include <string>
+
 #include "curl_easy.h"
+#include "curl_pair.h"
 #include "curl_form.h"
+#include "curl_exception.h"
+
+using std::string;
 
 using curl::curl_form;
 using curl::curl_easy;
+using curl::curl_pair;
+using curl::curl_easy_exception;
+using curl::curlcpp_traceback;
 
 int main(int argc, const char * argv[]) {
     curl_form form;
@@ -90,14 +102,14 @@ int main(int argc, const char * argv[]) {
     curl_pair<CURLformoption,string> pass_cont(CURLFORM_COPYCONTENTS,"your password here");
     
     try {
-    	// Form adding
+        // Form adding
         form.add(name_form,name_cont);
         form.add(pass_form,pass_cont);
         
         // Add some options to our request
         easy.add<CURLOPT_URL>("your url here");
         easy.add<CURLOPT_SSL_VERIFYPEER>(false);
-        easy.add<CURLOPT_HTTPPOST>(form);
+        easy.add<CURLOPT_HTTPPOST>(form.get());
         // Execute the request.
         easy.perform();
     } catch (curl_easy_exception error) {
@@ -115,13 +127,22 @@ And if we would like to put the returned content in a file? Nothing easier than:
 
 `````c++
 #include <iostream>
-#include "curl_easy.h"
+#include <ostream>
 #include <fstream>
+
+#include "curl_easy.h"
+#include "curl_ios.h"
+#include "curl_exception.h"
 
 using std::cout;
 using std::endl;
+using std::ostream;
 using std::ofstream;
+
 using curl::curl_easy;
+using curl::curl_ios;
+using curl::curl_easy_exception;
+using curl::curlcpp_traceback;
 
 int main(int argc, const char * argv[]) {
     // Create a file
@@ -154,10 +175,22 @@ int main(int argc, const char * argv[]) {
 Not interested in files? So let's put the request's output in a variable!
 
 `````c++
+#include <iostream>
+#include <ostream>
+
 #include "curl_easy.h"
 #include "curl_form.h"
+#include "curl_ios.h"
+#include "curl_exception.h"
+
+using std::cout;
+using std::endl;
+using std::ostringstream;
 
 using curl::curl_easy;
+using curl::curl_ios;
+using curl::curl_easy_exception;
+using curl::curlcpp_traceback;
 
 int main() {
     // Create a stringstream object
@@ -190,16 +223,26 @@ I have implemented a sender and a receiver to make it easy to use send/receive w
 buffers. For example, a very simple send/receiver would be:
 
 `````c++
+#include <iostream>
+#include <string>
+
 #include "curl_easy.h"
 #include "curl_form.h"
 #include "curl_pair.h"
 #include "curl_receiver.h"
+#include "curl_exception.h"
 #include "curl_sender.h"
+
+using std::cout;
+using std::endl;
+using std::string;
 
 using curl::curl_form;
 using curl::curl_easy;
 using curl::curl_sender;
 using curl::curl_receiver;
+using curl::curl_easy_exception;
+using curl::curlcpp_traceback;
 
 int main(int argc, const char * argv[]) {
     // Simple request
