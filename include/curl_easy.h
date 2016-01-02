@@ -142,7 +142,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_HTTPHEADER, const struct curl_slist*);
 
         /* This points to a linked list of post entries, struct curl_httppost */
-        CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPOST, curl_httppost*);
+        CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPOST, const struct curl_httppost*);
 
         /* name of the file keeping your private SSL-certificate */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSLCERT, const char*);
