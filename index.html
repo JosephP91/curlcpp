@@ -74,8 +74,11 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <p>Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:</p>
 
 <div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_exception.h<span class="pl-pds">"</span></span>
 
 <span class="pl-k">using</span> curl::curl_easy;
+<span class="pl-k">using</span> curl::curl_easy_exception;
+<span class="pl-k">using</span> curl::curlcpp_traceback;
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> **argv) {
     curl_easy easy;
@@ -97,11 +100,20 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 <p>Here's instead, the creation of an HTTPS POST login form:</p>
 
-<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>string<span class="pl-pds">&gt;</span></span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_pair.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_form.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_exception.h<span class="pl-pds">"</span></span>
+
+<span class="pl-k">using</span> std::string;
 
 <span class="pl-k">using</span> curl::curl_form;
 <span class="pl-k">using</span> curl::curl_easy;
+<span class="pl-k">using</span> curl::curl_pair;
+<span class="pl-k">using</span> curl::curl_easy_exception;
+<span class="pl-k">using</span> curl::curlcpp_traceback;
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> * argv[]) {
     curl_form form;
@@ -120,7 +132,7 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
         <span class="pl-c">// Add some options to our request</span>
         easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>your url here<span class="pl-pds">"</span></span>);
         easy.<span class="pl-smi">add</span>&lt;CURLOPT_SSL_VERIFYPEER&gt;(<span class="pl-c1">false</span>);
-        easy.<span class="pl-smi">add</span>&lt;CURLOPT_HTTPPOST&gt;(form);
+        easy.<span class="pl-smi">add</span>&lt;CURLOPT_HTTPPOST&gt;(form.<span class="pl-c1">get</span>());
         <span class="pl-c">// Execute the request.</span>
         easy.<span class="pl-c1">perform</span>();
     } <span class="pl-k">catch</span> (curl_easy_exception error) {
@@ -136,13 +148,22 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <p>And if we would like to put the returned content in a file? Nothing easier than:</p>
 
 <div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
-#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>ostream<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>fstream<span class="pl-pds">&gt;</span></span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_ios.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_exception.h<span class="pl-pds">"</span></span>
 
 <span class="pl-k">using</span> std::cout;
 <span class="pl-k">using</span> std::endl;
+<span class="pl-k">using</span> std::ostream;
 <span class="pl-k">using</span> std::ofstream;
+
 <span class="pl-k">using</span> curl::curl_easy;
+<span class="pl-k">using</span> curl::curl_ios;
+<span class="pl-k">using</span> curl::curl_easy_exception;
+<span class="pl-k">using</span> curl::curlcpp_traceback;
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> * argv[]) {
     <span class="pl-c">// Create a file</span>
@@ -173,10 +194,22 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 
 <p>Not interested in files? So let's put the request's output in a variable!</p>
 
-<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>ostream<span class="pl-pds">&gt;</span></span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_form.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_ios.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_exception.h<span class="pl-pds">"</span></span>
+
+<span class="pl-k">using</span> std::cout;
+<span class="pl-k">using</span> std::endl;
+<span class="pl-k">using</span> std::ostringstream;
 
 <span class="pl-k">using</span> curl::curl_easy;
+<span class="pl-k">using</span> curl::curl_ios;
+<span class="pl-k">using</span> curl::curl_easy_exception;
+<span class="pl-k">using</span> curl::curlcpp_traceback;
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>() {
     <span class="pl-c">// Create a stringstream object</span>
@@ -207,16 +240,26 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 <p>I have implemented a sender and a receiver to make it easy to use send/receive without handling
 buffers. For example, a very simple send/receiver would be:</p>
 
-<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>string<span class="pl-pds">&gt;</span></span>
+
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_form.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_pair.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_receiver.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_exception.h<span class="pl-pds">"</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_sender.h<span class="pl-pds">"</span></span>
+
+<span class="pl-k">using</span> std::cout;
+<span class="pl-k">using</span> std::endl;
+<span class="pl-k">using</span> std::string;
 
 <span class="pl-k">using</span> curl::curl_form;
 <span class="pl-k">using</span> curl::curl_easy;
 <span class="pl-k">using</span> curl::curl_sender;
 <span class="pl-k">using</span> curl::curl_receiver;
+<span class="pl-k">using</span> curl::curl_easy_exception;
+<span class="pl-k">using</span> curl::curlcpp_traceback;
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> * argv[]) {
     <span class="pl-c">// Simple request</span>
