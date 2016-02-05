@@ -1,6 +1,6 @@
 IF(BIICODE)
     INCLUDE(biicode/cmake/tools)
-    
+
     ACTIVATE_CPP11()
     ADD_BIICODE_TARGETS()
 ELSE()
@@ -22,6 +22,9 @@ ELSE()
     # Set up include pathes
     include_directories(${CURL_INCLUDE_DIRS}
       ${CURLCPP_SOURCE_DIR}/include)
+
+    file(GLOB HEADER_LIST "${CMAKE_SOURCE_DIR}/include/*.h")
+    install (FILES ${HEADER_LIST} DESTINATION include)
 
     # Set up source directories
     add_subdirectory(src)
