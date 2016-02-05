@@ -1,4 +1,5 @@
 bin/
+build/
 blocks/
 bii/build
 bii/cmake
