@@ -267,8 +267,7 @@ namespace curl  {
         /* Max amount of cached alive connections */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAXCONNECTS, long);
 
-        CURLCPP_DEFINE_OPTION(CURLOPT_OBSOLETE72, long); /* OBSOLETE, do not use! */
-
+        /* 72 = OBSOLETE */
         /* 73 = OBSOLETE */
 
         /* Set to explicitly use a new connection for the upcoming transfer.
