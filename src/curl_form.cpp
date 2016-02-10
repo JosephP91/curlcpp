@@ -7,6 +7,7 @@
 #include "curl_form.h"
 
 using curl::curl_form;
+using curl::curl_pair;
 
 using std::string;
 using std::vector;
