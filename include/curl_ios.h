@@ -122,6 +122,35 @@ namespace curl {
         std::ostream *_io_stream;
     };
     
+    // Template specialization for stringstream class.
+    template<> class curl_ios<std::stringstream> {
+    public:
+        //This constructor allows to specify a custom stringstream stream.
+        curl_ios(std::stringstream &o_stream) : _callback_ptr(write_variable_callback), _o_stream(&o_stream) {}
+        //This constructor allows to specify a custom stream and a custom callback pointer.
+        curl_ios(std::stringstream &o_stream, curlcpp_callback_type callback_ptr) {
+            _o_stream = &o_stream;
+            this->set_callback(callback_ptr);
+        }
+        // This method allows to specify a custom callback pointer.
+        void set_callback(curlcpp_callback_type callback_ptr) {
+            _callback_ptr = callback_ptr == nullptr ? write_variable_callback : callback_ptr;
+        }
+        // This method returns the stream pointer.
+        std::stringstream *get_stream() const {
+            return this->_o_stream;
+        }
+        // This method returns the callback pointer.
+        curlcpp_callback_type get_function() const {
+            return this->_callback_ptr;
+        }
+    private:
+        // The callback pointer.
+        curlcpp_callback_type _callback_ptr;
+        // The ostringstream pointer.
+        std::stringstream *_o_stream;
+    };
+    
     // Template specialization for ostringstream class.
     template<> class curl_ios<std::ostringstream> {
     public:
