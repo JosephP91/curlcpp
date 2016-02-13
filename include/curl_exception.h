@@ -37,8 +37,6 @@
 #include "curl_config.h"
 
 namespace curl {
-
-
 	// We like it short.
 	using curlcpp_traceback_object = std::pair<std::string,std::string>;
 	using curlcpp_traceback = std::vector<curlcpp_traceback_object>;

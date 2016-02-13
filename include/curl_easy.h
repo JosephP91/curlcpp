@@ -34,7 +34,7 @@
 #include "curl_interface.h"
 #include "curl_pair.h"
 #include "curl_ios.h"
-
+#include "curl_form.h"
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
@@ -267,7 +267,8 @@ namespace curl  {
         /* Max amount of cached alive connections */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAXCONNECTS, long);
 
-        /* 72 = OBSOLETE */
+        CURLCPP_DEFINE_OPTION(CURLOPT_OBSOLETE72, long); /* OBSOLETE, do not use! */
+
         /* 73 = OBSOLETE */
 
         /* Set to explicitly use a new connection for the upcoming transfer.
@@ -930,34 +931,39 @@ namespace curl  {
         * Allows users to specify an option for the current easy handler,
         * specify an option statically and enforce its corresponding type.
         */
-        template <CURLoption Opt> void add(detail::Option_type<Opt> val);
+        template <CURLoption Opt> void add(detail::Option_type<Opt>);
         
         /**
          * Using this function, you can explicitly pause a running connection, 
          * and you can resume a previously paused connection.
          */
         void pause(const int);
+        
         /**
          * This function converts the given input string to an URL encoded
          * string and returns a newly allocated string.
          */
         void escape(std::string &);
+        
         /**
          * This function converts the given URL encoded input string to a
          * "plain string" and returns a newly allocated string.
          */
         void unescape(std::string &);
+        
         /**
          * This function performs all the operations a user has specified
          * with the add methods. If the performing operation has finished
          * the method returns true otherwise false.
          */
         void perform();
+        
         /**
          * Re-initializes all options previously set on a specified CURL handle
          * to the default values. This puts the handle back to the initial state.
          */
         void reset() NOEXCEPT;
+        
         /**
          * Simple getter method used to return the easy handle.
          */

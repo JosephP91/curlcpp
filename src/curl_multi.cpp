@@ -6,7 +6,6 @@
 #include "curl_multi.h"
 
 using curl::curl_multi;
-using curl::curl_easy;
 using std::vector;
 using std::unique_ptr;
 
