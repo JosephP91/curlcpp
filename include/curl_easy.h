@@ -918,7 +918,7 @@ namespace curl  {
          * Allows users to specify an option for the current easy handler,
          * using a curl_pair object.
          */
-        template<typename T> void add(const curl_pair<CURLoption,T>);
+        template<typename T> void add(const curl_pair<CURLoption,T>&);
         
         /**
          * Allows users to specify a list of options for the current
@@ -1008,7 +1008,7 @@ namespace curl  {
     }
     
     // Implementation of add method.
-    template<typename T> void curl_easy::add(const curl_pair<CURLoption,T> pair) {
+    template<typename T> void curl_easy::add(const curl_pair<CURLoption,T>& pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
