@@ -29,14 +29,14 @@
 namespace curl {    
     template <class V>
     inline curl_pair<CURLoption, V> 
-        make_option(const CURLoption opt, const V& val)
+        make_option(const CURLoption opt, const V &val)
     {
         return curl_pair<CURLoption, V>(opt, val);
     }
     
     template <class V>
     inline curl_pair<CURLformoption, V>
-        make_formoption(const CURLformoption opt, const V& val)
+        make_formoption(const CURLformoption opt, const V &val)
     {
         return curl_pair<CURLformoption, V>(opt, val);
     }
