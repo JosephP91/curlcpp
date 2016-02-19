@@ -58,7 +58,7 @@ namespace curl {
     template<class T> class curl_ios {
     public:
         // This constructor allows to specifiy a custom stream and a custom callback pointer.
-        curl_ios(T &stream, curlcpp_callback_type callback_ptr) : _stream(stream) {
+        curl_ios(T *stream, curlcpp_callback_type callback_ptr) : _stream(stream) {
             this->set_callback(callback_ptr);
         }
         // This method allow to specify a custom callback pointer.
