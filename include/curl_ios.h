@@ -49,7 +49,7 @@ namespace {
         const size_t realsize = size * nmemb;
         std::istream* const mem = static_cast<std::istream*>(userp);
         mem->read(static_cast<char*>(contents), realsize);
-        return mem->gcount();
+        return static_cast<size_t>(mem->gcount());
     }
 }
 
