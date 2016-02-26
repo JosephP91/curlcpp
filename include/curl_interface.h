@@ -53,26 +53,57 @@ namespace curl {
          * correctly.
          */
         virtual ~curl_interface();
+
+    private:
+        /**
+         * This struct is used for initializing curl only once
+         * it is implemented as a singleton pattern
+         */
+        struct global_initialisator {
+            explicit global_initialisator(const long);
+            ~global_initialisator();
+        };
+
+        /**
+         * The singleton instance
+         */
+        static global_initialisator instance;
+
+        /**
+         * the singleton initialization, constructing a global_initialisator.
+         */
+        static void init(const long flag);
     };
     
     // Implementation of constructor.
     template<class T> curl_interface<T>::curl_interface() {
-        const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
-        if (code != CURLE_OK) {
-            throw curl_easy_exception(code,__FUNCTION__);
-        }
+        init(CURL_GLOBAL_ALL);
     }
     
     // Implementation of overloaded constructor.
     template<class T> curl_interface<T>::curl_interface(const long flag) {
+        init(flag);
+    }
+    
+    // Implementation of the virtual destructor.
+    template<class T> curl_interface<T>::~curl_interface() {
+    }
+
+    // Implementation of the static initialization function
+    template<class T> void curl_interface<T>::init(const long flag) {
+        static global_initialisator _instance {flag};
+    }
+
+    // Implementation of the singleton initalizator
+    template<class T> curl_interface<T>::global_initialisator::global_initialisator(const long flag) {
         const CURLcode code = curl_global_init(flag);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
         }
     }
-    
-    // Implementation of the virtual destructor.
-    template<class T> curl_interface<T>::~curl_interface() {
+
+    // Implementation of the singleton destructor
+    template<class T> curl_interface<T>::global_initialisator::~global_initialisator() {
         curl_global_cleanup();
     }
 }
