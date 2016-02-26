@@ -72,7 +72,6 @@ namespace curl {
     
     // Implementation of the virtual destructor.
     curl_global::~curl_global() {
-        curl_global_cleanup();
     }
 }
 
