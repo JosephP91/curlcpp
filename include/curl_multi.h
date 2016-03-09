@@ -31,7 +31,126 @@
 
 #include "curl_easy.h"
 
+#define CURLCPP_DEFINE_OPTION(opt, value_type)\
+    template <> struct moption_t<opt> {\
+        using type = value_type;\
+    }
+
 namespace curl {
+    namespace detail {
+        template <CURLMoption>
+        struct moption_t;
+
+        template <CURLMoption opt>
+        using MOption_type = typename moption_t<opt>::type;
+
+        /*
+         * If a pipelined connection is currently processing a chunked
+         * (Transfer-encoding: chunked) request with a current chunk length
+         * larger than CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE, that pipeline will
+         * not be considered for additional requests.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE, long);
+
+        /*
+         * If a pipelined connection is currently processing a request with a
+         * Content-Length larger than this
+         * CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE, that pipeline will then not be
+         * considered for additional requests.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE, long);
+
+        /*
+         * The set number will be used as the maximum amount of simultaneously
+         * open connections that libcurl may keep in its connection cache after
+         * completed use. By default libcurl will enlarge the size for each
+         * added easy handle to make it fit 4 times the number of added easy
+         * handles.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_MAXCONNECTS, long);
+
+        /*
+         * The set number will be used as the maximum amount of simultaneously
+         * open connections to a single host (a host being the same as a host
+         * name + port number pair). For each new session to a host, libcurl
+         * will open a new connection up to the limit set by
+         * CURLMOPT_MAX_HOST_CONNECTIONS.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_MAX_HOST_CONNECTIONS, long);
+
+        /*
+         * The set max number will be used as the maximum amount of outstanding
+         * requests in a pipelined connection. Only used if pipelining is
+         * enabled.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_MAX_PIPELINE_LENGTH, long);
+
+        /*
+         * Pass a long for the amount. The set number will be used as the
+         * maximum number of simultaneously open connections in total using
+         * this multi handle.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_MAX_TOTAL_CONNECTIONS, long);
+
+        /*
+         * Set the bits parameter to 1 to make libcurl use HTTP pipelining for
+         * HTTP/1.1 transfers done using this multi handle, as far as possible.
+         * This means that if you add a second request that can use an already
+         * existing connection, the second request will be "piped" on the same
+         * connection rather than being executed in parallel.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_PIPELINING, long);
+
+        /*
+         * Pass a servers array of char *, ending with a NULL entry. This is a
+         * list of server types prefixes (in the Server: HTTP header) that are
+         * blacklisted from pipelining, i.e server types that are known to not
+         * support HTTP pipelining. The array is copied by libcurl.
+         *
+         * Note that the comparison matches if the Server: header begins with
+         * the string in the blacklist, i.e "Server: Ninja 1.2.3" and "Server:
+         * Ninja 1.4.0" can both be blacklisted by having "Ninja" in the
+         * backlist.
+         *
+         * Pass a NULL pointer to clear the blacklist.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_PIPELINING_SERVER_BL, char**);
+
+        /*
+         * Pass a hosts array of char *, ending with a NULL entry. This is a
+         * list of sites that are blacklisted from pipelining, i.e sites that
+         * are known to not support HTTP pipelining. The array is copied by
+         * libcurl.
+         *
+         * Pass a NULL pointer to clear the blacklist.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_PIPELINING_SITE_BL, char**);
+
+        /*
+         * A data pointer to pass to the socket callback set with the
+         * CURLMOPT_SOCKETFUNCTION option.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_SOCKETDATA, void*);
+
+        /*
+         * The callback gets status updates with changes since the previous
+         * time the callback was called.  See curl_multi_socket_action for more
+         * details on how the callback is used and should work.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_SOCKETFUNCTION, int(*)(CURL* easy, curl_socket_t socket, int action, void* userp, void* socketp));
+
+        /*
+         * A data pointer to pass to the timer callback set with the
+         * CURLMOPT_TIMERFUNCTION option.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_TIMERDATA, void*);
+
+        /*
+         * Your callback function timer_callback should install a non-repeating
+         * timer with an interval of timeout_ms.
+         */
+        CURLCPP_DEFINE_OPTION(CURLMOPT_TIMERFUNCTION, int(*)(CURLM* multi, long timeout_ms, void* userp));
+    }
 
     /**
      * As libcurl documentation says, the multi interface offers several abilities that
@@ -119,6 +238,13 @@ namespace curl {
          * structure.
          */
         template<typename Iterator> void add(Iterator, const Iterator);
+
+        /**
+        * Allows users to specify an option for the current multi handler,
+        * specify an option statically and enforce its corresponding type.
+        */
+        template <CURLMoption Opt> void add(detail::MOption_type<Opt>);
+
         /**
          * Overloaded add method. Allows users to specify an easy handler
          * to add to the multi handler, to perform more transfers at the same
@@ -206,6 +332,14 @@ namespace curl {
         }
     }
 
+    // Implementation of overloaded add method.
+    template <CURLMoption Opt> void curl_multi::add(detail::MOption_type<Opt> val) {
+        const auto code = curl_multi_setopt(this->curl, Opt, val);
+        if (code != CURLM_OK) {
+            throw curl_multi_exception(code, __FUNCTION__);
+        }
+    }
+
     // Implementation of get_active_transfers method.
     inline int curl_multi::get_active_transfers() const NOEXCEPT {
         return this->active_transfers;
@@ -232,4 +366,5 @@ namespace curl {
     }
 }
 
+#undef CURLCPP_DEFINE_OPTION
 #endif	/* defined(__curlcpp__curl_multi__) */
