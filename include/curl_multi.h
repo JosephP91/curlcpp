@@ -311,6 +311,11 @@ namespace curl {
          * Inline getter method used to return the currently queued messages.
          */
         int get_message_queued() const NOEXCEPT;
+
+        /**
+         * Simple getter method used to return the multi handle.
+         */
+        CURLM *get_curl() const;
     private:
         int message_queued;
         int active_transfers;
@@ -363,6 +368,11 @@ namespace curl {
     // Implementation of curl_message get_other method.
     inline const void *curl_multi::curl_message::get_other() const {
         return this->whatever;
+    }
+
+    // Implementation of get_curl method.
+    inline CURLM *curl_multi::get_curl() const {
+        return this->curl;
     }
 }
 
