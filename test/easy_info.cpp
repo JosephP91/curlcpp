@@ -32,7 +32,8 @@ int main(int argc, const char **argv) {
     // Retrieve information about curl current session.
     auto x = easy.get_info<char>(CURLINFO_CONTENT_TYPE);
     /**
-     * get_info returns an std::pair. The first item is the return code of the
+     * get_info returns a curl_easy_info object. With the get method we retrieve
+     * the std::pair object associated with it: the first item is the return code of the
      * request. The second is the element requested by the specified libcurl macro.
      */
     std::cout<<x.get().second<<std::endl;
