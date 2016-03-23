@@ -38,12 +38,9 @@
  */
 namespace curl {
 	using curlcpp_cookies = std::vector<std::string>;
-
-
+    
     class curl_cookie {
-
     public:
-
    		// This constructor allow you to specify a curl_easy object.
         curl_cookie(curl_easy &easy) : easy(easy) {}
         // This method allow you to get all known cookies for a specific domain.

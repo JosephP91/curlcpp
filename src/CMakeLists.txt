@@ -7,6 +7,7 @@ set(CURLCPP_SOURCE
   curl_info.cpp
   curl_cookie.cpp
   curl_exception.cpp
+  curl_easy_info.cpp
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")

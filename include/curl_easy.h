@@ -35,6 +35,8 @@
 #include "curl_pair.h"
 #include "curl_ios.h"
 #include "curl_form.h"
+#include "curl_easy_info.h"
+
 
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
@@ -42,13 +44,10 @@
     }
 
 namespace curl  {
-
+    // Detail namespace
     namespace detail {
-        template <CURLoption>
-        struct option_t;
-
-        template <CURLoption opt>
-        using Option_type = typename option_t<opt>::type;
+        template <CURLoption> struct option_t;
+        template <CURLoption opt> using Option_type = typename option_t<opt>::type;
 
         CURLCPP_DEFINE_OPTION(CURLOPT_WRITEDATA, void*);
 
@@ -861,8 +860,9 @@ namespace curl  {
         /* Set if we should verify the certificate status. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYSTATUS, long);
 #endif
-    }  // of namespace detail
-
+    }
+    // End of namespace detail
+    
     /**
      * Easy interface is used to make requests and transfers. 
      * You don't have to worry about freeing data or things like
@@ -896,74 +896,66 @@ namespace curl  {
          * a function which duplicates the easy handler.
          */
         curl_easy(const curl_easy &);
-        
         /**
          * Assignment operator used to perform assignment between objects
          * of this class.
          */
         curl_easy &operator=(const curl_easy &);
-        
         /**
          * Override of equality operator. It has been overridden to check
          * whether two curl_easy objects are equal.
          */
         bool operator==(const curl_easy &) const;
-        
         /**
          * The destructor will perform cleanup operations.
          */
         ~curl_easy() NOEXCEPT;
-        
         /**
          * Allows users to specify an option for the current easy handler,
          * using a curl_pair object.
          */
         template<typename T> void add(const curl_pair<CURLoption,T>&);
-        
         /**
          * Allows users to specify a list of options for the current
          * easy handler. In this way, you can specify any iterable data
          * structure.
          */
         template<typename Iterator> void add(Iterator, const Iterator);
-
         /**
         * Allows users to specify an option for the current easy handler,
         * specify an option statically and enforce its corresponding type.
         */
         template <CURLoption Opt> void add(detail::Option_type<Opt>);
-        
         /**
          * Using this function, you can explicitly pause a running connection, 
          * and you can resume a previously paused connection.
          */
         void pause(const int);
-        
         /**
          * This function converts the given input string to an URL encoded
          * string and returns a newly allocated string.
          */
         void escape(std::string &);
-        
         /**
          * This function converts the given URL encoded input string to a
          * "plain string" and returns a newly allocated string.
          */
         void unescape(std::string &);
-        
         /**
          * This function performs all the operations a user has specified
          * with the add methods. If the performing operation has finished
          * the method returns true otherwise false.
          */
         void perform();
-        
         /**
          * Re-initializes all options previously set on a specified CURL handle
          * to the default values. This puts the handle back to the initial state.
          */
         void reset() NOEXCEPT;
-        
+        /**
+         * This method allows to get information about the current curl session.
+         */
+        template<typename T> curl::curl_easy_info<T> get_info(const CURLINFO);
         /**
          * Simple getter method used to return the easy handle.
          */
@@ -1006,13 +998,21 @@ namespace curl  {
             throw curl_easy_exception(code, __FUNCTION__);
         }
     }
-    
+
     // Implementation of add method.
     template<typename T> void curl_easy::add(const curl_pair<CURLoption,T>& pair) {
         const CURLcode code = curl_easy_setopt(this->curl,pair.first(),pair.second());
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
         }
+    }
+    
+    // Implementation of get_info method.
+    template<typename T> curl::curl_easy_info<T> curl_easy::get_info(const CURLINFO info) {
+        T *pointer = nullptr;
+        const CURLcode code = curl_easy_getinfo(this->curl,info,&pointer);
+        curl::curl_easy_info<T> inf(code,pointer);
+        return inf;
     }
     
     // Implementation of get_curl method.
