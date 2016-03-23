@@ -896,6 +896,12 @@ namespace curl  {
          * a function which duplicates the easy handler.
          */
         curl_easy(const curl_easy &);
+        /**
+         * Move constructor that moves and easy handler from the other instance
+         * to this one.
+         * a function which duplicates the easy handler.
+         */
+        curl_easy(curl_easy &&);
         
         /**
          * Assignment operator used to perform assignment between objects
