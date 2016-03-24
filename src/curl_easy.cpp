@@ -40,6 +40,14 @@ curl_easy::curl_easy(const curl_easy &easy) : curl_interface(), curl(nullptr) {
     this->curl = curl_easy_duphandle(easy.curl);
 }
 
+// Implementation of move constructor
+curl_easy::curl_easy(curl_easy &&other) : curl_interface(), curl(nullptr) {
+    this->curl = other.curl;
+    // Other's pointer is set to nullptr so that destructor doesn't call the
+    // cleanup function.
+    other.curl = nullptr;
+}
+
 // Implementation of assignment operator to perform a deep copy.
 curl_easy &curl_easy::operator=(const curl_easy &easy) {
     if (this == &easy) {

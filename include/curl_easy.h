@@ -897,6 +897,11 @@ namespace curl  {
          */
         curl_easy(const curl_easy &);
         /**
+         * Move constructor that moves an easy handler from an istance to
+         * another.
+         */
+        curl_easy(curl_easy &&);
+        /**
          * Assignment operator used to perform assignment between objects
          * of this class.
          */
