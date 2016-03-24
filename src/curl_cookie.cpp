@@ -15,23 +15,8 @@ namespace curl {
 
     // Implementation of the get method.
     const curlcpp_cookies curl_cookie::get() const NOEXCEPT {
-        vector<string> cookies;
-        struct curl_slist *ptr;
-        const auto code = curl_easy_getinfo(this->easy.get_curl(),CURLINFO_COOKIELIST,&ptr);
-        if (code != CURLE_OK) {
-            throw curl_easy_exception(code, __FUNCTION__);
-        }
-        struct curl_slist *backup = ptr;
-        // Traverse the entire cookies list.
-        while (backup != nullptr) {
-            if (backup->data != nullptr) {
-                string str(backup->data);
-                cookies.push_back(str);
-            }
-            backup = backup->next;
-        }
-        curl_slist_free_all(ptr);
-        return cookies;
+        auto info = this->easy.get_info<struct curl_slist>(CURLINFO_COOKIELIST);
+        return info.get().second;
     }
     
     // Implementation of set_cookie_file method.
