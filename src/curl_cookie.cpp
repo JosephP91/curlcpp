@@ -12,7 +12,6 @@ using std::string;
 using std::ostringstream;
 
 namespace curl {
-
     // Implementation of the get method.
     const curlcpp_cookies curl_cookie::get() const NOEXCEPT {
         auto info = this->easy.get_info<struct curl_slist>(CURLINFO_COOKIELIST);
@@ -20,51 +19,39 @@ namespace curl {
     }
     
     // Implementation of set_cookie_file method.
-    void curl_cookie::set_cookie_file(const string file = "") NOEXCEPT {
+    void curl_cookie::set_file(const string file = "") {
         this->easy.add<CURLOPT_COOKIEFILE>(file.c_str());
     }
     
     // Implementation of set_cookie_list method.
-    void curl_cookie::set_cookie_list(const string list) NOEXCEPT {
-        this->easy.add<CURLOPT_COOKIELIST>(list.c_str());
-    }
-
-    // Implementation of overloaded set_cookie_list method.
-    void curl_cookie::set_cookie_list(const char *list) NOEXCEPT {
-        this->easy.add<CURLOPT_COOKIELIST>(list);
+    void curl_cookie::set(const curl::cookie &cookie) {
+        this->easy.add<CURLOPT_COOKIELIST>(cookie.get_formatted().c_str());
     }
     
     // Implementation of overloaded set_cookie_list method.
-    void curl_cookie::set_cookie_list(const vector<string> &list) NOEXCEPT {
-        string cookies;
-        for (auto cookie : list) {
-            cookies+=cookie;
+    void curl_cookie::set(const vector<const curl::cookie> &cookies) {
+        for (auto c : cookies) {
+            this->set(c);
         }
-        this->set_cookie_list(cookies);
-    }
-    
-    // Implementation of overloaded set_cookie_list method.
-    void curl_cookie::set_cookie_list(const ostringstream list) NOEXCEPT {
-        this->set_cookie_list(list.str());
     }
     
     // Implementation of erase method.
-    void curl_cookie::erase() NOEXCEPT {
-        this->set_cookie_list("ALL");
+    void curl_cookie::erase() {
+        this->easy.add<CURLOPT_COOKIELIST>("ALL");
     }
     
     // Implementation of flush method.
-    void curl_cookie::flush() NOEXCEPT {
-        this->set_cookie_list("FLUSH");
+    void curl_cookie::flush() {
+        this->easy.add<CURLOPT_COOKIELIST>("FLUSH");
     }
     
     // Implementation of erase_session method.
-    void curl_cookie::erase_session() NOEXCEPT {
-        this->set_cookie_list("SESS");
+    void curl_cookie::erase_session() {
+        this->easy.add<CURLOPT_COOKIELIST>("SESS");
     }
     
     // Implementation of reload method.
-    void curl_cookie::reload() NOEXCEPT {
-        this->set_cookie_list("RELOAD");
+    void curl_cookie::reload() {
+        this->easy.add<CURLOPT_COOKIELIST>("RELOAD");
     }
 }
