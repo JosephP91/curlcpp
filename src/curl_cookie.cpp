@@ -24,12 +24,12 @@ namespace curl {
     }
     
     // Implementation of set_cookie_list method.
-    void curl_cookie::set(const curl::cookie &cookie) {
+    void curl_cookie::set(curl::cookie &cookie) {
         this->easy.add<CURLOPT_COOKIELIST>(cookie.get_formatted().c_str());
     }
     
     // Implementation of overloaded set_cookie_list method.
-    void curl_cookie::set(const vector<const curl::cookie> &cookies) {
+    void curl_cookie::set(const vector<curl::cookie> &cookies) {
         for (auto c : cookies) {
             this->set(c);
         }

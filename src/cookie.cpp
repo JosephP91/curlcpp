@@ -8,13 +8,13 @@
 using std::string;
 
 // Implementation of constructor.
-curl::cookie::cookie(const string name, const string path, const string domain, const bool secure) {
-    this->set_name(name)->set_path(path)->set_domain(domain)->set_secure(secure);
+curl::cookie::cookie(const string name, const cookie_datetime &datetime, const string path, const string domain, const bool secure) {
+    this->set_name(name)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of overloaded constructor.
-curl::cookie::cookie(const char *name, const char *path, const char *domain, const bool secure) {
-    this->set_name(name)->set_path(path)->set_domain(domain)->set_secure(secure);
+curl::cookie::cookie(const char *name, const cookie_datetime &datetime, const char *path, const char *domain, const bool secure) {
+    this->set_name(name)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of set_name method.
@@ -73,7 +73,7 @@ curl::cookie *curl::cookie::set_secure(const bool secure) NOEXCEPT {
     return this;
 }
 
-//
+// Implementation of set_secure method.
 curl::cookie *curl::cookie::set_secure(const unsigned int secure) {
     if (secure == 0) {
         this->secure = false;
@@ -82,6 +82,12 @@ curl::cookie *curl::cookie::set_secure(const unsigned int secure) {
     } else {
         throw new curl_easy_exception("The security can be 0 (false) or 1 (true)",__FUNCTION__);
     }
+    return this;
+}
+
+// Implementation of set_datetime method.
+curl::cookie *curl::cookie::set_datetime(const cookie_datetime &datetime) NOEXCEPT {
+    this->datetime = datetime;
     return this;
 }
 
@@ -105,9 +111,14 @@ bool curl::cookie::is_secure() const NOEXCEPT {
     return this->secure;
 }
 
+// Implementation of get_datetime method.
+curl::cookie_datetime curl::cookie::get_datetime() const NOEXCEPT {
+    return this->datetime;
+}
+
 // Implementation of get_formatted method.
-string curl::cookie::get_formatted() const NOEXCEPT {
-    return "Set-cookie: name="+this->name+"; path="+this->path+"; domain="+this->domain;
+string curl::cookie::get_formatted() NOEXCEPT {
+    return "Set-cookie: name="+this->name+"; expires="+this->datetime.get_formatted()+"path="+this->path+"; domain="+this->domain;
 }
 
 /*

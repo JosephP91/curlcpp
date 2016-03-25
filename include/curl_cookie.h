@@ -59,11 +59,11 @@ namespace curl {
          * header (Set-Cookie: ...) format. This will also enable the cookie engine. This adds
          * that single cookie to the internal cookie store.
          */
-        void set(const curl::cookie &);
+        void set(curl::cookie &);
         /**
          * This method overloads the one previously declared allowing to specify a vector of cookies.
          */
-        void set(const std::vector<const curl::cookie> &);
+        void set(const std::vector<curl::cookie> &);
         /**
          * This method allow you to specify a file where libcurl will write every internal
          * known-stored cookie when the curl_easy destructor will be called. If no cookies

@@ -29,6 +29,7 @@
 #include <string>
 
 #include "curl_exception.h"
+#include "cookie_datetime.h"
 
 namespace curl {
     /**
@@ -36,18 +37,20 @@ namespace curl {
      */
     class cookie {
     public:
+        /*
+         * Default constructor.
+         */
         cookie() {}
         /**
          * The constructor allow a fast way to build a cookie.
          */
-        cookie(const std::string, const std::string, const std::string, const bool = false);
+        cookie(const std::string, const cookie_datetime &, const std::string = "/", const std::string = "", const bool = false);
         /**
          * This constructor overloades the previous one.
          */
-        cookie(const char *, const char *, const char *, bool = false);
+        cookie(const char *, const cookie_datetime &, const char * = "/", const char * = "", const bool = false);
         /**
-         * This method allows to specify the cookie name. It returns a pointer
-         * to this class to enable cascade calls.
+         * This method allows to specify the cookie name.
          */
         cookie *set_name(const std::string);
         /**
@@ -56,8 +59,7 @@ namespace curl {
          */
         cookie *set_name(const char *);
         /**
-         * This method allows to specify the cookie path. It returns a pointer
-         * to this class to enable cascade calls.
+         * This method allows to specify the cookie path.
          */
         cookie *set_path(const std::string) NOEXCEPT;
         /**
@@ -66,8 +68,7 @@ namespace curl {
          */
         cookie *set_path(const char *) NOEXCEPT;
         /**
-         * This method allows to specify the cookie domain. It returns a pointer
-         * to this class to enable cascade calls.
+         * This method allows to specify the cookie domain.
          */
         cookie *set_domain(const std::string) NOEXCEPT;
         /**
@@ -76,8 +77,7 @@ namespace curl {
          */
         cookie *set_domain(const char *) NOEXCEPT;
         /**
-         * This method allows to specify the cookie security. It returns a pointer
-         * to this class to enable cascade calls.
+         * This method allows to specify the cookie security.
          */
         cookie *set_secure(const bool) NOEXCEPT;
         /**
@@ -85,6 +85,10 @@ namespace curl {
          * of a bool.
          */
         cookie *set_secure(const unsigned int);
+        /**
+         * This method allows to specify a datetime expiration to this cookie.
+         */
+        cookie *set_datetime(const cookie_datetime &) NOEXCEPT;
         /**
          * This method returns the cookie name.
          */
@@ -98,6 +102,10 @@ namespace curl {
          */
         std::string get_domain() const NOEXCEPT;
         /**
+         * This method returns the datetime expire object for this cookie.
+         */
+        cookie_datetime get_datetime() const NOEXCEPT;
+        /**
          * This method returns the cookie security.
          */
         bool is_secure() const NOEXCEPT;
@@ -105,7 +113,7 @@ namespace curl {
          * This method allows to get a string representing the entire cookie. Example:
          * 'Set-cookie: name=xxx; path=/; domain=/ expires=date'
          */
-        std::string get_formatted() const NOEXCEPT;
+        std::string get_formatted() NOEXCEPT;
     private:
         /**
          * The cookie name.
@@ -119,6 +127,10 @@ namespace curl {
          * The cookie domain.
          */
         std::string domain;
+        /**
+         * The cookie expire date and time.
+         */
+        cookie_datetime datetime;
         /**
          * The cookie security.
          */

@@ -25,8 +25,7 @@ int main() {
     easy.add<CURLOPT_VERBOSE>(1L);
 
     // Let's create a cooie
-    cookie ck;
-    ck.set_name("test")->set_path("/")->set_domain(".example.com");
+    cookie ck("test","/",".example.com",null);
 
     // Create a cookie object and add the previously created cookie.
     curl_cookie cookie_object(easy);

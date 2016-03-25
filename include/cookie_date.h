@@ -28,6 +28,10 @@
 
 #include <string>
 #include <map>
+#include <iostream>
+#include <sstream>
+
+#include "curl_config.h"
 
 namespace curl {
     // Enumeration to better define months.
@@ -54,12 +58,12 @@ namespace curl {
         /**
          * Constructor with parameters, which gives a fast way to build a cookie_date object.
          */
-        cookie_date(const unsigned int, const unsigned int, const unsigned int);
+        cookie_date(const unsigned int, const unsigned int, const unsigned int) NOEXCEPT;
         /**
          * This method allows to specify a day for the date. If the day is less than zero or
          * greater than 31, 1 will be choosen.
          */
-        cookie_date *set_day(const unsigned int);
+        cookie_date *set_day(const unsigned int) NOEXCEPT;
         /**
          * This method allows to specify a month for the date. If the month is not supported,
          * January will be choosen.
@@ -69,19 +73,23 @@ namespace curl {
          * This method allows to specify a year for the date. If year is less than 1970, 1970 will
          * be choosen.
          */
-        cookie_date *set_year(const unsigned int);
+        cookie_date *set_year(const unsigned int) NOEXCEPT;
         /**
          * This method returns the day number.
          */
-        unsigned int get_day() const;
+        unsigned int get_day() const NOEXCEPT;
         /**
          * This method returns the month name.
          */
-        std::string get_month() const;
+        std::string get_month() const NOEXCEPT;
         /**
          * This method returns the year number.
          */
-        unsigned int get_year() const;
+        unsigned int get_year() const NOEXCEPT;
+        /**
+         * This method returns the date formatted as day-month-year
+         */
+        std::string get_formatted() NOEXCEPT;
     private:
         /**
          * The day for this date.
