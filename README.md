@@ -45,6 +45,8 @@ Yes, it's avaiable thanks to @qqiangwu! :)
 Simple usage example
 ====================
 
+Here are some usage examples. You will find more examples in the test folder!
+
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
