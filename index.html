@@ -1,45 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
     <title>Curlcpp by JosephP91</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/JosephP91/curlcpp">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/JosephP91/curlcpp/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/JosephP91/curlcpp/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <header>
-      <div class="container">
-        <h1>Curlcpp</h1>
-        <h2>An object oriented C++ wrapper for CURL</h2>
+    <div class="wrapper">
 
-        <section id="downloads">
-          <a href="https://github.com/JosephP91/curlcpp/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/JosephP91/curlcpp/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/JosephP91/curlcpp" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+      <section>
+        <div id="title">
+          <h1>Curlcpp</h1>
+          <p>An object oriented C++ wrapper for CURL</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/JosephP91">JosephP91</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-    <div class="container">
-      <section id="main_content">
         <h1>
-<a id="curlcpp" class="anchor" href="#curlcpp" aria-hidden="true"><span class="octicon octicon-link"></span></a>curlcpp</h1>
+<a id="curlcpp" class="anchor" href="#curlcpp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>curlcpp</h1>
 
 <p>An object-oriented C++ wrapper for cURL tool</p>
 
 <p>If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: <a href="http://curl.haxx.se/">http://curl.haxx.se/</a></p>
 
 <h1>
-<a id="compile-and-link" class="anchor" href="#compile-and-link" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile and link</h1>
+<a id="compile-and-link" class="anchor" href="#compile-and-link" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile and link</h1>
 
 <h2>
-<a id="standalone" class="anchor" href="#standalone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Standalone</h2>
+<a id="standalone" class="anchor" href="#standalone" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Standalone</h2>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> build
 cmake ..
@@ -55,7 +65,7 @@ Or if you want run from terminal,</p>
 <p>g++ -std=c++11 example.cpp -L/home/arun/path/to/build/src/ -I/home/arun/path/to/include/ -lcurlcpp -lcurl </p>
 
 <h2>
-<a id="submodule" class="anchor" href="#submodule" aria-hidden="true"><span class="octicon octicon-link"></span></a>Submodule</h2>
+<a id="submodule" class="anchor" href="#submodule" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Submodule</h2>
 
 <p>When using a git submodule and CMake-buildsystem, add the following lines to your <code>CMakeLists.txt</code>:</p>
 
@@ -64,12 +74,14 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 </code></pre>
 
 <h1>
-<a id="biicode-support" class="anchor" href="#biicode-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Biicode support</h1>
+<a id="biicode-support" class="anchor" href="#biicode-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Biicode support</h1>
 
 <p>Yes, it's avaiable thanks to <a href="https://github.com/qqiangwu" class="user-mention">@qqiangwu</a>! :)</p>
 
 <h1>
-<a id="simple-usage-example" class="anchor" href="#simple-usage-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple usage example</h1>
+<a id="simple-usage-example" class="anchor" href="#simple-usage-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple usage example</h1>
+
+<p>Here are some usage examples. You will find more examples in the test folder!</p>
 
 <p>Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:</p>
 
@@ -95,6 +107,50 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
         error.<span class="pl-c1">print_traceback</span>();
         <span class="pl-c">// Note that the printing the stack will erase it</span>
     }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+
+<p>If you want to get information about the current curl session, you could do:</p>
+
+<div class="highlight highlight-source-c++"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_easy.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_ios.h<span class="pl-pds">"</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>curl_exception.h<span class="pl-pds">"</span></span>
+
+<span class="pl-k">using</span> std::ostringstream;
+
+<span class="pl-k">using</span> curl::curl_easy;
+<span class="pl-k">using</span> curl::curl_easy_exception;
+<span class="pl-k">using</span> curl::curlcpp_traceback;
+<span class="pl-k">using</span> curl::curl_ios;
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>(<span class="pl-k">int</span> argc, <span class="pl-k">const</span> <span class="pl-k">char</span> **argv) {
+    <span class="pl-c">// Let's declare a stream</span>
+    ostringstream str;
+    <span class="pl-c">// We are going to put the request's output in the previously declared stream</span>
+    curl_ios&lt;ostringstream&gt; <span class="pl-c1">ios</span>(str);
+    <span class="pl-c">// Declaration of an easy object</span>
+    curl_easy <span class="pl-smi">easy</span>(ios);
+    <span class="pl-c">// Add some option to the curl_easy object.</span>
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_URL&gt;(<span class="pl-s"><span class="pl-pds">"</span>http://www.google.it<span class="pl-pds">"</span></span>);
+    easy.<span class="pl-smi">add</span>&lt;CURLOPT_FOLLOWLOCATION&gt;(<span class="pl-c1">1L</span>);
+    <span class="pl-k">try</span> {
+        <span class="pl-c">// Execute the request.</span>
+        easy.<span class="pl-c1">perform</span>();
+    } <span class="pl-k">catch</span> (curl_easy_exception error) {
+        <span class="pl-c">// If you want to get the entire error stack we can do:</span>
+        curlcpp_traceback errors = error.<span class="pl-c1">get_traceback</span>();
+        <span class="pl-c">// Otherwise we could print the stack like this:</span>
+        error.<span class="pl-c1">print_traceback</span>();
+        <span class="pl-c">// Note that the printing the stack will erase it</span>
+    }
+    <span class="pl-c">// Retrieve information about curl current session.</span>
+    <span class="pl-k">auto</span> x = easy.<span class="pl-smi">get_info</span>&lt;<span class="pl-k">char</span>&gt;(CURLINFO_CONTENT_TYPE);
+    <span class="pl-c">/**</span>
+<span class="pl-c">     * get_info returns a curl_easy_info object. With the get method we retrieve</span>
+<span class="pl-c">     * the std::pair object associated with it: the first item is the return code of the</span>
+<span class="pl-c">     * request. The second is the element requested by the specified libcurl macro.</span>
+<span class="pl-c">     */</span>
+    std::cout&lt;&lt;x.<span class="pl-c1">get</span>().<span class="pl-smi">second</span>&lt;&lt;std::endl;
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 
@@ -302,8 +358,9 @@ buffers. For example, a very simple send/receiver would be:</p>
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
       </section>
-    </div>
 
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
