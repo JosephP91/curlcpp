@@ -1014,7 +1014,7 @@ namespace curl  {
     
     // Implementation of get_info method.
     template<typename T> curl::curl_easy_info<T> curl_easy::get_info(const CURLINFO info) {
-        T *pointer = nullptr;
+        T *pointer;
         const CURLcode code = curl_easy_getinfo(this->curl,info,&pointer);
         curl::curl_easy_info<T> inf(code,pointer);
         return inf;
