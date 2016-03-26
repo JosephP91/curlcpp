@@ -8,13 +8,13 @@
 using std::string;
 
 // Implementation of constructor.
-curl::cookie::cookie(const string name, const cookie_datetime &datetime, const string path, const string domain, const bool secure) {
-    this->set_name(name)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
+curl::cookie::cookie(const string name, const string value, const cookie_datetime &datetime, const string path, const string domain, const bool secure) {
+    this->set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of overloaded constructor.
-curl::cookie::cookie(const char *name, const cookie_datetime &datetime, const char *path, const char *domain, const bool secure) {
-    this->set_name(name)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
+curl::cookie::cookie(const char *name, const char * value, const cookie_datetime &datetime, const char *path, const char *domain, const bool secure) {
+    this->set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of set_name method.
@@ -32,6 +32,22 @@ curl::cookie *curl::cookie::set_name(const char *name) {
         throw new curl_easy_exception("Cookie must have a name",__FUNCTION__);
     }
     this->name = string(name);
+    return this;
+}
+
+// Implementation of set_name method.
+curl::cookie *curl::cookie::set_value(const string value) {
+    this->value = value;
+    return this;
+}
+
+// Implementation of set_value method.
+curl::cookie *curl::cookie::set_value(const char *value) {
+    if (value == nullptr) {
+        this->value = "";
+    } else {
+        this->value = string(value);
+    }
     return this;
 }
 
@@ -96,6 +112,11 @@ string curl::cookie::get_name() const NOEXCEPT {
     return this->name;
 }
 
+// Implmentation of get_value method.
+string curl::cookie::get_value() const NOEXCEPT {
+    return this->value;
+}
+
 // Implementation of get_path method.
 string curl::cookie::get_path() const NOEXCEPT {
     return this->path;
@@ -118,17 +139,5 @@ curl::cookie_datetime curl::cookie::get_datetime() const NOEXCEPT {
 
 // Implementation of get_formatted method.
 string curl::cookie::get_formatted() NOEXCEPT {
-    return "Set-cookie: name="+this->name+"; expires="+this->datetime.get_formatted()+"path="+this->path+"; domain="+this->domain;
+    return "Set-cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()+"path="+this->path+"; domain="+this->domain;
 }
-
-/*
- *
- *time_t rawtime;
-  struct tm * timeinfo;
-  char buffer [80];
-
-  time (&rawtime);
-  timeinfo = localtime (&rawtime);
-
-  strftime (buffer,80,"%d-%b-%Y %X GMT",timeinfo);
- */

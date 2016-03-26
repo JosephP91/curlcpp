@@ -4,6 +4,9 @@
 #include "curl_exception.h"
 #include "curl_form.h"
 #include "curl_cookie.h"
+#include "curl_ios.h"
+
+using std::ostringstream;
 
 using curl::cookie;
 using curl::curl_header;
@@ -11,6 +14,7 @@ using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curl_cookie;
 using curl::curlcpp_cookies;
+using curl::curl_ios;
 
 
 /**
@@ -19,24 +23,32 @@ using curl::curlcpp_cookies;
  */
 
 int main() {
+    // Let's declare a stream
+    ostringstream str;
+    // We are going to put the request's output in the previously declared stream
+    curl_ios<ostringstream> ios(str);
+
     // Easy object to handle the connection, url and verbosity level.
-    curl_easy easy;
+    curl_easy easy(ios);
     easy.add<CURLOPT_URL>("http://example.com");
-    easy.add<CURLOPT_VERBOSE>(1L);
 
     // Let's create a cooie
-    cookie ck("test","/",".example.com",null);
+    cookie ck;
+    ck.set_name("nome cookie");
+    ck.set_value("valore cookie");
+    ck.set_path("/");
+    ck.set_domain(".example.com");
 
     // Create a cookie object and add the previously created cookie.
-    curl_cookie cookie_object(easy);
-    cookie_object.set(ck);
+    curl_cookie c_obj(easy);
+    c_obj.set(ck);
 
     // This rapresents a vector of cookies.
     curlcpp_cookies cookies;
     try {
         easy.perform();
         // Retrieve all the cookies for the example.com
-        cookies = cookie_object.get();
+        cookies = c_obj.get();
         // Delete all the memory helded cookies.
         easy.add<CURLOPT_COOKIEFILE>("ALL");
     } catch (curl_easy_exception error) {

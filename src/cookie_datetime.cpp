@@ -13,11 +13,13 @@ curl::cookie_datetime::cookie_datetime(const cookie_time &time, const cookie_dat
 // Implementation of set_time method.
 curl::cookie_datetime *curl::cookie_datetime::set_time(const cookie_time &time) NOEXCEPT {
     this->time = time;
+    return this;
 }
 
 // Implementation of set_date method.
 curl::cookie_datetime *curl::cookie_datetime::set_date(const cookie_date &date) NOEXCEPT {
     this->date = date;
+    return this;
 }
 
 // Implementation of get_time method.

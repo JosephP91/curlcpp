@@ -44,11 +44,11 @@ namespace curl {
         /**
          * The constructor allow a fast way to build a cookie.
          */
-        cookie(const std::string, const cookie_datetime &, const std::string = "/", const std::string = "", const bool = false);
+        cookie(const std::string, const std::string, const cookie_datetime &, const std::string = "", const std::string = "", const bool = false);
         /**
          * This constructor overloades the previous one.
          */
-        cookie(const char *, const cookie_datetime &, const char * = "/", const char * = "", const bool = false);
+        cookie(const char *, const char *, const cookie_datetime &, const char * = "", const char * = "", const bool = false);
         /**
          * This method allows to specify the cookie name.
          */
@@ -58,6 +58,14 @@ namespace curl {
          * instead of a string.
          */
         cookie *set_name(const char *);
+        /**
+         * This method allows to specify the cookie value.
+         */
+        cookie *set_value(const std::string);
+        /**
+         * This method allows to specify the cookie value,
+         */
+        cookie *set_value(const char *);
         /**
          * This method allows to specify the cookie path.
          */
@@ -94,6 +102,10 @@ namespace curl {
          */
         std::string get_name() const NOEXCEPT;
         /**
+         * This method returns the cookie value.
+         */
+        std::string get_value() const NOEXCEPT;
+        /**
          * This method returns the cookie path.
          */
         std::string get_path() const NOEXCEPT;
@@ -119,6 +131,10 @@ namespace curl {
          * The cookie name.
          */
         std::string name;
+        /**
+         * Il valore del cookie.
+         */
+        std::string value;
         /**
          * The cookie path.
          */
