@@ -36,6 +36,8 @@
 namespace curl {
     // Enumeration to better define months.
     enum months { JANUARY = 1, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER};
+    // Enumeration to better define week days.
+    enum weekdays {MONDAY = 1, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
 
     // Leave this alone :)
     namespace details {
@@ -43,6 +45,11 @@ namespace curl {
         static const std::map<int,std::string> months_names = {
                 {JANUARY,"Jan"}, {FEBRUARY,"Feb"}, {MARCH,"Mar"}, {APRIL,"Apr"}, {MAY,"May"}, {JUNE,"Jun"},
                 {JULY,"Jul"},{AUGUST,"Aug"},{SEPTEMBER,"Sep"},{OCTOBER,"Oct"},{NOVEMBER,"Nov"},{DECEMBER,"Dec"}
+        };
+        // Map week days numbers with days short names (cookies likes it, still, short XD)
+        static const std::map<int,std::string> weekday_names = {
+                {MONDAY,"Mon"}, {TUESDAY,"Tue"}, {WEDNESDAY,"Wed"}, {THURSDAY,"Thu"}, {FRIDAY,"Fri"}, {SATURDAY,"Sat"},
+                {SUNDAY,"Sun"}
         };
     }
 
@@ -54,11 +61,16 @@ namespace curl {
         /**
          * Default constructor. Inizialize the attributes with default values.
          */
-        cookie_date() : day(1), month("Jan"), year(1970) {}
+        cookie_date() : week_day("Mon"), day(1), month("Jan"), year(1970) {}
         /**
          * Constructor with parameters, which gives a fast way to build a cookie_date object.
          */
-        cookie_date(const unsigned int, const unsigned int, const unsigned int) NOEXCEPT;
+        cookie_date(const unsigned int, const unsigned int, const unsigned int, const unsigned int) NOEXCEPT;
+        /**
+         * This method allows to specify the week dayname for the date. If the day is less or equal
+         * than zero or greater than 7, 1 will be choosen
+         */
+        cookie_date *set_week_day(const unsigned int) NOEXCEPT;
         /**
          * This method allows to specify a day for the date. If the day is less than zero or
          * greater than 31, 1 will be choosen.
@@ -74,6 +86,10 @@ namespace curl {
          * be choosen.
          */
         cookie_date *set_year(const unsigned int) NOEXCEPT;
+        /**
+         * This method returns the week day name
+         */
+        std::string get_week_day() const NOEXCEPT;
         /**
          * This method returns the day number.
          */
@@ -99,6 +115,10 @@ namespace curl {
          * The month name.
          */
         std::string month;
+        /**
+         * The week dayname.
+         */
+        std::string week_day;
         /**
          * The month year.
          */

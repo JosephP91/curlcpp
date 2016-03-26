@@ -34,10 +34,11 @@ int main() {
 
     // Let's create a cooie
     cookie ck;
-    ck.set_name("nome cookie");
-    ck.set_value("valore cookie");
+    ck.set_name("nomecookie");
+    ck.set_value("valorecookie");
     ck.set_path("/");
     ck.set_domain(".example.com");
+    std::cout<<ck.get_formatted()<<std::endl;
 
     // Create a cookie object and add the previously created cookie.
     curl_cookie c_obj(easy);
@@ -54,6 +55,7 @@ int main() {
     } catch (curl_easy_exception error) {
         error.print_traceback();
     }
+    std::cout<<cookies.size()<<std::endl;
     // Print them all!
     for (auto cook : cookies) {
         std::cout<<cook<<std::endl;

@@ -139,5 +139,5 @@ curl::cookie_datetime curl::cookie::get_datetime() const NOEXCEPT {
 
 // Implementation of get_formatted method.
 string curl::cookie::get_formatted() NOEXCEPT {
-    return "Set-cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()+"path="+this->path+"; domain="+this->domain;
+    return "Set-Cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()+"; path="+this->path+"; domain="+this->domain;
 }
