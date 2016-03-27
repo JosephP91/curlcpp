@@ -198,6 +198,7 @@ namespace curl {
             const void *whatever;
             const CURLcode code;
         };
+
         /**
          * Simple default constructor. It is used to give a
          * default value to all the attributes and provide a

@@ -5,6 +5,9 @@
 
 #include "cookie_date.h"
 
+using std::out_of_range;
+using std::ostringstream;
+
 // Implementation of constructor with parameters.
 curl::cookie_date::cookie_date(const unsigned int week_day, const unsigned int day, const unsigned int month, const unsigned int year) NOEXCEPT {
     this->set_week_day(week_day)->set_day(day)->set_month(month)->set_year(year);
@@ -14,7 +17,7 @@ curl::cookie_date::cookie_date(const unsigned int week_day, const unsigned int d
 curl::cookie_date *curl::cookie_date::set_week_day(const unsigned int week_day) NOEXCEPT {
     try {
         this->week_day = details::weekday_names.at(week_day);
-    } catch (const std::out_of_range &exception) {
+    } catch (const out_of_range &exception) {
         this->week_day = "Mon";
     }
     return this;
@@ -30,7 +33,7 @@ curl::cookie_date *curl::cookie_date::set_day(const unsigned int day) NOEXCEPT {
 curl::cookie_date *curl::cookie_date::set_month(const unsigned int month) {
     try {
         this->month = details::months_names.at(month);
-    } catch (const std::out_of_range &exception) {
+    } catch (const out_of_range &exception) {
         this->month = "Jan";
     }
     return this;
@@ -63,7 +66,7 @@ unsigned int curl::cookie_date::get_year() const NOEXCEPT {
 
 // Implementation of get_formatted method.
 std::string curl::cookie_date::get_formatted() NOEXCEPT {
-    std::ostringstream stream;
+    ostringstream stream;
     stream<<this->week_day<<", "<<this->day<<"-"<<this->month<<"-"<<this->year;
     return stream.str();
 }

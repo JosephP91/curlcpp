@@ -89,8 +89,23 @@ curl::cookie *curl::cookie::set_secure(const bool secure) NOEXCEPT {
     return this;
 }
 
+// Implementation of set_secure overloaded method.
+curl::cookie *curl::cookie::set_secure(const string secure) NOEXCEPT {
+    if (secure == "secure") {
+        this->secure = 1;
+    } else {
+        this->secure = 0;
+    }
+    return this;
+}
+
+// Implementation of set_secure overloaded method.
+curl::cookie *curl::cookie::set_secure(const char *secure) NOEXCEPT {
+    return this->set_secure(string(secure));
+}
+
 // Implementation of set_secure method.
-curl::cookie *curl::cookie::set_secure(const unsigned int secure) {
+curl::cookie *curl::cookie::set_secure(const unsigned int secure) NOEXCEPT {
     if (secure == 0) {
         this->secure = false;
     } else if (secure == 1) {
@@ -139,5 +154,6 @@ curl::cookie_datetime curl::cookie::get_datetime() const NOEXCEPT {
 
 // Implementation of get_formatted method.
 string curl::cookie::get_formatted() NOEXCEPT {
-    return "Set-Cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()+"; path="+this->path+"; domain="+this->domain;
+    string secure = this->is_secure() == 1 ? "secure" : "";
+    return "Set-Cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()+"; path="+this->path+"; domain="+this->domain+" "+secure;
 }

@@ -5,6 +5,8 @@
 
 #include "cookie_time.h"
 
+using std::ostringstream;
+
 // Implementation of constructor with parameters.
 curl::cookie_time::cookie_time(const unsigned int hour, const unsigned int minutes, const unsigned int seconds) {
     this->set_hour(hour)->set_minutes(minutes)->set_seconds(seconds);
@@ -45,7 +47,7 @@ const unsigned int curl::cookie_time::get_seconds() const NOEXCEPT {
 
 // Implementation of get_formatted method.
 std::string curl::cookie_time::get_formatted() NOEXCEPT {
-    std::ostringstream stream;
+    ostringstream stream;
     stream<<this->get_hour()<<":"<<this->get_minutes()<<":"<<this->get_seconds()<<" GMT";
     return stream.str();
 }
