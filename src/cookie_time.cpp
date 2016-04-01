@@ -14,19 +14,19 @@ curl::cookie_time::cookie_time(const unsigned int hour, const unsigned int minut
 
 // Implementation of set_hour method.
 curl::cookie_time *curl::cookie_time::set_hour(const unsigned int hour) NOEXCEPT {
-    this->hour = hour < 0 or hour > 23 ? 0 : hour;
+    this->hour = hour > 23 ? 0 : hour;
     return this;
 }
 
 // Implementation of set_minutes method.
 curl::cookie_time *curl::cookie_time::set_minutes(const unsigned int minutes) NOEXCEPT {
-    this->minutes = (minutes < 0 or minutes > 59) ? 0 : minutes;
+    this->minutes =  minutes > 59 ? 0 : minutes;
     return this;
 }
 
 // Implementation of set_seconds method.
 curl::cookie_time *curl::cookie_time::set_seconds(const unsigned int seconds) NOEXCEPT {
-    this->seconds = (seconds < 0 or seconds > 59) ? 0 : seconds;
+    this->seconds = seconds > 59 ? 0 : seconds;
     return this;
 }
 

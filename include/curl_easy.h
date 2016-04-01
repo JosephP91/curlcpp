@@ -37,88 +37,173 @@
 #include "curl_form.h"
 #include "curl_easy_info.h"
 
-
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
         using type = value_type;\
     }
 
+#define CURLCPP_DEFINE_INFO(info,value_type)\
+    template <> struct info_t<info> {\
+        using type = value_type;\
+    }
+
 namespace curl  {
+    // Definition of CURLINFO_* constants)
+    namespace detail_info {
+        template <CURLINFO> struct info_t;
+        template <CURLINFO info> using Info_type = typename info_t<info>::type;
+        // Last URL used
+        CURLCPP_DEFINE_INFO(CURLINFO_EFFECTIVE_URL,char *);
+        // Response code
+        CURLCPP_DEFINE_INFO(CURLINFO_RESPONSE_CODE,long);
+        // Last proxy connect response code
+        CURLCPP_DEFINE_INFO(CURLINFO_HTTP_CONNECTCODE,long);
+        // Remote time of the retrieved document.
+        CURLCPP_DEFINE_INFO(CURLINFO_FILETIME,long);
+        // Total time of previous transfer.
+        CURLCPP_DEFINE_INFO(CURLINFO_TOTAL_TIME,double);
+        // Time from start until name resolving completed.
+        CURLCPP_DEFINE_INFO(CURLINFO_NAMELOOKUP_TIME,double);
+        // Time from start until remote hosst proxy completed.
+        CURLCPP_DEFINE_INFO(CURLINFO_CONNECT_TIME,double);
+        // Time fron start until SSL/SSH handshake completed.
+        CURLCPP_DEFINE_INFO(CURLINFO_APPCONNECT_TIME,double);
+        // Time from start until just before the transfter begins.
+        CURLCPP_DEFINE_INFO(CURLINFO_PRETRANSFER_TIME,double);
+        // Time from start until just when the first byte is received.
+        CURLCPP_DEFINE_INFO(CURLINFO_STARTTRANSFER_TIME,double);
+        // Time taken for all redirect steps before the final transfer.
+        CURLCPP_DEFINE_INFO(CURLINFO_REDIRECT_TIME,double);
+        // Total number of redirects that were followed.
+        CURLCPP_DEFINE_INFO(CURLINFO_REDIRECT_COUNT,long);
+        // URL a redirect would take you to, had you enabled redirects.
+        CURLCPP_DEFINE_INFO(CURLINFO_REDIRECT_URL,char *);
+        // Number of bytes uploaded.
+        CURLCPP_DEFINE_INFO(CURLINFO_SIZE_UPLOAD,double);
+        // Number of bytes downloaded.
+        CURLCPP_DEFINE_INFO(CURLINFO_SIZE_DOWNLOAD,double);
+        // Average download speed.
+        CURLCPP_DEFINE_INFO(CURLINFO_SPEED_DOWNLOAD,double);
+        // Average upload speed.
+        CURLCPP_DEFINE_INFO(CURLINFO_SPEED_UPLOAD,double);
+        // Number of bytes of all headers received.
+        CURLCPP_DEFINE_INFO(CURLINFO_HEADER_SIZE,long);
+        // Number of bytes sent in the issued HTTP requests.
+        CURLCPP_DEFINE_INFO(CURLINFO_REQUEST_SIZE,long);
+        // Certificate verification result.
+        CURLCPP_DEFINE_INFO(CURLINFO_SSL_VERIFYRESULT,long);
+        // A list of OpenSSL crypto engines.
+        CURLCPP_DEFINE_INFO(CURLINFO_SSL_ENGINES,struct curl_slist *);
+        // Content length from the Content-Length header.
+        CURLCPP_DEFINE_INFO(CURLINFO_CONTENT_LENGTH_DOWNLOAD,long);
+        // Upload size.
+        CURLCPP_DEFINE_INFO(CURLINFO_CONTENT_LENGTH_UPLOAD,long);
+        // Content type from the Content-Type header.
+        CURLCPP_DEFINE_INFO(CURLINFO_CONTENT_TYPE,char *);
+        // User's private data pointer.
+        CURLCPP_DEFINE_INFO(CURLINFO_PRIVATE,char *);
+        // Avaiable HTTP authentication methods.
+        CURLCPP_DEFINE_INFO(CURLINFO_HTTPAUTH_AVAIL,long);
+        // Avaiable HTTP proxy authentication methods.
+        CURLCPP_DEFINE_INFO(CURLINFO_PROXYAUTH_AVAIL,long);
+        // The errno from the las failure to connect.
+        CURLCPP_DEFINE_INFO(CURLINFO_OS_ERRNO,long);
+        // Number of new succesful connections used for previous trasnfer.
+        CURLCPP_DEFINE_INFO(CURLINFO_NUM_CONNECTS,long);
+        // IP Address of the last connection.
+        CURLCPP_DEFINE_INFO(CURLINFO_PRIMARY_IP,char *);
+        // Port of the last connection.
+        CURLCPP_DEFINE_INFO(CURLINFO_PRIMARY_PORT,long);
+        // Local-end IP address of last connection.
+        CURLCPP_DEFINE_INFO(CURLINFO_LOCAL_IP,char *);
+        // Local-end port of last connection.
+        CURLCPP_DEFINE_INFO(CURLINFO_LOCAL_PORT,long);
+        // List of all known cookies.
+        CURLCPP_DEFINE_INFO(CURLINFO_COOKIELIST,struct curl_slist *);
+        // Last socket used.
+        CURLCPP_DEFINE_INFO(CURLINFO_LASTSOCKET,long);
+        // This option is avaiable in libcurl 7.45 or greater.
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072D00
+        // The session's active socket.
+        CURLCPP_DEFINE_INFO(CURLINFO_ACTIVE_SOCKET,curl_socket_t *);
+#endif
+        // The entry path after logging in to an FTP server.
+        CURLCPP_DEFINE_INFO(CURLINFO_FTP_ENTRY_PATH,char *);
+        // Certificate chain
+        CURLCPP_DEFINE_INFO(CURLINFO_CERTINFO,struct curl_certinfo *);
+        // This costant is avaiable with libcurl < 7.48
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM < 0x073000
+        // TSL session info that can be used for further processing.
+        CURLCPP_DEFINE_INFO(CURLINFO_TLS_SESSION,struct curl_tlssessioninfo *);
+#else
+        // TSL session info that can be used for further processing.
+        CURLCPP_DEFINE_INFO(CURLINFO_TSL_SSL_PTR,struct curl_tlssessioninfo *);
+#endif
+        // Whether or not a time conditional was met.
+        CURLCPP_DEFINE_INFO(CURLINFO_CONDITION_UNMET,long);
+        // RTSP session ID.
+        CURLCPP_DEFINE_INFO(CURLINFO_RTSP_SESSION_ID,char *);
+        // RTSP CSeq that will next be used.
+        CURLCPP_DEFINE_INFO(CURLINFO_RTSP_CLIENT_CSEQ,long);
+        // RTPS CSeq that will next be expected.
+        CURLCPP_DEFINE_INFO(CURLINFO_RTSP_SERVER_CSEQ,long);
+        // RTSP CSeq last received.
+        CURLCPP_DEFINE_INFO(CURLINFO_RTSP_CSEQ_RECV,long);
+    }
+    
     // Detail namespace
     namespace detail {
         template <CURLoption> struct option_t;
         template <CURLoption opt> using Option_type = typename option_t<opt>::type;
-
         CURLCPP_DEFINE_OPTION(CURLOPT_WRITEDATA, void*);
-
         /* The full URL to get/put */
         CURLCPP_DEFINE_OPTION(CURLOPT_URL, const char*);
-
         /* Port number to connect to, if other than default. */
         CURLCPP_DEFINE_OPTION(CURLOPT_PORT, long);
-
         /* Name of proxy to use. */
         CURLCPP_DEFINE_OPTION(CURLOPT_PROXY, const char*);
-
         /* "user:password;options" to use when fetching. */
         CURLCPP_DEFINE_OPTION(CURLOPT_USERPWD, const char*);
-
         /* "user:password" to use with proxy. */
         CURLCPP_DEFINE_OPTION(CURLOPT_PROXYUSERPWD, const char*);
-
         /* Range to get, specified as an ASCII string. */
         CURLCPP_DEFINE_OPTION(CURLOPT_RANGE, const char*);
-
-        /* not used */
-
         /* Specified file stream to upload from (use as input): */
         CURLCPP_DEFINE_OPTION(CURLOPT_READDATA, void*);
-
         /* Buffer to receive error messages in, must be at least CURL_ERROR_SIZE
-        * bytes big. If this is not used, error messages go to stderr instead: */
+         * bytes big. If this is not used, error messages go to stderr instead: */
         CURLCPP_DEFINE_OPTION(CURLOPT_ERRORBUFFER, char*);
-
         /* Function that will be called to store the output (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
         CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION, size_t(*)(void *ptr, size_t size, size_t nmemb, void *userdata));
-
         /* Function that will be called to read the input (instead of fread). The
         * parameters will use fread() syntax, make sure to follow them. */
         CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION, size_t(*)(void *buffer, size_t size, size_t nitems, void *instream));
-
         /* Time-out the read operation after this amount of seconds */
         CURLCPP_DEFINE_OPTION(CURLOPT_TIMEOUT, long);
-
         /* If the CURLOPT_INFILE is used, this can be used to inform libcurl about
-        * how large the file being sent really is. That allows better error
-        * checking and better verifies that the upload was successful. -1 means
-        * unknown size.
-        *
-        * For large file support, there is also a _LARGE version of the key
-        * which takes an off_t type, allowing platforms with larger off_t
-        * sizes to handle larger files.  See below for INFILESIZE_LARGE.
-        */
+         * how large the file being sent really is. That allows better error
+         * checking and better verifies that the upload was successful. -1 means
+         * unknown size.
+         *
+         * For large file support, there is also a _LARGE version of the key
+         * which takes an off_t type, allowing platforms with larger off_t
+         * sizes to handle larger files.  See below for INFILESIZE_LARGE. */
         CURLCPP_DEFINE_OPTION(CURLOPT_INFILESIZE, long);
-
         /* POST static input fields. */
         CURLCPP_DEFINE_OPTION(CURLOPT_POSTFIELDS, const char*);
-
         /* Set the referrer page (needed by some CGIs) */
         CURLCPP_DEFINE_OPTION(CURLOPT_REFERER, const char*);
-
         /* Set the FTP PORT string (interface name, named or numerical IP address)
         Use i.e '-' to use default address. */
         CURLCPP_DEFINE_OPTION(CURLOPT_FTPPORT, const char*);
-
         /* Set the User-Agent string (examined by some CGIs) */
         CURLCPP_DEFINE_OPTION(CURLOPT_USERAGENT, const char*);
-
         /* If the download receives less than "low speed limit" bytes/second
-        * during "low speed time" seconds, the operations is aborted.
-        * You could i.e if you have a pretty high speed connection, abort if
-        * it is less than 2000 bytes/sec during 20 seconds.
-        */
-
+         * during "low speed time" seconds, the operations is aborted.
+         * You could i.e if you have a pretty high speed connection, abort if
+         * it is less than 2000 bytes/sec during 20 seconds.
+         */
         /* Set the "low speed limit" */
         CURLCPP_DEFINE_OPTION(CURLOPT_LOW_SPEED_LIMIT, long);
 
@@ -960,7 +1045,7 @@ namespace curl  {
         /**
          * This method allows to get information about the current curl session.
          */
-        template<typename T> curl::curl_easy_info<T> get_info(const CURLINFO);
+        template<CURLINFO Info> const curl_easy_info<detail_info::Info_type<Info>> get_info();
         /**
          * Simple getter method used to return the easy handle.
          */
@@ -1013,11 +1098,14 @@ namespace curl  {
     }
     
     // Implementation of get_info method.
-    template<typename T> curl::curl_easy_info<T> curl_easy::get_info(const CURLINFO info) {
-        T *pointer;
-        const CURLcode code = curl_easy_getinfo(this->curl,info,&pointer);
-        curl::curl_easy_info<T> inf(code,pointer);
-        return inf;
+    template<CURLINFO Info> const curl_easy_info<detail_info::Info_type<Info>> curl_easy::get_info() {
+        detail_info::Info_type<Info> val;
+        const CURLcode code = curl_easy_getinfo(this->curl,Info,&val);
+        if (code != CURLE_OK) {
+            throw curl_easy_exception(code,__FUNCTION__);
+        }
+        curl_easy_info<detail_info::Info_type<Info>> easy_info(val);
+        return easy_info;
     }
     
     // Implementation of get_curl method.

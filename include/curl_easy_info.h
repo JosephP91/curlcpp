@@ -26,65 +26,49 @@
 #ifndef curl_easy_info_h
 #define curl_easy_info_h
 
-#include <curl/curl.h>
 #include <vector>
 #include <string>
 #include <utility>
 
 namespace curl {
+    /**
+     * This object contains a pair which contains curl easy get_info result.
+     */
     template<typename T> class curl_easy_info {
     public:
-        curl_easy_info(const CURLcode code, T *pointer) : _code(code), _pointer(pointer) {}
-        std::pair<const CURLcode,T> get() const {
-            return std::make_pair(_code,*_pointer);
+        curl_easy_info(T pointer) : _pointer(pointer) {}
+        T get() const {
+            return _pointer;
         }
     private:
-        const CURLcode _code;
-        T *_pointer;
+        T _pointer;
     };
     
-    template<> class curl_easy_info<char> {
+    /**
+     * Template specialization for char *
+     */
+    template<> class curl_easy_info<char *> {
     public:
-        curl_easy_info(const CURLcode code, char *pointer) : _code(code), _pointer(pointer) {}
-        std::pair<const CURLcode,std::string> get() const {
-            return std::make_pair(_code,std::string(_pointer));
+        curl_easy_info(char *pointer) : _pointer(pointer) {}
+        std::string get() const {
+            return std::string(_pointer);
         }
     private:
-        const CURLcode _code;
         char *_pointer;
     };
-
-    template<> class curl_easy_info<long> {
-    public:
-        curl_easy_info(const CURLcode code, long *pointer) : _code(code), _pointer(pointer) {}
-        std::pair<const CURLcode,long> get() const {
-            return std::make_pair(_code,*_pointer);
-        }
-    private:
-        const CURLcode _code;
-        long *_pointer;
-    };
     
-    template<> class curl_easy_info<double> {
+    /**
+     * Template specialization for struct curl_slist *.
+     */
+    template<> class curl_easy_info<struct curl_slist *> {
     public:
-        curl_easy_info(const CURLcode code, double *pointer) : _code(code), _pointer(pointer) {}
-        std::pair<const CURLcode,double> get() const {
-            return std::make_pair(_code,*_pointer);
-        }
-    private:
-        const CURLcode _code;
-        double *_pointer;
-    };
-    
-    template<> class curl_easy_info<struct curl_slist> {
-    public:
-        curl_easy_info(const CURLcode code, struct curl_slist *pointer) : _code(code), _pointer(pointer) {}
+        curl_easy_info(struct curl_slist *pointer) : _pointer(pointer) {}
         ~curl_easy_info() {
             if (_pointer != nullptr) {
                 curl_slist_free_all(_pointer);
             }
         }
-        std::pair<const CURLcode,std::vector<std::string>> get() {
+        std::vector<std::string> get() {
             struct curl_slist *backup = _pointer;
             std::vector<std::string> infos;
             while (backup != nullptr) {
@@ -94,10 +78,9 @@ namespace curl {
                 }
                 backup = backup->next;
             }
-            return std::make_pair(_code,infos);
+            return infos;
         }
     private:
-        const CURLcode _code;
         struct curl_slist *_pointer;
     };
 }

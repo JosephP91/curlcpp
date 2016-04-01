@@ -14,8 +14,8 @@ using std::ostringstream;
 namespace curl {
     // Implementation of the get method.
     const curlcpp_cookies curl_cookie::get() const NOEXCEPT {
-        auto info = this->easy.get_info<struct curl_slist>(CURLINFO_COOKIELIST);
-        return info.get().second;
+        auto info = this->easy.get_info<CURLINFO_COOKIELIST>();
+        return info.get();
     }
     
     // Implementation of set_cookie_file method.
