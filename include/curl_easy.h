@@ -125,7 +125,7 @@ namespace curl  {
         // This option is avaiable in libcurl 7.45 or greater.
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072D00
         // The session's active socket.
-        CURLCPP_DEFINE_INFO(CURLINFO_ACTIVE_SOCKET,curl_socket_t *);
+        CURLCPP_DEFINE_INFO(CURLINFO_ACTIVESOCKET,curl_socket_t *);
 #endif
         // The entry path after logging in to an FTP server.
         CURLCPP_DEFINE_INFO(CURLINFO_FTP_ENTRY_PATH,char *);
@@ -133,11 +133,11 @@ namespace curl  {
         CURLCPP_DEFINE_INFO(CURLINFO_CERTINFO,struct curl_certinfo *);
         // This costant is avaiable with libcurl < 7.48
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM < 0x073000
-        // TSL session info that can be used for further processing.
+        // TLS session info that can be used for further processing.
         CURLCPP_DEFINE_INFO(CURLINFO_TLS_SESSION,struct curl_tlssessioninfo *);
 #else
-        // TSL session info that can be used for further processing.
-        CURLCPP_DEFINE_INFO(CURLINFO_TSL_SSL_PTR,struct curl_tlssessioninfo *);
+        // TLS session info that can be used for further processing.
+        CURLCPP_DEFINE_INFO(CURLINFO_TLS_SSL_PTR,struct curl_tlssessioninfo *);
 #endif
         // Whether or not a time conditional was met.
         CURLCPP_DEFINE_INFO(CURLINFO_CONDITION_UNMET,long);
