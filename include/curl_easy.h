@@ -351,7 +351,12 @@ namespace curl  {
         /* Max amount of cached alive connections */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAXCONNECTS, long);
 
+        /* Renamed / obsoleted since 7.37 */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM > 0x072500
         CURLCPP_DEFINE_OPTION(CURLOPT_OBSOLETE72, long); /* OBSOLETE, do not use! */
+#else
+        CURLCPP_DEFINE_OPTION(CURLOPT_CLOSEPOLICY, long);
+#endif
 
         /* 73 = OBSOLETE */
 
