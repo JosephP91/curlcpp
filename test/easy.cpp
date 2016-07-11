@@ -14,6 +14,7 @@ int main() {
     // Add some options.
     easy.add<CURLOPT_URL>("http://www.google.it");
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+    easy.add<CURLOPT_HTTP_VERSION>(2);
     try {
         // Execute the request.
         easy.perform();
