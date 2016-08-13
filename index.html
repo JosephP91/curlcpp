@@ -143,14 +143,11 @@ INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
         error.<span class="pl-c1">print_traceback</span>();
         <span class="pl-c">// Note that the printing the stack will erase it</span>
     }
+
     <span class="pl-c">// Retrieve information about curl current session.</span>
-    <span class="pl-k">auto</span> x = easy.<span class="pl-smi">get_info</span>&lt;<span class="pl-k">char</span>&gt;(CURLINFO_CONTENT_TYPE);
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * get_info returns a curl_easy_info object. With the get method we retrieve</span>
-<span class="pl-c">     * the std::pair object associated with it: the first item is the return code of the</span>
-<span class="pl-c">     * request. The second is the element requested by the specified libcurl macro.</span>
-<span class="pl-c">     */</span>
-    std::cout&lt;&lt;x.<span class="pl-c1">get</span>().<span class="pl-smi">second</span>&lt;&lt;std::endl;
+    <span class="pl-k">auto</span> x = easy.<span class="pl-smi">get_info</span>&lt;CURL_CONTENT_TYPE&gt;();
+    <span class="pl-c">// Print out content type</span>
+    std::cout &lt;&lt; x.<span class="pl-c1">get</span>() &lt;&lt; std::endl;
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 
