@@ -32,6 +32,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <mutex>
 #include <curl/curl.h>
 
 #include "curl_config.h"
@@ -74,6 +75,11 @@ namespace curl {
          * when an exception is thrown.
          */
         static curlcpp_traceback traceback;
+        
+        /**
+         * Locker for inserting traceback.
+         */
+         static std::mutex tracebackLocker;
     };
 
     // Implementation of print_traceback
