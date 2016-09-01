@@ -52,7 +52,7 @@ namespace curl {
         curl_easy_info(char *pointer) : _pointer(pointer) {}
         std::string get() const {
             if (_pointer == nullptr) {
-                return std::string('');
+                return std::string("");
             }
             return std::string(_pointer);
         }
