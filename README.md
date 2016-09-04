@@ -3,7 +3,7 @@ curlcpp
 
 An object-oriented C++ wrapper for cURL tool
 
-If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: http://curl.haxx.se/
+If you want to know a bit more about cURL and libcurl, you should go on the official website http://curl.haxx.se/
 
 Compile and link
 ================
