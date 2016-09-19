@@ -61,7 +61,7 @@ namespace curl {
         /**
          * Default constructor. Inizialize the attributes with default values.
          */
-        cookie_date() : week_day("Mon"), day(1), month("Jan"), year(1970) {}
+        cookie_date() : day(1), month("Jan"), week_day("Mon"), year(1970) {}
         /**
          * Constructor with parameters, which gives a fast way to build a cookie_date object.
          */
