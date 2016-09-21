@@ -105,7 +105,7 @@ curl::cookie *curl::cookie::set_secure(const char *secure) NOEXCEPT {
 }
 
 // Implementation of set_secure method.
-curl::cookie *curl::cookie::set_secure(const unsigned int secure) NOEXCEPT {
+curl::cookie *curl::cookie::set_secure(const unsigned int secure) {
     if (secure == 0) {
         this->secure = false;
     } else if (secure == 1) {

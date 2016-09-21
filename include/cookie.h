@@ -92,7 +92,7 @@ namespace curl {
          * This method overloads the previous one allowing to specify an integer instead
          * of a bool.
          */
-        cookie *set_secure(const unsigned int) NOEXCEPT;
+        cookie *set_secure(const unsigned int);
         /**
          * This method overloads the previous one allowing to specify a string to indicate
          * whether the cookie is secure (with "secure" keyword) or not (empty string).
