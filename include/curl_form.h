@@ -87,6 +87,12 @@ namespace curl {
          */
         void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
         /**
+         * Overloaded add method. Used primarily to pass data via CURLFORM_BUFFERPTR.
+         * E.g. first option is content name, second is buffer name,
+         *      third is buffer data pointer, fourth is buffer length.
+         */
+        void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption, char*> &, const curl_pair<CURLformoption,long> &);
+        /**
          * Overloaded add method. This version is primarily used to upload multiple files.
          * You can pass a vector of filenames to upload them.
          */
