@@ -17,7 +17,7 @@ cmake ..
 make # -j2
 ```
 
-**Note:** cURL >= 7.28 is required.
+**Note:** cURL >= 7.34 is required.
 
 Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
