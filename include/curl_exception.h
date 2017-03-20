@@ -69,6 +69,10 @@ namespace curl {
          * Simple method which prints the entire error stack.
          */
         void print_traceback() const;
+        /**
+         * Simple method which clears the entire error stack.
+         */
+        void clear_traceback() const;
     private:
         /**
          * The error container must be static or will be cleared
@@ -87,6 +91,13 @@ namespace curl {
         std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
             std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
         });
+    }
+
+    // Implementation of clear method.
+    inline void curl_exception::clear_traceback() const {
+        curl_exception::tracebackLocker.lock();
+        curl_exception::traceback.clear();
+        curl_exception::tracebackLocker.unlock();
     }
     
     // Implementation of get_traceback.

@@ -27,7 +27,6 @@ int main(int argc, const char **argv) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     // Retrieve information about curl current session.
     auto x = easy.get_info<char>(CURLINFO_CONTENT_TYPE);

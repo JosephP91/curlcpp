@@ -70,7 +70,6 @@ int main(int argc, const char **argv) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     return 0;
 }
@@ -108,7 +107,6 @@ int main(int argc, const char **argv) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     
     // Retrieve information about curl current session.
@@ -162,7 +160,6 @@ int main(int argc, const char * argv[]) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     return 0;
 }
@@ -210,7 +207,6 @@ int main(int argc, const char * argv[]) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     myfile.close();
     return 0;
@@ -256,7 +252,6 @@ int main() {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     // Let's print the stream content.
     cout<<str.str()<<endl;
@@ -305,7 +300,6 @@ int main(int argc, const char * argv[]) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     
     // Creation of a sender. You should wait here using select to check if socket is ready to send.

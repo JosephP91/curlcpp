@@ -4,8 +4,7 @@ using curl::curl_easy;
 using curl::curl_easy_exception;
 
 /*
- * This example shows how to make a simple request with
- * curl.
+ * This example shows how to make a simple request with curl.
  */
 
 int main() {
@@ -22,7 +21,6 @@ int main() {
         auto errors = error.what();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     return 0;
 }
