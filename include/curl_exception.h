@@ -88,9 +88,11 @@ namespace curl {
 
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() const {
+	curl_exception::tracebackLocker.lock();
         std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
             std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
         });
+	curl_exception::tracebackLocker.unlock();
     }
 
     // Implementation of clear method.
