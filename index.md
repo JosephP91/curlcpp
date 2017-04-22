@@ -3,7 +3,7 @@ curlcpp
 
 An object-oriented C++ wrapper for cURL tool
 
-If you want to know a bit more about cURL, you should go on the official website and read about the three interfaces that curl implements: http://curl.haxx.se/
+If you want to know a bit more about cURL and libcurl, you should go on the official website http://curl.haxx.se/
 
 Compile and link
 ================
@@ -17,7 +17,7 @@ cmake ..
 make # -j2
 ```
 
-**Note:** cURL >= 7.28 is required.
+**Note:** cURL >= 7.34 is required.
 
 Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
 
@@ -70,7 +70,6 @@ int main(int argc, const char **argv) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     return 0;
 }
@@ -108,7 +107,6 @@ int main(int argc, const char **argv) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     
     // Retrieve information about curl current session.
@@ -162,7 +160,6 @@ int main(int argc, const char * argv[]) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     return 0;
 }
@@ -210,7 +207,6 @@ int main(int argc, const char * argv[]) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     myfile.close();
     return 0;
@@ -256,7 +252,6 @@ int main() {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     // Let's print the stream content.
     cout<<str.str()<<endl;
@@ -305,7 +300,6 @@ int main(int argc, const char * argv[]) {
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
         error.print_traceback();
-        // Note that the printing the stack will erase it
     }
     
     // Creation of a sender. You should wait here using select to check if socket is ready to send.
