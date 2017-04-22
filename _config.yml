@@ -1,0 +1,8 @@
+title: Curlcpp
+description: An object oriented C++ wrapper for CURL
+google_analytics: UA-64151023-2
+show_downloads: true
+theme: jekyll-theme-hacker
+
+gems:
+  - jekyll-mentions
