@@ -51,11 +51,19 @@ namespace curl {
      */
     class curl_exception : public std::exception {
     public:
-
         /**
          * This constructor is used to build the error.
          */
         curl_exception(const std::string&, const std::string&);
+        /**
+         * The copy constructor allows to copy the object in a thread safe way.
+         */
+        curl_exception(const curl_exception &);
+        /**
+         * The assignment operator allows to assign the object to another object in
+         * a thread safe way.
+         */
+        curl_exception & operator=(curl_exception &);
         /**
          * The destructor, in this case, doesn't do anything.
          */
@@ -73,6 +81,11 @@ namespace curl {
          * Simple method which clears the entire error stack.
          */
         void clear_traceback() const;
+        /**
+         * Simple method which clears the error stack saving it (before cleaning) in a
+         * traceback specified in input.
+         */
+        void clear_traceback(curlcpp_traceback &) const;
     private:
         /**
          * The error container must be static or will be cleared
@@ -88,11 +101,11 @@ namespace curl {
 
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() const {
-	curl_exception::tracebackLocker.lock();
+	    curl_exception::tracebackLocker.lock();
         std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
             std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
         });
-	curl_exception::tracebackLocker.unlock();
+	    curl_exception::tracebackLocker.unlock();
     }
 
     // Implementation of clear method.
@@ -101,10 +114,21 @@ namespace curl {
         curl_exception::traceback.clear();
         curl_exception::tracebackLocker.unlock();
     }
+
+    // Implementation of overloaded clear method.
+    inline void curl_exception::clear_traceback(curlcpp_traceback& traceback_ref) const {
+        curl_exception::tracebackLocker.lock();
+        traceback_ref = curl_exception::traceback;
+        curl_exception::traceback.clear();
+        curl_exception::tracebackLocker.unlock();
+    }
     
     // Implementation of get_traceback.
     inline curlcpp_traceback curl_exception::get_traceback() const {
-        return curl_exception::traceback;
+        curl_exception::tracebackLocker.lock();
+        curlcpp_traceback tmp = curl_exception::traceback;
+        curl_exception::tracebackLocker.unlock();
+        return tmp;
     }
     
     /**
@@ -129,7 +153,6 @@ namespace curl {
         inline CURLcode get_code() const {
             return code;
         }
-        
       private:
         CURLcode code;
     };
@@ -156,7 +179,6 @@ namespace curl {
         inline CURLMcode get_code() const {
             return code;
         }
-        
       private:
         CURLMcode code;
     };
@@ -183,7 +205,6 @@ namespace curl {
         inline CURLSHcode get_code() const {
             return code;
         }
-        
       private:
           CURLSHcode code;
     };
