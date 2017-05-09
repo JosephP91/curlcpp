@@ -5,6 +5,8 @@ An object-oriented C++ wrapper for cURL tool
 
 If you want to know a bit more about cURL and libcurl, you should go on the official website http://curl.haxx.se/
 
+Please note: this requires C++11. For Mac users, you will probably need to update your compiler, since xCode provides a dated version.
+
 Compile and link
 ================
 
