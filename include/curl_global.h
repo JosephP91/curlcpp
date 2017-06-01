@@ -46,6 +46,13 @@ namespace curl {
          * with user specified flag.
          */
         explicit curl_global(const long);
+
+        /**
+          * Copying disabled to follow RAII idiom.
+          */
+        curl_global(const curl_global&) = delete;
+        curl_global& operator=(const curl_global&) = delete;
+
         /**
          * The virtual destructor will provide an easy and clean
          * way to deallocate resources, closing curl environment
@@ -53,26 +60,6 @@ namespace curl {
          */
         virtual ~curl_global();
     };
-    
-    // Implementation of constructor.
-    curl_global::curl_global() {
-        const CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
-        if (code != CURLE_OK) {
-            throw curl_easy_exception(code,__FUNCTION__);
-        }
-    }
-    
-    // Implementation of overloaded constructor.
-    curl_global::curl_global(const long flag) {
-        const CURLcode code = curl_global_init(flag);
-        if (code != CURLE_OK) {
-            throw curl_easy_exception(code,__FUNCTION__);
-        }
-    }
-    
-    // Implementation of the virtual destructor.
-    curl_global::~curl_global() {
-    }
 }
 
 #endif	/* defined(__curlcpp__curl_global__) */
