@@ -212,17 +212,15 @@ namespace curl {
          * to initialize the entire curl environment using custom
          * options.
          */
-        explicit curl_multi(const long);
+        explicit curl_multi(const long globalOptions);
         /**
-         * Copy constructor to perform a correct copy of the curl 
-         * handler and attributes.
+         * Move constructor which moves internal data to another object.
          */
-        curl_multi(const curl_multi &);
+        curl_multi(curl_multi&&);
         /**
-         * Assignment operator. Let's apply the rule of three to
-         * avoid strange situations!
+         * Move assignment operator which moves internal data to another object.
          */
-        curl_multi &operator=(const curl_multi &);
+        curl_multi& operator=(curl_multi&&);
         /**
          * Destructor to deallocate all the resources using
          * libcurl.
@@ -318,9 +316,16 @@ namespace curl {
          */
         CURLM *get_curl() const;
     private:
+        struct milti_deleter
+        {
+            void operator()(CURLM* ptr) const;
+        };
+
+        using multi_ptr = std::unique_ptr<CURLM, milti_deleter>;
+
         int message_queued;
         int active_transfers;
-        CURLM *curl;
+        multi_ptr curl;
     };
     
     // Implementation of add method
@@ -369,11 +374,6 @@ namespace curl {
     // Implementation of curl_message get_other method.
     inline const void *curl_multi::curl_message::get_other() const {
         return this->whatever;
-    }
-
-    // Implementation of get_curl method.
-    inline CURLM *curl_multi::get_curl() const {
-        return this->curl;
     }
 }
 
