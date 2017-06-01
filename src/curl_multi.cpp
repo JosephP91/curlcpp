@@ -53,7 +53,9 @@ curl_multi::~curl_multi() NOEXCEPT
 // Implementation of add method for easy handlers.
 void curl_multi::add(const curl_easy &easy) {
     const CURLMcode code = curl_multi_add_handle(this->curl.get(),easy.get_curl());
-    if (code != CURLM_OK) {
+    if (code == CURLM_OK) {
+        handles[easy.get_curl()] = (curl_easy*)&easy;
+    } else {
         throw curl_multi_exception(code,__FUNCTION__);
     }
 }
@@ -61,7 +63,9 @@ void curl_multi::add(const curl_easy &easy) {
 // Implementation of remove for easy handlers.
 void curl_multi::remove(const curl_easy &easy) {
     const CURLMcode code = curl_multi_remove_handle(this->curl.get(),easy.get_curl());
-    if (code != CURLM_OK) {
+    if (code == CURLM_OK) {
+        handles.erase(easy.get_curl());
+    } else {
         throw curl_multi_exception(code,__FUNCTION__);
     }
 }
@@ -83,6 +87,20 @@ unique_ptr<curl_multi::curl_message> curl_multi::get_info(const curl_easy &easy)
         if (message->easy_handle == easy.get_curl()) {
             unique_ptr<curl_multi::curl_message> ptr{new curl_multi::curl_message(message)};
             return ptr;
+        }
+    }
+    return nullptr;
+}
+
+// Implementation of get_next_finished method.
+curl_easy* curl_multi::get_next_finished() {
+    CURLMsg *message = curl_multi_info_read(this->curl.get(),&this->message_queued);
+    if (!message)
+        return nullptr;
+    if (message->msg == CURLMSG_DONE) {
+        std::unordered_map<CURL*, curl_easy*>::const_iterator it = handles.find(message->easy_handle);
+        if (it != handles.end()) {
+            return it->second;
         }
     }
     return nullptr;

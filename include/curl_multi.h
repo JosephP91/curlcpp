@@ -28,6 +28,7 @@
 
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
 #include "curl_easy.h"
 
@@ -269,6 +270,10 @@ namespace curl {
          */
         bool is_finished(const curl_easy &);
         /**
+         * This method returhns the next finished curl_easy (if there is), otherwise nullptr is returned
+         */
+        curl_easy* get_next_finished();
+        /**
          * Perform all the operations. Go baby! If the performing operations
          * have finished, the method returns true. Else, returns false. Check
          * online documentation for further documentation.
@@ -326,6 +331,7 @@ namespace curl {
         int message_queued;
         int active_transfers;
         multi_ptr curl;
+        std::unordered_map<CURL*, curl_easy*> handles;
     };
     
     // Implementation of add method
