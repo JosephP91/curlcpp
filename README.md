@@ -8,7 +8,7 @@ If you want to know a bit more about cURL and libcurl, you should go on the offi
 Donations
 =========
 
-A beer or a coffe would we great ;)
+A beer or a coffe would be great ;)
 
 [![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/4980377/repos/15680237)
 
