@@ -432,7 +432,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_DNS_CACHE_TIMEOUT, long);
 
         /* send linked-list of pre-transfer QUOTE commands */
-        CURLCPP_DEFINE_OPTION(CURLOPT_PREQUOTE, const char*);
+        CURLCPP_DEFINE_OPTION(CURLOPT_PREQUOTE, curl_slist*);
 
         /* set the debug function */
         CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGFUNCTION, int(*)(CURL *handle,
