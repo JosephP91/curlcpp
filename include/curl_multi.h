@@ -336,7 +336,7 @@ namespace curl {
     
     // Implementation of add method
     template<typename T> void curl_multi::add(const curl_pair<CURLMoption,T> &pair) {
-        const CURLMcode code = curl_multi_setopt(this->curl,pair.first(),pair.second());
+        const CURLMcode code = curl_multi_setopt(this->curl.get(),pair.first(),pair.second());
         if (code != CURLM_OK) {
             throw curl_multi_exception(code,__FUNCTION__);
         }
@@ -351,7 +351,7 @@ namespace curl {
 
     // Implementation of overloaded add method.
     template <CURLMoption Opt> void curl_multi::add(detail::MOption_type<Opt> val) {
-        const auto code = curl_multi_setopt(this->curl, Opt, val);
+        const auto code = curl_multi_setopt(this->curl.get(), Opt, val);
         if (code != CURLM_OK) {
             throw curl_multi_exception(code, __FUNCTION__);
         }
