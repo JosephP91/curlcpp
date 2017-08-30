@@ -870,6 +870,9 @@ namespace curl  {
         /* Set the SMTP auth originator */
         CURLCPP_DEFINE_OPTION(CURLOPT_MAIL_AUTH, const char*);
 
+        /* Wait for pipelining/multiplexing */
+        CURLCPP_DEFINE_OPTION(CURLOPT_PIPEWAIT, long);
+
         /* Options added in 7.31 */
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x071F00
         /* Enable/disable SASL initial response */
