@@ -217,11 +217,11 @@ namespace curl {
         /**
          * Move constructor which moves internal data to another object.
          */
-        curl_multi(curl_multi&&);
+        curl_multi(curl_multi&&) NOEXCEPT;
         /**
          * Move assignment operator which moves internal data to another object.
          */
-        curl_multi& operator=(curl_multi&&);
+        curl_multi& operator=(curl_multi&&) NOEXCEPT;
         /**
          * Destructor to deallocate all the resources using
          * libcurl.
@@ -321,12 +321,11 @@ namespace curl {
          */
         CURLM *get_curl() const;
     private:
-        struct milti_deleter
-        {
+        struct multi_deleter {
             void operator()(CURLM* ptr) const;
         };
 
-        using multi_ptr = std::unique_ptr<CURLM, milti_deleter>;
+        using multi_ptr = std::unique_ptr<CURLM, multi_deleter>;
 
         int message_queued;
         int active_transfers;

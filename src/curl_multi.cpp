@@ -11,13 +11,11 @@ using curl::curl_easy;
 using std::vector;
 using std::unique_ptr;
 
-void curl_multi::milti_deleter::operator()(CURLM* ptr) const
-{
+void curl_multi::multi_deleter::operator()(CURLM* ptr) const {
     curl_multi_cleanup(ptr);
 }
 
-curl_multi::curl_multi() : curl_multi(CURL_GLOBAL_ALL) {
-}
+curl_multi::curl_multi() : curl_multi(CURL_GLOBAL_ALL) {}
 
 curl_multi::curl_multi(const long flag)
     : curl_interface(flag),
@@ -29,26 +27,23 @@ curl_multi::curl_multi(const long flag)
     this->message_queued = 0;
 }
 
-curl_multi::curl_multi(curl_multi&& other)
+curl_multi::curl_multi(curl_multi&& other) NOEXCEPT
 	: curl_interface(std::forward<curl_interface>(other)),
 	  curl(std::move(other.curl)),
 	  active_transfers(other.active_transfers),
 	  message_queued(other.message_queued) {
 }
 
-curl_multi &curl_multi::operator=(curl_multi&& other) {
+curl_multi &curl_multi::operator=(curl_multi&& other) NOEXCEPT {
     if (this != &other) {
         curl = std::move(other.curl);
         active_transfers = other.active_transfers;
         message_queued = other.message_queued;
     }
-
     return *this;
 }
 
-curl_multi::~curl_multi() NOEXCEPT
-{
-}
+curl_multi::~curl_multi() NOEXCEPT = default;
 
 // Implementation of add method for easy handlers.
 void curl_multi::add(const curl_easy &easy) {
