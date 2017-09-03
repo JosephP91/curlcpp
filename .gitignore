@@ -7,3 +7,5 @@ bii/deps
 bii/lib
 bii/.hive.db
 build.log
+.idea/
+cmake-build-debug/
