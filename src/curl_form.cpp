@@ -121,7 +121,7 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
 void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const vector<string> &files) {
     const size_t size = files.size();
     struct curl_forms *new_files;
-    this->is_null(new_files = (struct curl_forms *)calloc(size,sizeof(struct curl_forms)));
+    this->is_null(new_files = new struct curl_forms[size]);
     if (new_files == nullptr) {
         throw bad_alloc();
     }
