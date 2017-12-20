@@ -74,7 +74,12 @@ namespace curl {
          * The two parameters constructor gives users a fast way to
          * build an object of this type.
          */
-        curl_pair(const CURLformoption option, const std::string &value) : option(option), value(value) {}
+        curl_pair(const CURLformoption option, const std::string &value) : option(option), value(value.c_str()) {}
+        /**
+         * Alternate constructor that handles string constants without
+         * referencing temporary objects.
+         */
+        curl_pair(const CURLformoption option, const char *value) : option(option), value(value) {}
         /**
          * Simple method that returns the first field of the pair.
          */
@@ -86,11 +91,11 @@ namespace curl {
          * a C string, so a const char *.
          */
         inline const char *second() const NOEXCEPT {
-            return this->value.c_str();
+            return this->value;
         }
     private:
         const CURLformoption option;
-        const std::string &value;
+        const char* value;
     };
         
     /**
