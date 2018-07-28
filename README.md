@@ -5,14 +5,6 @@ An object-oriented C++ wrapper for cURL tool
 
 If you want to know a bit more about cURL and libcurl, you should go on the official website http://curl.haxx.se/
 
-Donations
-=========
-
-A beer or a coffee would be great ;)
-
-[![gitcheese.com](https://s3.amazonaws.com/gitcheese-ui-master/images/badge.svg)](https://www.gitcheese.com/donate/users/4980377/repos/15680237)
-
-
 Compile and link
 ================
 
@@ -118,7 +110,7 @@ int main(int argc, const char **argv) {
     }
     
     // Retrieve information about curl current session.
-    auto x = easy.get_info<CURL_CONTENT_TYPE>();
+    auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
     // Print out content type
     std::cout << x.get() << std::endl;
     return 0;
