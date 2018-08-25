@@ -5,13 +5,6 @@ An object-oriented C++ wrapper for cURL tool
 
 If you want to know a bit more about cURL and libcurl, you should go on the official website http://curl.haxx.se/
 
-Donations
-=========
-
-A beer or a coffe will be appreciated ;)
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](giuseppe.persico91@gmail.com)
-
 Compile and link
 ================
 
