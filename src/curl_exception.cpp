@@ -22,17 +22,13 @@ curl_exception::curl_exception(const std::string &error, const std::string &fun_
 
 // Copy constructor implementation. It makes a copy of the traceback in a thread safe way.
 curl_exception::curl_exception(const curl_exception &object) {
-    curl_exception::tracebackLocker.lock();
     curl_exception::traceback = object.get_traceback();
-    curl_exception::tracebackLocker.unlock();
 }
 
 // Assignment operator implementation. Implement the assignment operation in a thread safe way avoiding self assignment.
 curl_exception& curl_exception::operator=(curl_exception &object) {
     if (&object != this) {
-        curl_exception::tracebackLocker.lock();
         curl_exception::traceback = object.get_traceback();
-        curl_exception::tracebackLocker.unlock();
     }
     return *this;
 }
