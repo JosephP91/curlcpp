@@ -23,6 +23,9 @@
  * SOFTWARE.
  */
 
+#ifndef __curlcpp__curl_option__
+#define __curlcpp__curl_option__
+
 #include <string>
 #include "curl_pair.h"
 
@@ -41,3 +44,5 @@ namespace curl {
         return curl_pair<CURLformoption, V>(opt, val);
     }
 }  // of namespace curl
+
+#endif	/* defined(__curlcpp__curl_option__) */

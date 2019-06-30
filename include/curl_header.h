@@ -67,12 +67,12 @@ namespace curl {
         /**
          * This method allows users to add a header as string.
          */
-        void add(const std::string);
+        void add(const std::string&);
         /**
          * This method allows users to add headers specifying an iterable
          * data structure containing the headers to add.
          */
-        template<typename Iterator> void add(Iterator, const Iterator);
+        template<typename Iterator> void add(Iterator, Iterator);
         /**
          * Simple getter method that returns the pointer to the headers
          * list.
@@ -89,7 +89,7 @@ namespace curl {
     }
 
     // Implementation of copy constructor.
-    inline curl_header::curl_header(const curl_header &header) : headers(nullptr) {
+    inline curl_header::curl_header(const curl_header &header) : headers(nullptr), size(0) {
         *this = header;
     }
 

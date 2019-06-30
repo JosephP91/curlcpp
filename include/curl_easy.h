@@ -978,12 +978,12 @@ namespace curl  {
          * This overloaded constructor allows users to specify a flag
          * used to initialize libcurl environment.
          */
-        explicit curl_easy(const long);
+        explicit curl_easy(long);
         /**
          * This overloaded constructor specifies the environment
          * initialization flags and an output stream for the libcurl output.
          */
-        template<class T> curl_easy(const long, curl_ios<T> &);
+        template<class T> curl_easy(long, curl_ios<T> &);
         /**
          * Copy constructor to handle pointer copy. Internally, it uses
          * a function which duplicates the easy handler.
@@ -993,7 +993,7 @@ namespace curl  {
          * Move constructor that moves an easy handler from an istance to
          * another.
          */
-        curl_easy(curl_easy &&);
+        curl_easy(curl_easy &&) NOEXCEPT;
         /**
          * Assignment operator used to perform assignment between objects
          * of this class.
@@ -1007,7 +1007,7 @@ namespace curl  {
         /**
          * The destructor will perform cleanup operations.
          */
-        ~curl_easy() NOEXCEPT;
+        ~curl_easy() NOEXCEPT override;
         /**
          * Allows users to specify an option for the current easy handler,
          * using a curl_pair object.
@@ -1018,7 +1018,7 @@ namespace curl  {
          * easy handler. In this way, you can specify any iterable data
          * structure.
          */
-        template<typename Iterator> void add(Iterator, const Iterator);
+        template<typename Iterator> void add(Iterator, Iterator);
         /**
         * Allows users to specify an option for the current easy handler,
         * specify an option statically and enforce its corresponding type.
@@ -1028,7 +1028,7 @@ namespace curl  {
          * Using this function, you can explicitly pause a running connection, 
          * and you can resume a previously paused connection.
          */
-        void pause(const int);
+        void pause(int);
         /**
          * This function converts the given input string to an URL encoded
          * string and returns a newly allocated string.

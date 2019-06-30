@@ -8,58 +8,62 @@
 using std::string;
 
 // Implementation of constructor.
-curl::cookie::cookie(const string name, const string value, const cookie_datetime &datetime, const string path, const string domain, const bool secure) {
-    this->set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
+curl::cookie::cookie(const string& name, const string& value,
+		const cookie_datetime &datetime, const string& path, const string& domain, const bool secure) {
+
+    set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of overloaded constructor.
-curl::cookie::cookie(const char *name, const char * value, const cookie_datetime &datetime, const char *path, const char *domain, const bool secure) {
-    this->set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
+curl::cookie::cookie(const char *name, const char * value, const cookie_datetime &datetime,
+		const char *path, const char *domain, const bool secure) {
+
+	set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of set_name method.
-curl::cookie *curl::cookie::set_name(const string name) {
-    if (name.empty()) {
-        throw new curl_easy_exception("Cookie must have a name",__FUNCTION__);
+curl::cookie *curl::cookie::set_name(const string& _name) {
+    if (_name.empty()) {
+        throw curl_easy_exception("Cookie must have a name",__FUNCTION__);
     }
-    this->name = name;
+    this->name = _name;
     return this;
 }
 
 // Implementation of set_name overloaded method.
-curl::cookie *curl::cookie::set_name(const char *name) {
-    if (name == nullptr) {
-        throw new curl_easy_exception("Cookie must have a name",__FUNCTION__);
+curl::cookie *curl::cookie::set_name(const char *_name) {
+    if (_name == nullptr) {
+        throw curl_easy_exception("Cookie must have a name",__FUNCTION__);
     }
-    this->name = string(name);
+    this->name = string(_name);
     return this;
 }
 
 // Implementation of set_name method.
-curl::cookie *curl::cookie::set_value(const string value) {
-    this->value = value;
+curl::cookie *curl::cookie::set_value(const string& _value) {
+    this->value = _value;
     return this;
 }
 
 // Implementation of set_value method.
-curl::cookie *curl::cookie::set_value(const char *value) {
-    if (value == nullptr) {
+curl::cookie *curl::cookie::set_value(const char *_value) {
+    if (_value == nullptr) {
         this->value = "";
     } else {
-        this->value = string(value);
+        this->value = string(_value);
     }
     return this;
 }
 
 // Implementation of set_path method.
-curl::cookie *curl::cookie::set_path(const string path) NOEXCEPT {
-    this->path = path.empty() ? "/" : path;
+curl::cookie *curl::cookie::set_path(const string& _path) NOEXCEPT {
+    this->path = _path.empty() ? "/" : _path;
     return this;
 }
 
 // Implementation of set_path overloaded method.
-curl::cookie *curl::cookie::set_path(const char *path) NOEXCEPT {
-    if (path == nullptr) {
+curl::cookie *curl::cookie::set_path(const char *_path) NOEXCEPT {
+    if (_path == nullptr) {
         this->path = "/";
     } else {
         this->path = string(path);
@@ -68,14 +72,14 @@ curl::cookie *curl::cookie::set_path(const char *path) NOEXCEPT {
 }
 
 // Implelementation of set_domain method.
-curl::cookie *curl::cookie::set_domain(const string domain) NOEXCEPT {
-    this->domain = domain;
+curl::cookie *curl::cookie::set_domain(const string& _domain) NOEXCEPT {
+    this->domain = _domain;
     return this;
 }
 
 // Implementation of set_domain overloaded method.
-curl::cookie *curl::cookie::set_domain(const char *domain) NOEXCEPT {
-    if (domain == nullptr) {
+curl::cookie *curl::cookie::set_domain(const char *_domain) NOEXCEPT {
+    if (_domain == nullptr) {
         this->domain = "";
     } else {
         this->domain = string(domain);
@@ -84,41 +88,46 @@ curl::cookie *curl::cookie::set_domain(const char *domain) NOEXCEPT {
 }
 
 // Implementation of set_secure method.
-curl::cookie *curl::cookie::set_secure(const bool secure) NOEXCEPT {
-    this->secure = secure;
+curl::cookie *curl::cookie::set_secure(const bool _secure) NOEXCEPT {
+    this->secure = _secure;
     return this;
 }
 
 // Implementation of set_secure overloaded method.
-curl::cookie *curl::cookie::set_secure(const string secure) NOEXCEPT {
-    if (secure == "secure") {
-        this->secure = 1;
+curl::cookie *curl::cookie::set_secure(const string& _secure) NOEXCEPT {
+    if (_secure == "secure") {
+        set_secure(true);
     } else {
-        this->secure = 0;
+    	set_secure(false);
     }
     return this;
 }
 
 // Implementation of set_secure overloaded method.
-curl::cookie *curl::cookie::set_secure(const char *secure) NOEXCEPT {
-    return this->set_secure(string(secure));
+curl::cookie *curl::cookie::set_secure(const char *_secure) NOEXCEPT {
+	if (_secure == nullptr) {
+		set_secure(false);
+	} else {
+		set_secure(string(_secure));
+	}
+	return this;
 }
 
 // Implementation of set_secure method.
-curl::cookie *curl::cookie::set_secure(const unsigned int secure) {
-    if (secure == 0) {
-        this->secure = false;
-    } else if (secure == 1) {
-        this->secure = true;
+curl::cookie *curl::cookie::set_secure(const unsigned int _secure) {
+    if (_secure == 0) {
+    	set_secure(false);
+    } else if (_secure == 1) {
+    	set_secure(true);
     } else {
-        throw new curl_easy_exception("The security can be 0 (false) or 1 (true)",__FUNCTION__);
+        throw curl_easy_exception("The security can be 0 (false) or 1 (true)",__FUNCTION__);
     }
     return this;
 }
 
 // Implementation of set_datetime method.
-curl::cookie *curl::cookie::set_datetime(const cookie_datetime &datetime) NOEXCEPT {
-    this->datetime = datetime;
+curl::cookie *curl::cookie::set_datetime(const cookie_datetime & _datetime) NOEXCEPT {
+    this->datetime = _datetime;
     return this;
 }
 
@@ -154,6 +163,8 @@ curl::cookie_datetime curl::cookie::get_datetime() const NOEXCEPT {
 
 // Implementation of get_formatted method.
 string curl::cookie::get_formatted() NOEXCEPT {
-    string secure = this->is_secure() == 1 ? "secure" : "";
-    return "Set-Cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()+"; path="+this->path+"; domain="+this->domain+" "+secure;
+    string _secure = this->is_secure() == 1 ? "secure" : "";
+
+    return "Set-Cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()
+    	+"; path="+this->path+"; domain="+this->domain+" "+_secure;
 }

@@ -38,7 +38,7 @@ namespace curl {
         /**
          * Default constructor.
          */
-        cookie_datetime() {}
+        cookie_datetime() = default;
         /**
          * The constructor with parameters allows to specify a time and a date for cookie expiration.
          */

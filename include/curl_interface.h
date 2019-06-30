@@ -46,7 +46,7 @@ namespace curl {
          * Overloaded constructor that initializes curl environment
          * with user specified flag.
          */
-        explicit curl_interface(const long);
+        explicit curl_interface(long);
         /**
          * The virtual destructor will provide an easy and clean
          * way to deallocate resources, closing curl environment
@@ -59,20 +59,15 @@ namespace curl {
          * This struct is used for initializing curl only once
          * it is implemented as a singleton pattern
          */
-        struct global_initialisator {
-            explicit global_initialisator(const long);
-            ~global_initialisator();
+        struct global_initializer {
+            explicit global_initializer(long);
+            ~global_initializer();
         };
 
         /**
-         * The singleton instance
+         * the singleton initialization, constructing a global_initializer.
          */
-        static global_initialisator instance;
-
-        /**
-         * the singleton initialization, constructing a global_initialisator.
-         */
-        static void init(const long flag);
+        static void init(long flag);
     };
     
     // Implementation of constructor.
@@ -86,16 +81,15 @@ namespace curl {
     }
     
     // Implementation of the virtual destructor.
-    template<class T> curl_interface<T>::~curl_interface() {
-    }
+    template<class T> curl_interface<T>::~curl_interface() = default;
 
     // Implementation of the static initialization function
     template<class T> void curl_interface<T>::init(const long flag) {
-        static global_initialisator _instance {flag};
+        static global_initializer _instance {flag};
     }
 
-    // Implementation of the singleton initalizator
-    template<class T> curl_interface<T>::global_initialisator::global_initialisator(const long flag) {
+    // Implementation of the singleton initializer
+    template<class T> curl_interface<T>::global_initializer::global_initializer(const long flag) {
         const CURLcode code = curl_global_init(flag);
         if (code != CURLE_OK) {
             throw curl_easy_exception(code,__FUNCTION__);
@@ -103,7 +97,7 @@ namespace curl {
     }
 
     // Implementation of the singleton destructor
-    template<class T> curl_interface<T>::global_initialisator::~global_initialisator() {
+    template<class T> curl_interface<T>::global_initializer::~global_initializer() {
         curl_global_cleanup();
     }
 }

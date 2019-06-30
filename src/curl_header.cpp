@@ -53,7 +53,7 @@ curl_header::~curl_header() NOEXCEPT {
 }
 
 // Implementation of add overloaded method.
-void curl_header::add(const string header) {
+void curl_header::add(const string& header) {
     this->headers = curl_slist_append(this->headers,header.c_str());
     if (this->headers == nullptr) {
         throw curl_exception("Null pointer exception",__FUNCTION__);

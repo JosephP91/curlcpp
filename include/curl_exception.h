@@ -54,20 +54,20 @@ namespace curl {
         /**
          * This constructor is used to build the error.
          */
-        curl_exception(const std::string&, const std::string&);
+        curl_exception(const std::string&, const std::string&) NOEXCEPT;
         /**
          * The copy constructor allows to copy the object in a thread safe way.
          */
-        curl_exception(const curl_exception &);
+        curl_exception(const curl_exception &) NOEXCEPT;
         /**
          * The assignment operator allows to assign the object to another object in
          * a thread safe way.
          */
-        curl_exception & operator=(curl_exception &);
+        curl_exception & operator=(curl_exception const&);
         /**
          * The destructor, in this case, doesn't do anything.
          */
-        ~curl_exception() NOEXCEPT;
+        ~curl_exception() NOEXCEPT override;
         using std::exception::what;
         /**
          * Returns the vector of errors.

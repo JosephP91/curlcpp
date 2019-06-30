@@ -102,7 +102,7 @@ namespace curl {
          * the share handle and initialize the libcurl environment
          * using customs flags.
          */
-        explicit curl_share(const long);
+        explicit curl_share(long);
         /**
          * Copy constructor to perform the copy of the share handle.
          */ 
@@ -116,30 +116,32 @@ namespace curl {
          * The destructor will free the share handler previously 
          * allocated.
          */
-        ~curl_share() NOEXCEPT;
+        ~curl_share() NOEXCEPT override;
         /**
          * Add method used to add options to the share handle.
          */
-        template <CURLSHoption Opt> void add(const detail::SHOption_type<Opt>);
+        template <CURLSHoption Opt> void add(detail::SHOption_type<Opt>);
         /**
          * Allows users to specify a list of options for the current
          * easy handler. In this way, you can specify any iterable data
          * structure.
          */
-        template<typename Iterator> void add(Iterator, const Iterator);
+        template<typename Iterator> void add(Iterator, Iterator);
+    protected:
+    	void initialize_curl_share();
     private:
         CURLSH *curl;
     };
 
     // Implementation of overloaded constructor.
     inline curl_share::curl_share(const long flag) : curl_interface(flag) {
-        curl_share();
+        initialize_curl_share();
     }
 
     // Implementation of copy constructor.
     inline curl_share::curl_share(const curl_share &share) : curl_interface() {
     	(void)share; // unused
-        curl_share();
+    	initialize_curl_share();
     }
     
     // Implementation of add method

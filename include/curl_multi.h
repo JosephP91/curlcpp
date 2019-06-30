@@ -178,7 +178,7 @@ namespace curl {
              * The attributes will be initialized with constructors parameters. With
              * this constructor we provide a fast way to build this kind of object.
              */
-            curl_message(const CURLMsg *);
+            explicit curl_message(const CURLMsg *);
             /**
              * Inline getter method used to return
              * the message for a single handler.
@@ -213,7 +213,7 @@ namespace curl {
          * to initialize the entire curl environment using custom
          * options.
          */
-        explicit curl_multi(const long globalOptions);
+        explicit curl_multi(long globalOptions);
         /**
          * Move constructor which moves internal data to another object.
          */
@@ -226,7 +226,7 @@ namespace curl {
          * Destructor to deallocate all the resources using
          * libcurl.
          */
-        ~curl_multi() NOEXCEPT;
+        ~curl_multi() NOEXCEPT override;
         /**
          * This method allows users to add an option to the multi
          * handler, using an object of curl_pair type.
@@ -237,7 +237,7 @@ namespace curl {
          * easy handler. In this way, you can specify any iterable data
          * structure.
          */
-        template<typename Iterator> void add(Iterator, const Iterator);
+        template<typename Iterator> void add(Iterator, Iterator);
 
         /**
         * Allows users to specify an option for the current multi handler,
@@ -284,7 +284,7 @@ namespace curl {
          * given an action. Read the libcurl online documentation to learn more
          * about this function!
          */
-        bool socket_action(const curl_socket_t, const int);
+        bool socket_action(curl_socket_t, int);
         /**
          * This method wraps the libcurl function that extracts file descriptor 
          * information from the multi handler.
@@ -295,12 +295,12 @@ namespace curl {
          * This function polls on all file descriptors used by the curl easy handles
          * contained in the given multi handle set.
          */
-        void wait(struct curl_waitfd [], const unsigned int, const int, int *);
+        void wait(struct curl_waitfd [], unsigned int, int, int *);
         /**
          * This function creates an association in the multi handle between the given
          * socket and a private pointer of the application.
          */
-        void assign(const curl_socket_t, void *); 
+        void assign(curl_socket_t, void *);
         /**
          * If you are using the libcurl multi interface you should call this method
          * to figure out how long your application should wait for socket actions

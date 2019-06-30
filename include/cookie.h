@@ -44,15 +44,17 @@ namespace curl {
         /**
          * The constructor allow a fast way to build a cookie.
          */
-        cookie(const std::string, const std::string, const cookie_datetime &, const std::string = "", const std::string = "", const bool = false);
+        cookie(const std::string&, const std::string&, const cookie_datetime &,
+        		const std::string& = "", const std::string& = "", bool = false);
         /**
          * This constructor overloades the previous one.
          */
-        cookie(const char *, const char *, const cookie_datetime &, const char * = "", const char * = "", const bool = false);
+        cookie(const char *, const char *, const cookie_datetime &, const char * = "",
+        		const char * = "", bool = false);
         /**
          * This method allows to specify the cookie name.
          */
-        cookie *set_name(const std::string);
+        cookie *set_name(const std::string&);
         /**
          * This method overloads the previous one allowing to specify a const char *
          * instead of a string.
@@ -61,7 +63,7 @@ namespace curl {
         /**
          * This method allows to specify the cookie value.
          */
-        cookie *set_value(const std::string);
+        cookie *set_value(const std::string&);
         /**
          * This method allows to specify the cookie value,
          */
@@ -69,7 +71,7 @@ namespace curl {
         /**
          * This method allows to specify the cookie path.
          */
-        cookie *set_path(const std::string) NOEXCEPT;
+        cookie *set_path(const std::string&) NOEXCEPT;
         /**
          * This method overloads the previous one allowing to specify a const char *
          * instead of a string.
@@ -78,7 +80,7 @@ namespace curl {
         /**
          * This method allows to specify the cookie domain.
          */
-        cookie *set_domain(const std::string) NOEXCEPT;
+        cookie *set_domain(const std::string&) NOEXCEPT;
         /**
          * This method overloads the previous one allowing to specify a const char *
          * instead of a string.
@@ -87,17 +89,17 @@ namespace curl {
         /**
          * This method allows to specify the cookie security.
          */
-        cookie *set_secure(const bool) NOEXCEPT;
+        cookie *set_secure(bool) NOEXCEPT;
         /**
          * This method overloads the previous one allowing to specify an integer instead
          * of a bool.
          */
-        cookie *set_secure(const unsigned int);
+        cookie *set_secure(unsigned int);
         /**
          * This method overloads the previous one allowing to specify a string to indicate
          * whether the cookie is secure (with "secure" keyword) or not (empty string).
          */
-        cookie *set_secure(const std::string) NOEXCEPT;
+        cookie *set_secure(const std::string&) NOEXCEPT;
         /**
          * This method overloads the previous one allowing to specify a string to indicate
          * whether the cookie is secure (with "secure" keyword) or not (empty string).

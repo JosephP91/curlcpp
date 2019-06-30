@@ -54,62 +54,85 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const cur
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),
                     CURLFORM_END) != 0) {
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
 // Implementation of overloaded add method.
-void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,string> &form_content, const curl_pair<CURLformoption,string> &content_type) {
+void curl_form::add(const curl_pair<CURLformoption,string> &form_name,
+		const curl_pair<CURLformoption,string> &form_content,
+		const curl_pair<CURLformoption,string> &content_type) {
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),
                     content_type.first(),content_type.second(),
                     CURLFORM_END) != 0) {
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
-void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,string> &form_content, const curl_pair<CURLformoption,int> &content_length) {
+void curl_form::add(const curl_pair<CURLformoption,string> &form_name,
+		const curl_pair<CURLformoption,string> &form_content,
+		const curl_pair<CURLformoption,int> &content_length) {
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),
                     content_length.first(),content_length.second(),
                     CURLFORM_END) != 0) {
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
 // Implementation of add overloaded method.
-void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,int> &name_length, const curl_pair<CURLformoption,string> &form_content) {
+void curl_form::add(const curl_pair<CURLformoption,string> &form_name,
+		const curl_pair<CURLformoption, int> &name_length,
+		const curl_pair<CURLformoption, string> &form_content) {
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),
                     name_length.first(),name_length.second(),
                     CURLFORM_END) != 0) {
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
 // Implementation of add overloaded method.
-void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,string> &form_content, const curl_pair<CURLformoption,int> &content_length, const curl_pair<CURLformoption,string> &content_type) {
+void curl_form::add(const curl_pair<CURLformoption,string> &form_name,
+		const curl_pair<CURLformoption, string> &form_content,
+		const curl_pair<CURLformoption, int> &content_length,
+		const curl_pair<CURLformoption, string> &content_type) {
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),
                     content_length.first(),content_length.second(),
                     content_type.first(),content_type.second(),
                     CURLFORM_END) != 0) {
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
 
 // Implementation of add overloaded method for CURLFORM_BUFFERPTR uses
-void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,string> &form_bufname, const curl_pair<CURLformoption, char*> &form_content, const curl_pair<CURLformoption,long> &content_length) {
+void curl_form::add(const curl_pair<CURLformoption,string> &form_name,
+		const curl_pair<CURLformoption, string> &form_bufname,
+		const curl_pair<CURLformoption, char*> &form_content,
+		const curl_pair<CURLformoption, long> &content_length) {
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     form_bufname.first(),form_bufname.second(),
                     form_content.first(),form_content.second(),
                     content_length.first(),content_length.second(),
                     CURLFORM_END) != 0) {
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     }
 }
@@ -122,18 +145,18 @@ void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const vec
     const size_t size = files.size();
     struct curl_forms *new_files;
     this->is_null(new_files = new struct curl_forms[size]);
-    if (new_files == nullptr) {
-        throw bad_alloc();
-    }
+
     for (size_t i = 0; i < size; ++i) {
         new_files[i].option = CURLFORM_FILE;
         new_files[i].value = files[i].c_str();
     }
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     CURLFORM_ARRAY,new_files,
                     CURLFORM_END) != 0) {
         delete []new_files;
+
         throw curl_exception("Error while adding the form",__FUNCTION__);
     } 
     delete []new_files;

@@ -36,7 +36,8 @@ namespace curl {
      */
     template<typename T> class curl_easy_info {
     public:
-        curl_easy_info(T pointer) : _pointer(pointer) {}
+        explicit curl_easy_info(T pointer) : _pointer(pointer) {}
+
         T get() const {
             return _pointer;
         }
@@ -49,7 +50,8 @@ namespace curl {
      */
     template<> class curl_easy_info<char *> {
     public:
-        curl_easy_info(char *pointer) : _pointer(pointer) {}
+        explicit curl_easy_info(char *pointer) : _pointer(pointer) {}
+
         std::string get() const {
             if (_pointer == nullptr) {
                 return std::string("");
@@ -65,7 +67,8 @@ namespace curl {
      */
     template<> class curl_easy_info<struct curl_slist *> {
     public:
-        curl_easy_info(struct curl_slist *pointer) : _pointer(pointer) {}
+        explicit curl_easy_info(struct curl_slist *pointer) : _pointer(pointer) {}
+
         ~curl_easy_info() {
             if (_pointer != nullptr) {
                 curl_slist_free_all(_pointer);

@@ -65,27 +65,27 @@ namespace curl {
         /**
          * Constructor with parameters, which gives a fast way to build a cookie_date object.
          */
-        cookie_date(const unsigned int, const unsigned int, const unsigned int, const unsigned int) NOEXCEPT;
+        cookie_date(unsigned int, unsigned int, unsigned int, unsigned int) NOEXCEPT;
         /**
          * This method allows to specify the week dayname for the date. If the day is less or equal
          * than zero or greater than 7, 1 will be choosen
          */
-        cookie_date *set_week_day(const unsigned int) NOEXCEPT;
+        cookie_date *set_week_day(unsigned int) NOEXCEPT;
         /**
          * This method allows to specify a day for the date. If the day is less than zero or
          * greater than 31, 1 will be choosen.
          */
-        cookie_date *set_day(const unsigned int) NOEXCEPT;
+        cookie_date *set_day(unsigned int) NOEXCEPT;
         /**
          * This method allows to specify a month for the date. If the month is not supported,
          * January will be choosen.
          */
-        cookie_date *set_month(const unsigned int);
+        cookie_date *set_month(unsigned int);
         /**
          * This method allows to specify a year for the date. If year is less than 1970, 1970 will
          * be choosen.
          */
-        cookie_date *set_year(const unsigned int) NOEXCEPT;
+        cookie_date *set_year(unsigned int) NOEXCEPT;
         /**
          * This method returns the week day name
          */

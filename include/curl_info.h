@@ -49,7 +49,7 @@ namespace curl {
          * Overloaded constructor that allows users to specify the 
          * libcurl version.
          */
-        explicit curl_info(const CURLversion);
+        explicit curl_info(CURLversion);
         /**
          * Returns a string that shows what host information that this
          * libcurl was built for.
@@ -114,7 +114,10 @@ namespace curl {
 
     // Implementation of get_ssl_version.
     inline std::string curl_info::get_ssl_version() const NOEXCEPT {
-        return std::string(this->version->ssl_version);
+    	if (this->version->ssl_version == nullptr) {
+    		return std::string("");
+    	}
+		return std::string(this->version->ssl_version);
     }
 
     // Implementation of get_libz_version.

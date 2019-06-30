@@ -45,19 +45,19 @@ namespace curl {
         /**
          * The constructor with parameters allows to initialize attributes with custom values.
          */
-        cookie_time(const unsigned int, const unsigned int, const unsigned int);
+        cookie_time(unsigned int, unsigned int, unsigned int);
         /**
          * This method allows to specify the hours.
          */
-        cookie_time *set_hour(const unsigned int) NOEXCEPT;
+        cookie_time *set_hour(unsigned int) NOEXCEPT;
         /**
          * This method allows to specify the minutes.
          */
-        cookie_time *set_minutes(const unsigned int) NOEXCEPT;
+        cookie_time *set_minutes(unsigned int) NOEXCEPT;
         /**
          * This method allows to specify the seconds.
          */
-        cookie_time *set_seconds(const unsigned int) NOEXCEPT;
+        cookie_time *set_seconds(unsigned int) NOEXCEPT;
         /**
          * This method returns the hours.
          */

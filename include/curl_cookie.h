@@ -46,13 +46,13 @@ namespace curl {
    		/**
    		 * This constructor allow you to specify a curl_easy object.
    		 */
-        curl_cookie(curl_easy &easy) : easy(easy) {}
+        explicit curl_cookie(curl_easy &easy) : easy(easy) {}
         /**
          * This method allow you to set the cookie file from where to read initial cookies.
          * If you pass an empty string or a string containing a non existing file's path, 
          * the cookie engine will be initialized, but without reading initial cookies.
          */
-        void set_file(const std::string);
+        void set_file(std::string);
         /**
          * This method allow you to specify a string that represents a cookie. Such a cookie 
          * can be either a single line in Netscape / Mozilla format or just regular HTTP-style
@@ -64,14 +64,6 @@ namespace curl {
          * This method overloads the one previously declared allowing to specify a vector of cookies.
          */
         void set(const std::vector<curl::cookie> &);
-        /**
-         * This method allow you to specify a file where libcurl will write every internal
-         * known-stored cookie when the curl_easy destructor will be called. If no cookies
-         * are known, no file will be created. Using this option also enables cookies for
-         * this session, so if you for example follow a location it will make matching cookies
-         * get sent accordingly.
-         */
-        void set_jar_file(const std::string) NOEXCEPT;
         /**
          * This method allow you to get all known cookies for a specific domain.
          */

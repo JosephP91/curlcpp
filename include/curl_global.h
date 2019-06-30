@@ -45,7 +45,7 @@ namespace curl {
          * Overloaded constructor that initializes curl environment
          * with user specified flag.
          */
-        explicit curl_global(const long);
+        explicit curl_global(long);
 
         /**
           * Copying disabled to follow RAII idiom.

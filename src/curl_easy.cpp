@@ -41,7 +41,7 @@ curl_easy::curl_easy(const curl_easy &easy) : curl_interface(), curl(nullptr) {
 }
 
 // Implementation of move constructor
-curl_easy::curl_easy(curl_easy &&other) : curl_interface(), curl(nullptr) {
+curl_easy::curl_easy(curl_easy &&other) NOEXCEPT : curl_interface(), curl(nullptr) {
     this->curl = other.curl;
     // Other's pointer is set to nullptr so that destructor doesn't call the
     // cleanup function.
