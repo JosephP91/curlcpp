@@ -1,36 +1,36 @@
-IF(BIICODE)
-    INCLUDE(biicode/cmake/tools)
+cmake_minimum_required(VERSION 3.10...3.15)
 
-    ACTIVATE_CPP11()
-    ADD_BIICODE_TARGETS()
-ELSE()
-    cmake_minimum_required(VERSION 2.8)
-    #if using an older VERSION of curl ocsp stapling can be disabled
-    set(CURL_MIN_VERSION "7.28.0")
-    # Setting up project
-    project(CURLCPP)
+#if using an older VERSION of curl ocsp stapling can be disabled
+set(CURL_MIN_VERSION "7.28.0")
+# Setting up project
+project(curlcpp LANGUAGES CXX)
 
+set(DEFAULT_BUILD_TYPE "Release")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+	message(STATUS "Setting build type to '${DEFAULT_BUILD_TYPE}' as none was specified.")
+	set(CMAKE_BUILD_TYPE "${DEFAULT_BUILD_TYPE}" CACHE
+			STRING "Choose the type of build." FORCE)
+	# Set the possible values of build type for cmake-gui
+	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+			"Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
 
-    # Add MacPorts
-    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-      set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
-    endif()
+include(CheckIPOSupported)
+check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT ERROR)
 
-    # Checking for dependencies
-    find_package(CURL ${CURL_MIN_VERSION} REQUIRED)
+if(IPO_SUPPORTED)
+	message(STATUS "IPO / LTO supported, will enable for targets in release build type")
+else()
+	message(STATUS "IPO / LTO not supported: <${ERROR}>, will not enable")
+endif()
 
-    # Set up include pathes
-    include_directories(${CURL_INCLUDE_DIRS}
-      ${CURLCPP_SOURCE_DIR}/include)
+option(CURLCPP_USE_PKGCONFIG
+	"Use pkg-config to find libcurl. When off, find_package() will be used" OFF)
 
-    file(GLOB HEADER_LIST "${CMAKE_SOURCE_DIR}/include/*.h")
-    install (FILES ${HEADER_LIST} DESTINATION include)
+# Set up source directories
+add_subdirectory(src)
 
-    # Set up source directories
-    add_subdirectory(src)
+set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
 
-    set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
-
-    configure_file(CMake/curlcppConfig.cmake.in
-      ${CURLCPP_BINARY_DIR}/curlcppConfig.cmake @ONLY)
-ENDIF()
+configure_file(CMake/curlcppConfig.cmake.in
+  ${CURLCPP_BINARY_DIR}/curlcppConfig.cmake @ONLY)
