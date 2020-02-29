@@ -65,7 +65,8 @@ int main(int argc, const char **argv) {
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -102,7 +103,8 @@ int main(int argc, const char **argv) {
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -111,6 +113,7 @@ int main(int argc, const char **argv) {
     
     // Retrieve information about curl current session.
     auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
+
     // Print out content type
     std::cout << x.get() << std::endl;
     return 0;
@@ -155,7 +158,8 @@ int main(int argc, const char * argv[]) {
         easy.add<CURLOPT_HTTPPOST>(form.get());
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -202,7 +206,8 @@ int main(int argc, const char * argv[]) {
     try {
         // Execute the request
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -247,7 +252,8 @@ int main() {
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -295,7 +301,8 @@ int main(int argc, const char * argv[]) {
         easy.add<CURLOPT_CONNECT_ONLY>(true);
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -307,6 +314,7 @@ int main(int argc, const char * argv[]) {
     sender.send(request);
     // Prints che sent bytes number.
     cout<<"Sent bytes: "<<sender.get_sent_bytes()<<endl;
+
     for(;;) {
         // You should wait here to check if socket is ready to receive
         try {
@@ -316,7 +324,8 @@ int main(int argc, const char * argv[]) {
             receiver.receive(easy);
             // Prints the received bytes number.
             cout<<"Receiver bytes: "<<receiver.get_received_bytes()<<endl;
-        } catch (curl_easy_exception error) {
+
+        } catch (curl_easy_exception &error) {
             // If any errors occurs, exit from the loop
             break;
         }
