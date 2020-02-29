@@ -95,11 +95,7 @@ curl::cookie *curl::cookie::set_secure(const bool _secure) NOEXCEPT {
 
 // Implementation of set_secure overloaded method.
 curl::cookie *curl::cookie::set_secure(const string& _secure) NOEXCEPT {
-    if (_secure == "secure") {
-        set_secure(true);
-    } else {
-    	set_secure(false);
-    }
+	set_secure(_secure == "secure");
     return this;
 }
 

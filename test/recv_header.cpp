@@ -10,7 +10,6 @@ using std::ostringstream;
  * This example shows how to split the received headers and body content
  * into two different streams
  */
-
 int main() {
     // Create two different ostringstream objects
     ostringstream body_var;
@@ -32,10 +31,11 @@ int main() {
     // Specify the stream for body content.
     easy.add<CURLOPT_WRITEDATA>(body.get_stream());
     easy.add<CURLOPT_URL>("http://www.example.com");
+
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+    } catch (curl_easy_exception &error) {
         error.print_traceback();
     }
 

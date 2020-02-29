@@ -11,7 +11,6 @@ using curl::curlcpp_traceback;
  * This example shows how to add custom headers to a simple
  * curl request.
  */
-
 int main() {
     // Let's create an object which will contain a list of headers.
     curl_header header;
@@ -31,7 +30,7 @@ int main() {
     try {
         // Request execution
         easy.perform();
-    } catch (curl_easy_exception error) {
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:

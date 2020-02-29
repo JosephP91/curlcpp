@@ -59,11 +59,12 @@ int main() {
         cookies = c_obj.get();
         // Delete all the memory helded cookies.
         c_obj.erase();
-    } catch (curl_easy_exception error) {
+    } catch (curl_easy_exception &error) {
         error.print_traceback();
     }
+
     // Print them all!
-    for (auto cook : cookies) {
+    for (const auto& cook : cookies) {
         std::cout<<cook<<std::endl;
     }
     return 0;

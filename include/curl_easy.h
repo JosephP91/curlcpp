@@ -1053,7 +1053,7 @@ namespace curl  {
         /**
          * This method allows to get information about the current curl session.
          */
-        template<CURLINFO Info> const curl_easy_info<detail_info::Info_type<Info>> get_info();
+        template<CURLINFO Info> curl_easy_info<detail_info::Info_type<Info>> get_info();
         /**
          * Simple getter method used to return the easy handle.
          */
@@ -1106,7 +1106,7 @@ namespace curl  {
     }
     
     // Implementation of get_info method.
-    template<CURLINFO Info> const curl_easy_info<detail_info::Info_type<Info>> curl_easy::get_info() {
+    template<CURLINFO Info> curl_easy_info<detail_info::Info_type<Info>> curl_easy::get_info() {
         detail_info::Info_type<Info> val;
         const CURLcode code = curl_easy_getinfo(this->curl,Info,&val);
         if (code != CURLE_OK) {

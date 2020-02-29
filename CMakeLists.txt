@@ -30,6 +30,9 @@ option(CURLCPP_USE_PKGCONFIG
 # Set up source directories
 add_subdirectory(src)
 
+# Set up test directory.
+add_subdirectory(test)
+
 set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
 
 configure_file(CMake/curlcppConfig.cmake.in
