@@ -24,7 +24,7 @@ Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/in
 When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).
 Or if you want run from terminal,
 
-g++ -std=c++11 example.cpp -L/home/arun/path/to/build/src/ -I/home/arun/path/to/include/ -lcurlcpp -lcurl 
+g++ -std=c++11 example.cpp -L/home/username/path/to/build/src/ -I/home/username/path/to/include/ -lcurlcpp -lcurl 
 
 
 Submodule
@@ -36,11 +36,6 @@ When using a git submodule and CMake-buildsystem, add the following lines to you
 ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
 INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 ```
-
-Biicode support
-===============
-
-Yes, it's avaiable thanks to @qqiangwu! :)
 
 Simple usage example
 ====================
@@ -65,7 +60,8 @@ int main(int argc, const char **argv) {
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -102,7 +98,8 @@ int main(int argc, const char **argv) {
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -111,6 +108,7 @@ int main(int argc, const char **argv) {
     
     // Retrieve information about curl current session.
     auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
+
     // Print out content type
     std::cout << x.get() << std::endl;
     return 0;
@@ -155,7 +153,8 @@ int main(int argc, const char * argv[]) {
         easy.add<CURLOPT_HTTPPOST>(form.get());
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -202,7 +201,8 @@ int main(int argc, const char * argv[]) {
     try {
         // Execute the request
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -247,7 +247,8 @@ int main() {
     try {
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -295,7 +296,8 @@ int main(int argc, const char * argv[]) {
         easy.add<CURLOPT_CONNECT_ONLY>(true);
         // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception error) {
+
+    } catch (curl_easy_exception &error) {
         // If you want to get the entire error stack we can do:
         curlcpp_traceback errors = error.get_traceback();
         // Otherwise we could print the stack like this:
@@ -307,6 +309,7 @@ int main(int argc, const char * argv[]) {
     sender.send(request);
     // Prints che sent bytes number.
     cout<<"Sent bytes: "<<sender.get_sent_bytes()<<endl;
+
     for(;;) {
         // You should wait here to check if socket is ready to receive
         try {
@@ -316,7 +319,8 @@ int main(int argc, const char * argv[]) {
             receiver.receive(easy);
             // Prints the received bytes number.
             cout<<"Receiver bytes: "<<receiver.get_received_bytes()<<endl;
-        } catch (curl_easy_exception error) {
+
+        } catch (curl_easy_exception &error) {
             // If any errors occurs, exit from the loop
             break;
         }
