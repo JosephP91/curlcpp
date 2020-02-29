@@ -24,7 +24,7 @@ Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/in
 When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).
 Or if you want run from terminal,
 
-g++ -std=c++11 example.cpp -L/home/arun/path/to/build/src/ -I/home/arun/path/to/include/ -lcurlcpp -lcurl 
+g++ -std=c++11 example.cpp -L/home/<username>/path/to/build/src/ -I/home/<username>/path/to/include/ -lcurlcpp -lcurl 
 
 
 Submodule
@@ -36,11 +36,6 @@ When using a git submodule and CMake-buildsystem, add the following lines to you
 ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
 INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 ```
-
-Biicode support
-===============
-
-Yes, it's avaiable thanks to @qqiangwu! :)
 
 Simple usage example
 ====================
