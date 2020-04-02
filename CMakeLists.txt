@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10...3.15)
+cmake_minimum_required(VERSION 3.11...3.15)
 
 #if using an older VERSION of curl ocsp stapling can be disabled
 set(CURL_MIN_VERSION "7.28.0")
