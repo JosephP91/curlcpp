@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11...3.15)
 
 #if using an older VERSION of curl ocsp stapling can be disabled
 set(CURL_MIN_VERSION "7.28.0")
+
 # Setting up project
 project(curlcpp LANGUAGES CXX)
 
@@ -33,7 +34,8 @@ add_subdirectory(src)
 # Set up test directory.
 add_subdirectory(test)
 
+# Set library location
 set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
 
 configure_file(CMake/curlcppConfig.cmake.in
-  ${CURLCPP_BINARY_DIR}/curlcppConfig.cmake @ONLY)
+  ${CMAKE_INSTALL_PREFIX}/lib/curlcpp/curlcppConfig.cmake @ONLY)
