@@ -6,7 +6,7 @@ using curl::curl_ios;
 using curl::curl_easy_exception;
 using std::ostringstream;
 
-/*
+/**
  * This example shows how to split the received headers and body content
  * into two different streams
  */
@@ -23,7 +23,7 @@ int main() {
     // Easy object to handle the connection.
     curl_easy easy;
 
-    // We will the default write function
+    // We will use the default write function
     easy.add<CURLOPT_WRITEFUNCTION>(header.get_function());
 
     // Specify the stream for headers content.

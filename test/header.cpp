@@ -7,17 +7,16 @@ using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
 
-/*
+/**
  * This example shows how to add custom headers to a simple
  * curl request.
  */
 int main() {
-    // Let's create an object which will contain a list of headers.
-    curl_header header;
     // Easy object to handle the connection.
     curl_easy easy;
 
-    // Add custom headers.
+	// Let's create an object which will contain a list of headers.
+	curl_header header;
     header.add("Accept:");
     header.add("Another:yes");
     header.add("Host: example.com");
@@ -25,7 +24,7 @@ int main() {
     // Add the headers to the easy object.
     easy.add<CURLOPT_HTTPHEADER>(header.get());
     
-    easy.add<CURLOPT_URL>("localhost");
+    easy.add<CURLOPT_URL>("http://example.com");
     easy.add<CURLOPT_VERBOSE>(1L);
     try {
         // Request execution

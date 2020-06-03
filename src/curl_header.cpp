@@ -22,7 +22,7 @@ curl_header::curl_header() : size(0), headers(nullptr) {
 
 // Implementation of the list constructor's initialize method.
 curl_header::curl_header(initializer_list<string> headers) : size(0), headers(nullptr) {
-    for_each(headers.begin(),headers.end(),[this](const string header) {
+    for_each(headers.begin(),headers.end(),[this](const string& header) {
         this->add(header);
     });
 }

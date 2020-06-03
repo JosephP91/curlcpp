@@ -61,19 +61,19 @@ namespace curl {
         /**
          * This method returns the hours.
          */
-        const unsigned int get_hour() const NOEXCEPT;
+        unsigned int get_hour() const NOEXCEPT;
         /**
          * This method returns the minutes.
          */
-        const unsigned int get_minutes() const NOEXCEPT;
+        unsigned int get_minutes() const NOEXCEPT;
         /**
          * This method returns the seconds.
          */
-        const unsigned int get_seconds() const NOEXCEPT;
+        unsigned int get_seconds() const NOEXCEPT;
         /**
          * This method returns the time formatted as h:m:s
          */
-        std::string get_formatted() NOEXCEPT;
+        std::string get_formatted() const NOEXCEPT;
     private:
         /**
          * The hours.

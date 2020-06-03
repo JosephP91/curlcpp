@@ -27,6 +27,7 @@
 #define __curlcpp__curl_option__
 
 #include <string>
+#include <curl/curl.h>
 #include "curl_pair.h"
 
 namespace curl {    

@@ -175,10 +175,14 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_ERRORBUFFER, char*);
         /* Function that will be called to store the output (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION, size_t(*)(void *ptr, size_t size, size_t nmemb, void *userdata));
+        CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION,
+        		size_t(*)(void *ptr, size_t size, size_t nmemb, void *userdata));
+
         /* Function that will be called to read the input (instead of fread). The
         * parameters will use fread() syntax, make sure to follow them. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION, size_t(*)(void *buffer, size_t size, size_t nitems, void *instream));
+        CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION,
+        		size_t(*)(void *buffer, size_t size, size_t nitems, void *instream));
+
         /* Time-out the read operation after this amount of seconds */
         CURLCPP_DEFINE_OPTION(CURLOPT_TIMEOUT, long);
         /* If the CURLOPT_INFILE is used, this can be used to inform libcurl about
@@ -383,7 +387,8 @@ namespace curl  {
 
         /* Function that will be called to store headers (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_HEADERFUNCTION, size_t(*)(void *buffer, size_t size, size_t nitems, void *userdata));
+        CURLCPP_DEFINE_OPTION(CURLOPT_HEADERFUNCTION,
+        		size_t(*)(void *buffer, size_t size, size_t nitems, void *userdata));
 
         /* Set this to force the HTTP request to get back to GET. Only really usable
         if POST, PUT or a custom request have been used first.
@@ -495,7 +500,8 @@ namespace curl  {
         /* Set the ssl context callback function, currently only for OpenSSL ssl_ctx
         in second argument. The function must be matching the
         curl_ssl_ctx_callback proto. */
-        CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_FUNCTION, CURLcode(*)(CURL *curl, void *ssl_ctx, void *userptr));
+        CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_FUNCTION,
+        		CURLcode(*)(CURL *curl, void *ssl_ctx, void *userptr));
 
         /* Set the userdata for the ssl context callback function's third
         argument */

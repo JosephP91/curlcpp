@@ -52,7 +52,7 @@ namespace curl {
          * If you pass an empty string or a string containing a non existing file's path, 
          * the cookie engine will be initialized, but without reading initial cookies.
          */
-        void set_file(std::string);
+        void set_file(const std::string&);
         /**
          * This method allow you to specify a string that represents a cookie. Such a cookie 
          * can be either a single line in Netscape / Mozilla format or just regular HTTP-style
@@ -67,7 +67,7 @@ namespace curl {
         /**
          * This method allow you to get all known cookies for a specific domain.
          */
-        const curlcpp_cookies get() const NOEXCEPT;
+        curlcpp_cookies get() const NOEXCEPT;
         /**
          * This method erases all cookies held in memory.
          */

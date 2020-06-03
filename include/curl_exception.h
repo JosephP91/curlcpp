@@ -102,7 +102,9 @@ namespace curl {
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() const {
 	    curl_exception::tracebackLocker.lock();
-        std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),[](const curlcpp_traceback_object &value) {
+        std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),
+        		[](const curlcpp_traceback_object &value) {
+
             std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
         });
 	    curl_exception::tracebackLocker.unlock();
@@ -141,11 +143,14 @@ namespace curl {
          * This constructor allows to specify a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_easy_exception(const std::string &error, const std::string &method) : curl_exception(error,method), code(CURLE_OK) {}
+        curl_easy_exception(const std::string &error, const std::string &method) :
+        	curl_exception(error,method), code(CURLE_OK) {}
+
         /**
          * The constructor will transform a CURLcode error in a proper error message.
          */
-        curl_easy_exception(const CURLcode &code, const std::string &method) : curl_exception(curl_easy_strerror(code),method), code(code) {}
+        curl_easy_exception(const CURLcode &code, const std::string &method) :
+        	curl_exception(curl_easy_strerror(code),method), code(code) {}
         
         /**
          * Returns the error code if there is one. Returns CURLE_OK if none has been set.
@@ -167,11 +172,13 @@ namespace curl {
          * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_multi_exception(const std::string &error, const std::string &method) : curl_exception(error,method), code(CURLM_OK) {}
+        curl_multi_exception(const std::string &error, const std::string &method) :
+        	curl_exception(error,method), code(CURLM_OK) {}
         /**
          * The constructor will transform a CURLMcode error to a proper error message.
          */
-        curl_multi_exception(const CURLMcode code, const std::string &method) : curl_exception(curl_multi_strerror(code),method), code(code) {}
+        curl_multi_exception(const CURLMcode code, const std::string &method) :
+        	curl_exception(curl_multi_strerror(code),method), code(code) {}
         
         /**
          * Returns the error code if there is one. Returns CURLM_OK if none has been set.
@@ -193,11 +200,13 @@ namespace curl {
          * This constructor enables setting a custom error message and the method name where
          * the exception has been thrown.
          */
-        curl_share_exception(const std::string &error, const std::string &method) : curl_exception(error,method), code(CURLSHE_OK) {}
+        curl_share_exception(const std::string &error, const std::string &method) :
+        	curl_exception(error,method), code(CURLSHE_OK) {}
         /**
          * The constructor will transform a CURLSHcode error in a proper error message.
          */
-        curl_share_exception(const  CURLSHcode code, const std::string &method) : curl_exception(curl_share_strerror(code),method), code(code) {}
+        curl_share_exception(const  CURLSHcode code, const std::string &method) :
+        	curl_exception(curl_share_strerror(code),method), code(code) {}
         
         /**
          * Returns the error code if there is one. Returns CURLE_OK if none has been set.

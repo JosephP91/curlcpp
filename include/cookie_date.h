@@ -42,12 +42,12 @@ namespace curl {
     // Leave this alone :)
     namespace details {
         // Map months numbers with months short names (cookies likes it short XD)
-        static const std::map<int,std::string> months_names = {
+        static const std::map<int,std::string> monthsNames = {
                 {JANUARY,"Jan"}, {FEBRUARY,"Feb"}, {MARCH,"Mar"}, {APRIL,"Apr"}, {MAY,"May"}, {JUNE,"Jun"},
                 {JULY,"Jul"},{AUGUST,"Aug"},{SEPTEMBER,"Sep"},{OCTOBER,"Oct"},{NOVEMBER,"Nov"},{DECEMBER,"Dec"}
         };
         // Map week days numbers with days short names (cookies likes it, still, short XD)
-        static const std::map<int,std::string> weekday_names = {
+        static const std::map<int,std::string> weekdayNames = {
                 {MONDAY,"Mon"}, {TUESDAY,"Tue"}, {WEDNESDAY,"Wed"}, {THURSDAY,"Thu"}, {FRIDAY,"Fri"}, {SATURDAY,"Sat"},
                 {SUNDAY,"Sun"}
         };

@@ -36,7 +36,9 @@ curl_form &curl_form::operator=(const curl_form &form) {
     struct curl_httppost *old_head = form.form_post;
     while (old_head != nullptr) {
         if (this->form_post == nullptr) {
-            this->is_null(this->last_ptr = this->form_post = (struct curl_httppost *)malloc(sizeof(struct curl_httppost)));
+            this->is_null(this->last_ptr = this->form_post =
+            		(struct curl_httppost *)malloc(sizeof(struct curl_httppost)));
+
             this->copy_ptr(&this->last_ptr,old_head);
         } else {
             this->is_null(this->last_ptr->next = (struct curl_httppost *)malloc(sizeof(struct curl_httppost)));
@@ -49,7 +51,9 @@ curl_form &curl_form::operator=(const curl_form &form) {
 }
 
 // Implementation of add method.
-void curl_form::add(const curl_pair<CURLformoption,string> &form_name, const curl_pair<CURLformoption,string> &form_content) {
+void curl_form::add(const curl_pair<CURLformoption,string> &form_name,
+		const curl_pair<CURLformoption,string> &form_content) {
+
     if (curl_formadd(&this->form_post,&this->last_ptr,
                     form_name.first(),form_name.second(),
                     form_content.first(),form_content.second(),

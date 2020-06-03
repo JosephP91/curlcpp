@@ -27,9 +27,9 @@ using curl::cookie_datetime;
 
 int main() {
     // Let's declare a stream
-    ostringstream str;
+    ostringstream stream;
     // We are going to put the request's output in the previously declared stream
-    curl_ios<ostringstream> ios(str);
+    curl_ios<ostringstream> ios(stream);
 
     // Easy object to handle the connection, url and verbosity level.
     curl_easy easy(ios);

@@ -9,16 +9,16 @@ using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
 using curl::curl_ios;
 
-/*
+/**
  * This example shows how to use the easy interface and obtain
  * informations about the current session.
  */
 int main(int argc, const char **argv) {
     // Let's declare a stream
-    ostringstream str;
+    ostringstream stream;
 
     // We are going to put the request's output in the previously declared stream
-    curl_ios<ostringstream> ios(str);
+    curl_ios<ostringstream> ios(stream);
 
     // Declaration of an easy object
     curl_easy easy(ios);

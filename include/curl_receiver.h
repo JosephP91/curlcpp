@@ -45,7 +45,7 @@ namespace curl {
         /**
          * In this case the destructor does not have to release any resource.
          */
-        ~curl_receiver() {}
+        ~curl_receiver() = default;
         /**
          * The receive method wraps curl_easy_recv function and receives raw
          * data from the established connection on an easy handler.

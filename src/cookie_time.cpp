@@ -33,22 +33,22 @@ curl::cookie_time *curl::cookie_time::set_seconds(unsigned int _seconds) NOEXCEP
 }
 
 // Implementation of get_hour method.
-const unsigned int curl::cookie_time::get_hour() const NOEXCEPT {
+unsigned int curl::cookie_time::get_hour() const NOEXCEPT {
     return this->hour;
 }
 
 // Implementation of get_minutes method.
-const unsigned int curl::cookie_time::get_minutes() const NOEXCEPT {
+unsigned int curl::cookie_time::get_minutes() const NOEXCEPT {
     return this->minutes;
 }
 
 // Implementation of get_seconds method.
-const unsigned int curl::cookie_time::get_seconds() const NOEXCEPT {
+unsigned int curl::cookie_time::get_seconds() const NOEXCEPT {
     return this->seconds;
 }
 
 // Implementation of get_formatted method.
-std::string curl::cookie_time::get_formatted() NOEXCEPT {
+std::string curl::cookie_time::get_formatted() const NOEXCEPT {
     ostringstream stream;
     stream<<this->get_hour()<<":"<<this->get_minutes()<<":"<<this->get_seconds()<<" GMT";
     return stream.str();

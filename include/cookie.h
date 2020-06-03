@@ -37,12 +37,12 @@ namespace curl {
      */
     class cookie {
     public:
-        /*
+        /**
          * Default constructor.
          */
-        cookie() {}
+        cookie() = default;
         /**
-         * The constructor allow a fast way to build a cookie.
+         * The overloaded constructor allow a fast way to build a cookie.
          */
         cookie(const std::string&, const std::string&, const cookie_datetime &,
         		const std::string& = "", const std::string& = "", bool = false);

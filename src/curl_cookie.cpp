@@ -13,13 +13,13 @@ using std::ostringstream;
 
 namespace curl {
     // Implementation of the get method.
-    const curlcpp_cookies curl_cookie::get() const NOEXCEPT {
+    curlcpp_cookies curl_cookie::get() const NOEXCEPT {
         auto info = this->easy.get_info<CURLINFO_COOKIELIST>();
         return info.get();
     }
     
     // Implementation of set_cookie_file method.
-    void curl_cookie::set_file(const string file = "") {
+    void curl_cookie::set_file(const string& file = "") {
         this->easy.add<CURLOPT_COOKIEFILE>(file.c_str());
     }
     

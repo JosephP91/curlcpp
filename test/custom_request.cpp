@@ -7,6 +7,9 @@ using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
 
+/**
+ * This example shows how to perform a custom request.
+ */
 int main() {
     // Let's create an object which will contain a list of headers.
     curl_header header;
@@ -14,14 +17,14 @@ int main() {
     curl_easy easy;
 
     // Add custom headers.
-    std::string jsonInfo = "{\"username\":\"abc\",\"password\":\"abc\"}";
+    std::string jsonInfo = R"({"username":"abc","password":"abc"})";
     header.add(jsonInfo);
     header.add("Content-type: application/json");
 
     // Add the headers to the easy object.
     easy.add<CURLOPT_HTTPHEADER>(header.get());
     // Your URL.
-    easy.add<CURLOPT_URL>("http://yoururl");
+    easy.add<CURLOPT_URL>("http://example.com");
     // Custom request.
     easy.add<CURLOPT_CUSTOMREQUEST>("PUT");
     // You can choose between 1L and 0L (enable verbose video log or disable)

@@ -54,11 +54,11 @@ namespace curl {
         /**
          * This method returns the time object.
          */
-        const cookie_time get_time() const NOEXCEPT;
+        cookie_time get_time() const NOEXCEPT;
         /**
          * This method returns the date object.
          */
-        const cookie_date get_date() const NOEXCEPT;
+        cookie_date get_date() const NOEXCEPT;
         /**
          * This method returns the cookie_datetime as a string.
          */

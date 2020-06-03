@@ -39,12 +39,12 @@ namespace curl {
          * The constructor initializes the easy handler and the number of
          * sent bytes.
          */
-        curl_sender(curl_easy &easy);
+        explicit curl_sender(curl_easy &easy);
         /**
          * This method wraps the curl_easy_send function that sends raw data
          * on an established connection on an easy handler.
          */
-        void send(const T, const size_t);
+        void send(T, size_t);
         /**
          * Simple getter method that returns sent's current byte number.
          */
@@ -83,13 +83,13 @@ namespace curl {
          * The constructor initializes the easy handler and the number of
          * sent bytes.
          */
-        curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {}
+        explicit curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {}
         /**
          * This method wraps the curl_easy_send function that sends raw data
          * on an established connection on an easy handler, treating strings
          * as const char pointers.
          */
-        void send(const std::string buffer) {
+        void send(const std::string& buffer) {
             const CURLcode code = curl_easy_send(_easy.get_curl(),buffer.c_str(),buffer.length(),&_sent_bytes);
             if (code != CURLE_OK) {
                 throw curl_easy_exception(code,__FUNCTION__);

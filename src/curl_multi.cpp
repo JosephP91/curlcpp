@@ -17,9 +17,7 @@ void curl_multi::multi_deleter::operator()(CURLM* ptr) const {
 
 curl_multi::curl_multi() : curl_multi(CURL_GLOBAL_ALL) {}
 
-curl_multi::curl_multi(const long flag)
-    : curl_interface(flag),
-      curl(curl_multi_init()) {
+curl_multi::curl_multi(const long flag) : curl_interface(flag), curl(curl_multi_init()) {
     if (this->curl == nullptr) {
         throw curl_multi_exception("Null pointer intercepted", __FUNCTION__);
     }
@@ -27,8 +25,7 @@ curl_multi::curl_multi(const long flag)
     this->message_queued = 0;
 }
 
-curl_multi::curl_multi(curl_multi&& other) NOEXCEPT
-	: curl_interface(std::forward<curl_interface>(other)),
+curl_multi::curl_multi(curl_multi&& other) NOEXCEPT : curl_interface(std::forward<curl_interface>(other)),
 	  curl(std::move(other.curl)),
 	  active_transfers(other.active_transfers),
 	  message_queued(other.message_queued) {
@@ -68,7 +65,7 @@ void curl_multi::remove(const curl_easy &easy) {
 // Implementation of get_info method.
 vector<unique_ptr<curl_multi::curl_message>> curl_multi::get_info() {
     vector<unique_ptr<curl_multi::curl_message>> infos;
-    CURLMsg *message = nullptr;
+    CURLMsg *message;
     while ((message = curl_multi_info_read(this->curl.get(),&this->message_queued))) {
         infos.push_back(unique_ptr<curl_multi::curl_message>(new curl_multi::curl_message(message)));
     }
@@ -77,7 +74,7 @@ vector<unique_ptr<curl_multi::curl_message>> curl_multi::get_info() {
 
 // Implementation of overloaded get_info method.
 unique_ptr<curl_multi::curl_message> curl_multi::get_info(const curl_easy &easy) {
-    CURLMsg *message = nullptr;
+    CURLMsg *message;
     while ((message = curl_multi_info_read(this->curl.get(),&this->message_queued))) {
         if (message->easy_handle == easy.get_curl()) {
             unique_ptr<curl_multi::curl_message> ptr{new curl_multi::curl_message(message)};
@@ -90,8 +87,9 @@ unique_ptr<curl_multi::curl_message> curl_multi::get_info(const curl_easy &easy)
 // Implementation of get_next_finished method.
 curl_easy* curl_multi::get_next_finished() {
     CURLMsg *message = curl_multi_info_read(this->curl.get(),&this->message_queued);
-    if (!message)
-        return nullptr;
+    if (!message) {
+		return nullptr;
+	}
     if (message->msg == CURLMSG_DONE) {
         std::unordered_map<CURL*, curl_easy*>::const_iterator it = handles.find(message->easy_handle);
         if (it != handles.end()) {
@@ -103,7 +101,7 @@ curl_easy* curl_multi::get_next_finished() {
 
 // Implementation of is_finished method.
 bool curl_multi::is_finished(const curl_easy &easy) {
-    CURLMsg *message = nullptr;
+    CURLMsg *message;
     while ((message = curl_multi_info_read(this->curl.get(),&this->message_queued))) {
         if (message->easy_handle == easy.get_curl() and message->msg == CURLMSG_DONE) {
             return true;
@@ -171,6 +169,7 @@ void curl_multi::timeout(long *timeout) {
 // Implementation of curl_message constructor.
 curl_multi::curl_message::curl_message(const CURLMsg *msg) :
     message(msg->msg), whatever(msg->data.whatever), code(msg->data.result) {
+
     // ... nothing to do here ...
 }
 
