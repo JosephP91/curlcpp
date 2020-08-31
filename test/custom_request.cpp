@@ -34,10 +34,11 @@ int main() {
         // Request execution
         easy.perform();
     } catch (curl_easy_exception &error) {
-        // If you want to get the entire error stack we can do:
-        curlcpp_traceback errors = error.get_traceback();
-        // Otherwise we could print the stack like this:
-        error.print_traceback();
+		// If you want to print the last error.
+		std::cerr<<error.what()<<std::endl;
+
+		// If you want to print the entire error stack you can do
+		error.print_traceback();
     }
     return 0;
 }

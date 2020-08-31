@@ -14,7 +14,9 @@ curlcpp_traceback curl::curl_exception::traceback;
 std::mutex curl::curl_exception::tracebackLocker;
 
 // Constructor implementation. Every call will push into the calls stack the function name and the error occurred.
-curl_exception::curl_exception(const std::string &error, const std::string &fun_name) NOEXCEPT {
+curl_exception::curl_exception(const std::string &error, const std::string &fun_name) NOEXCEPT
+    : std::runtime_error(error) {
+
     curl_exception::tracebackLocker.lock();
 
     curl_exception::traceback.insert(
@@ -24,7 +26,7 @@ curl_exception::curl_exception(const std::string &error, const std::string &fun_
 }
 
 // Copy constructor implementation. It makes a copy of the traceback in a thread safe way.
-curl_exception::curl_exception(const curl_exception &object) NOEXCEPT {
+curl_exception::curl_exception(const curl_exception &object) NOEXCEPT : std::runtime_error(object.what()) {
     curl_exception::traceback = object.get_traceback();
 }
 
@@ -34,9 +36,4 @@ curl_exception& curl_exception::operator=(curl_exception const &object) {
         curl_exception::traceback = object.get_traceback();
     }
     return *this;
-}
-
-// Implementation of destructor.
-curl_exception::~curl_exception() NOEXCEPT {
-    // ... nothing to do here ...
 }

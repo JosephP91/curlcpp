@@ -28,18 +28,23 @@ int main() {
 
     // Specify the stream for headers content.
     easy.add<CURLOPT_HEADERDATA>(header.get_stream());
+
     // Specify the stream for body content.
     easy.add<CURLOPT_WRITEDATA>(body.get_stream());
     easy.add<CURLOPT_URL>("http://www.example.com");
 
     try {
-        // Execute the request.
         easy.perform();
-    } catch (curl_easy_exception &error) {
-        error.print_traceback();
-    }
 
-    // Let's print ONLY the headers.
-    std::cout<<header_var.str()<<std::endl;
+		// Let's print ONLY the headers.
+		std::cout<<header_var.str()<<std::endl;
+
+    } catch (curl_easy_exception &error) {
+		// If you want to print the last error.
+		std::cerr<<error.what()<<std::endl;
+
+		// If you want to print the entire error stack you can do
+		error.print_traceback();
+    }
     return 0;
 }

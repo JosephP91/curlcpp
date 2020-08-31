@@ -2,7 +2,6 @@
 
 #include "curl_easy.h"
 #include "curl_exception.h"
-#include "curl_form.h"
 #include "curl_cookie.h"
 #include "curl_ios.h"
 #include "cookie_datetime.h"
@@ -48,24 +47,28 @@ int main() {
     ck.set_datetime(datetime);
 
     // Create a cookie object and add the previously created cookie.
-    curl_cookie c_obj(easy);
-    c_obj.set(ck);
+    curl_cookie cookie_object(easy);
+    cookie_object.set(ck);
 
-    // This rapresents a vector of cookies.
-    curlcpp_cookies cookies;
     try {
         easy.perform();
-        // Retrieve all the cookies for the example.com
-        cookies = c_obj.get();
-        // Delete all the memory helded cookies.
-        c_obj.erase();
-    } catch (curl_easy_exception &error) {
-        error.print_traceback();
-    }
 
-    // Print them all!
-    for (const auto& cook : cookies) {
-        std::cout<<cook<<std::endl;
+        // Retrieve all the cookies for the example.com (as a vector)
+        curlcpp_cookies cookies = cookie_object.get();
+        // Delete all the memory helded cookies.
+        cookie_object.erase();
+
+		// Print them all!
+		for (const auto& cook : cookies) {
+			std::cout<<cook<<std::endl;
+		}
+
+    } catch (curl_easy_exception &error) {
+		// If you want to print the last error.
+		std::cerr<<error.what()<<std::endl;
+
+		// If you want to print the entire error stack you can do.
+		error.print_traceback();
     }
     return 0;
 }
