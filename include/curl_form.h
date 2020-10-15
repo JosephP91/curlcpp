@@ -140,6 +140,41 @@ namespace curl {
     inline const struct curl_httppost *curl_form::get() const {
         return this->form_post;
     }
+    
+    /**
+     * Re-declaring template curl_pair, in case this is not in include path
+     */
+    template<class T, class K> class curl_pair;
+
+    /**
+     * Template specialization of curl_pair for curl_form type.
+     */
+    template<class T> class curl_pair<T,curl_form> {
+    public:
+        /**
+         * The two parameters constructor gives users a fast way to build an object of
+         * this type.
+         */
+        curl_pair(const T option, const curl_form &value) : option(option), value(value) {}
+        /**
+         * Simple method that returns the first field of the pair.
+         */
+        inline T first() const NOEXCEPT {
+            return this->option;
+        }
+        /**
+         * Simple method that returns the second field of the pair as a 
+         * C struct curl_httppost pointer.
+         */
+        inline const curl_httppost *second() const NOEXCEPT {
+            return (this->value).get();
+        }
+    private:
+        const T option;
+        const curl_form &value;
+    };
+    
+
 }
 
 #endif /* defined(__curlcpp__curl_form__) */
