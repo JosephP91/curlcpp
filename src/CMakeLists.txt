@@ -23,10 +23,7 @@ set(CURLCPP_HEADER_LIST
   ../include/curl_utility.h
 )
 
-add_library(curlcpp)
-
-target_sources(curlcpp
-PRIVATE
+add_library(curlcpp
   curl_easy.cpp
   curl_header.cpp
   curl_global.cpp
@@ -40,11 +37,14 @@ PRIVATE
   cookie_date.cpp
   cookie_time.cpp
   cookie_datetime.cpp
-PUBLIC
   ${CURLCPP_HEADER_LIST}
 )
 
-target_include_directories(curlcpp PUBLIC ../include)
+add_library(curlcpp::curlcpp ALIAS curlcpp)
+
+target_include_directories(curlcpp PUBLIC
+"$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../include>"
+"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/>")
 
 target_compile_features(curlcpp PUBLIC cxx_std_11)
 
@@ -56,17 +56,17 @@ target_compile_options(curlcpp PRIVATE
 
 if(CURLCPP_USE_PKGCONFIG)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl>=${CURL_MIN_VERSION})	
+    pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl>=${CURL_MIN_VERSION})
     target_link_libraries(curlcpp PUBLIC PkgConfig::libcurl)
 else()
     # Add MacPorts
     if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
     endif()
-	
+
     find_package(CURL ${CURL_MIN_VERSION} REQUIRED)
 
-	target_include_directories(curlcpp PUBLIC ${CURL_INCLUDE_DIRS})
+    target_include_directories(curlcpp PUBLIC ${CURL_INCLUDE_DIRS})
     target_link_libraries(curlcpp PUBLIC ${CURL_LIBRARY})
 endif()
 
@@ -78,5 +78,11 @@ if(IPO_SUPPORTED AND CMAKE_BUILD_TYPE STREQUAL "Release")
     set_target_properties(curlcpp PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
-install (TARGETS curlcpp LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-install (FILES ${CURLCPP_HEADER_LIST} DESTINATION include/curlcpp)
+set_target_properties (curlcpp PROPERTIES PUBLIC_HEADER "${CURLCPP_HEADER_LIST}")
+
+include(GNUInstallDirs)
+install(TARGETS curlcpp
+  EXPORT ${PROJECT_NAME}Targets
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
