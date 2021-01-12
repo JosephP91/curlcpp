@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.11...3.15)
 
+# Setting up project
+project(curlcpp LANGUAGES CXX)
+
 include(GNUInstallDirs)
+
+set(BUILD_TEST "Build Tests" OFF)
 
 #if using an older VERSION of curl ocsp stapling can be disabled
 set(CURL_MIN_VERSION "7.28.0")
-
-# Setting up project
-project(curlcpp LANGUAGES CXX)
 
 set(DEFAULT_BUILD_TYPE "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -34,11 +36,16 @@ option(CURLCPP_USE_PKGCONFIG
 add_subdirectory(src)
 
 # Set up test directory.
-add_subdirectory(test)
+if(BUILD_TEST)
+	add_subdirectory(test)
+endif()
 
-# Set library location
-set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
-
-configure_file(CMake/curlcppConfig.cmake.in
-  ${CMAKE_BINARY_DIR}/curlcppConfig.cmake @ONLY)
-install (FILES ${CMAKE_BINARY_DIR}/curlcppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/curlcpp)
+# Install
+install(EXPORT curlcppTargets
+  NAMESPACE curlcpp::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(CMake/curlcppConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/curlcppConfig.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp")
+install(FILES ${PROJECT_BINARY_DIR}/curlcppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp)
