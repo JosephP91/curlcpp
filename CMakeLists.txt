@@ -45,7 +45,7 @@ install(EXPORT curlcppTargets
   NAMESPACE curlcpp::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp)
 include(CMakePackageConfigHelpers)
-configure_package_config_file(cmake/curlcppConfig.cmake.in
+configure_package_config_file(CMake/curlcppConfig.cmake.in
   "${PROJECT_BINARY_DIR}/curlcppConfig.cmake"
   INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp")
 install(FILES ${PROJECT_BINARY_DIR}/curlcppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp)
