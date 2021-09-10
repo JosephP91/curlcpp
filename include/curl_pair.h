@@ -135,62 +135,18 @@ namespace curl {
      * curl_form wraps a struct curl_httppost list. libcurl functions can't handle
      * curl_form type, so we need to specialize curl_pair to return a struct
      * curl_httppost *.
+     * Definition at curl_form.h
      */
-    template<class T> class curl_pair<T,curl_form> {
-    public:
-        /**
-         * The two parameters constructor gives users a fast way to build an object of
-         * this type.
-         */
-        curl_pair(const T option, const curl_form &value) : option(option), value(value) {}
-        /**
-         * Simple method that returns the first field of the pair.
-         */
-        inline T first() const NOEXCEPT {
-            return this->option;
-        }
-        /**
-         * Simple method that returns the second field of the pair as a 
-         * C struct curl_httppost pointer.
-         */
-        inline const curl_httppost *second() const NOEXCEPT {
-            return (this->value).get();
-        }
-    private:
-        const T option;
-        const curl_form &value;
-    };
+    template<class T> class curl_pair<T,curl_form>;
     
     /**
      * Template specialization for curl_header type. Why do we need this? Because
      * curl_header wraps a struct curl_slist list of headers. libcurl functions can't
      * handle a curl_header type, so we need to specialize curl_pair to return a 
      * struct curl_slist *.
+     * Definition at curl_header.h
      */
-    template<class T> class curl_pair<T,curl_header> {
-    public:
-        /**
-         * Thw two parameters constructor gives users a fast way to build an object
-         * of this type.
-         */
-        curl_pair(const T option, const curl_header &value) : option(option), value(value) {}
-        /**
-         * Simple method that returns the first field of the pair.
-         */
-        inline T first() const NOEXCEPT {
-            return this->option;
-        }
-        /**
-         * Simple method that returns the second field of the pair as a C struct 
-         * curl_slist pointer.
-         */
-        inline const curl_slist *second() const NOEXCEPT {
-            return (this->value).get();
-        }
-    private:
-        const T option;
-        const curl_header &value;
-    };
+    template<class T> class curl_pair<T,curl_header>;
 }
 
 #endif	/* defined(__curlcpp__curl_pair__) */

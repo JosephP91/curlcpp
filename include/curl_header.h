@@ -99,6 +99,40 @@ namespace curl {
             this->add(*begin);
         }
     }
+    
+    /**
+     * Re-declaring template curl_pair, in case this is not in include path
+     */
+    template<class T, class K> class curl_pair;
+    
+    /**
+     * Template specialization of curl_pair for curl_header type.
+     */
+    template<class T> class curl_pair<T,curl_header> {
+    public:
+        /**
+         * Thw two parameters constructor gives users a fast way to build an object
+         * of this type.
+         */
+        curl_pair(const T option, const curl_header &value) : option(option), value(value) {}
+        /**
+         * Simple method that returns the first field of the pair.
+         */
+        inline T first() const NOEXCEPT {
+            return this->option;
+        }
+        /**
+         * Simple method that returns the second field of the pair as a C struct 
+         * curl_slist pointer.
+         */
+        inline const curl_slist *second() const NOEXCEPT {
+            return (this->value).get();
+        }
+    private:
+        const T option;
+        const curl_header &value;
+    };
+
 }
 
 #endif	/* defined(__curlcpp__curl_header__) */
