@@ -89,7 +89,7 @@ namespace curl {
     }
 
     // Implementation of copy constructor.
-    inline curl_header::curl_header(const curl_header &header) : headers(nullptr), size(0) {
+    inline curl_header::curl_header(const curl_header &header) : size(0), headers(nullptr) {
         *this = header;
     }
 
