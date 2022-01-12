@@ -10,7 +10,8 @@ Donate
 
 Help me to improve this project!
 
-[![paypal](https://www.paypalobjects.com/it_IT/i/btn/btn_donateCC_LG.gif)](https://paypal.me/giuseppepersico?locale.x=it_IT)
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/1Ba2eLwudJPNWVCZbAEMxnHy6GrANzurcH)](https://en.cryptobadges.io/donate/1Ba2eLwudJPNWVCZbAEMxnHy6GrANzurcH)
+
 
 
 Compile and link
