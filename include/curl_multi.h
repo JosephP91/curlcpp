@@ -327,9 +327,9 @@ namespace curl {
 
         using multi_ptr = std::unique_ptr<CURLM, multi_deleter>;
 
-        int message_queued;
-        int active_transfers;
         multi_ptr curl;
+        int active_transfers;
+        int message_queued;
         std::unordered_map<CURL*, curl_easy*> handles;
     };
     
