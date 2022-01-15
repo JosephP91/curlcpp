@@ -10,7 +10,7 @@ Donate
 
 Help me to improve this project!
 
-[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/1Ba2eLwudJPNWVCZbAEMxnHy6GrANzurcH)](https://en.cryptobadges.io/donate/1Ba2eLwudJPNWVCZbAEMxnHy6GrANzurcH)
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/bc1q0rv6jv8trglf57a8trtsjc3derg7ct5w9aqqkd)](https://en.cryptobadges.io/donate/bc1q0rv6jv8trglf57a8trtsjc3derg7ct5w9aqqkd)
 
 
 
