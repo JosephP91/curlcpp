@@ -5,7 +5,7 @@ project(curlcpp LANGUAGES CXX)
 
 include(GNUInstallDirs)
 
-option(BUILD_TEST "Build Tests" ON)
+option(BUILD_TEST "Build Tests" OFF)
 
 #if using an older VERSION of curl ocsp stapling can be disabled
 set(CURL_MIN_VERSION "7.28.0")
