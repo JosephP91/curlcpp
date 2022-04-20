@@ -67,7 +67,7 @@ else()
     find_package(CURL ${CURL_MIN_VERSION} REQUIRED)
 
     target_include_directories(curlcpp PUBLIC ${CURL_INCLUDE_DIRS})
-    target_link_libraries(curlcpp PUBLIC ${CURL_LIBRARY})
+    target_link_libraries(curlcpp PUBLIC ${CURL_LIBRARIES})
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
