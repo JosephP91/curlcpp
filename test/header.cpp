@@ -2,7 +2,6 @@
 #include "curl_form.h"
 #include "curl_header.h"
 
-using curl::curl_header;
 using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
@@ -16,7 +15,7 @@ int main() {
     curl_easy easy;
 
 	// Let's create an object which will contain a list of headers.
-	curl_header header;
+	curl::curl_header header;
     header.add("Accept:");
     header.add("Another:yes");
     header.add("Host: example.com");
