@@ -9,7 +9,6 @@
 using std::ostringstream;
 
 using curl::cookie;
-using curl::curl_header;
 using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curl_cookie;
