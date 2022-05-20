@@ -127,6 +127,10 @@ namespace curl {
          * structure.
          */
         template<typename Iterator> void add(Iterator, Iterator);
+        /**
+         * Simple getter method used to return the underlying shared handle.
+         */
+        CURLSH *get() const;
     protected:
     	void initialize_curl_share();
     private:
@@ -157,6 +161,11 @@ namespace curl {
         for (; begin != end; ++begin) {
             this->add(*begin);
         }
+    }
+
+    // Implementation of underlying share getter method.
+    inline CURLSH *curl_share::get() const {
+        return this->curl;
     }
 }
 
