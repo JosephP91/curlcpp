@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=@CMAKE_INSTALL_PREFIX@
+includedir=@includedir_for_pc_file@
+libdir=@libdir_for_pc_file@
+
+Name: @PROJECT_NAME@
+Description: @CMAKE_PROJECT_DESCRIPTION@
+URL: @CMAKE_PROJECT_HOMEPAGE_URL@
+Version: @PROJECT_VERSION@
+Requires: libcurl >= @CURL_MIN_VERSION@
+Cflags: -I${includedir}
+Libs: -L${libdir} -lcurlcpp
