@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.11...3.15)
 
 # Setting up project
-project(curlcpp LANGUAGES CXX)
+project(curlcpp
+	VERSION 1.4
+	DESCRIPTION "An object oriented C++ wrapper for CURL (libcurl)"
+	HOMEPAGE_URL "https://github.com/JosephP91/curlcpp/"
+	LANGUAGES CXX)
+
+# For the pkg-config file. Please read https://github.com/jtojnar/cmake-snips
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMakeScripts")
+include(JoinPaths)
 
 include(GNUInstallDirs)
 
@@ -49,3 +57,11 @@ configure_package_config_file(CMake/curlcppConfig.cmake.in
   "${PROJECT_BINARY_DIR}/curlcppConfig.cmake"
   INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp")
 install(FILES ${PROJECT_BINARY_DIR}/curlcppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/curlcpp)
+
+join_paths(libdir_for_pc_file "\${exec_prefix}" "${CMAKE_INSTALL_LIBDIR}")
+join_paths(includedir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}")
+configure_file("${PROJECT_SOURCE_DIR}/src/curlcpp.pc.in"
+  "${PROJECT_BINARY_DIR}/src/curlcpp.pc"
+  @ONLY)
+install(FILES "${PROJECT_BINARY_DIR}/src/curlcpp.pc"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig/")
