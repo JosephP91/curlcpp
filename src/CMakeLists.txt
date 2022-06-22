@@ -51,7 +51,7 @@ target_compile_features(curlcpp PUBLIC cxx_std_11)
 target_compile_options(curlcpp PRIVATE
     $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic>
     $<$<CXX_COMPILER_ID:Clang>:-Wall -Wpedantic>
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4244 /wd4305 /wd4996 /wd4267 /wd4018>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4244 /wd4305 /wd4996 /wd4267 /wd4018 /wd4706>
 )
 
 if(CURLCPP_USE_PKGCONFIG)
