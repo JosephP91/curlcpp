@@ -32,7 +32,7 @@
 
 #include "curl_easy.h"
 
-#define CURLCPP_DEFINE_OPTION(opt, value_type)\
+#define CURLCPP_DEFINE_MOPTION(opt, value_type)\
     template <> struct moption_t<opt> {\
         using type = value_type;\
     }
@@ -51,7 +51,7 @@ namespace curl {
          * larger than CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE, that pipeline will
          * not be considered for additional requests.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE, long);
 
         /*
          * If a pipelined connection is currently processing a request with a
@@ -59,7 +59,7 @@ namespace curl {
          * CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE, that pipeline will then not be
          * considered for additional requests.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE, long);
 
         /*
          * The set number will be used as the maximum amount of simultaneously
@@ -68,7 +68,7 @@ namespace curl {
          * added easy handle to make it fit 4 times the number of added easy
          * handles.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_MAXCONNECTS, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_MAXCONNECTS, long);
 
         /*
          * The set number will be used as the maximum amount of simultaneously
@@ -77,21 +77,21 @@ namespace curl {
          * will open a new connection up to the limit set by
          * CURLMOPT_MAX_HOST_CONNECTIONS.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_MAX_HOST_CONNECTIONS, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_MAX_HOST_CONNECTIONS, long);
 
         /*
          * The set max number will be used as the maximum amount of outstanding
          * requests in a pipelined connection. Only used if pipelining is
          * enabled.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_MAX_PIPELINE_LENGTH, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_MAX_PIPELINE_LENGTH, long);
 
         /*
          * Pass a long for the amount. The set number will be used as the
          * maximum number of simultaneously open connections in total using
          * this multi handle.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_MAX_TOTAL_CONNECTIONS, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_MAX_TOTAL_CONNECTIONS, long);
 
         /*
          * Set the bits parameter to 1 to make libcurl use HTTP pipelining for
@@ -100,7 +100,7 @@ namespace curl {
          * existing connection, the second request will be "piped" on the same
          * connection rather than being executed in parallel.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_PIPELINING, long);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_PIPELINING, long);
 
         /*
          * Pass a servers array of char *, ending with a NULL entry. This is a
@@ -115,7 +115,7 @@ namespace curl {
          *
          * Pass a NULL pointer to clear the blacklist.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_PIPELINING_SERVER_BL, char**);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_PIPELINING_SERVER_BL, char**);
 
         /*
          * Pass a hosts array of char *, ending with a NULL entry. This is a
@@ -125,32 +125,32 @@ namespace curl {
          *
          * Pass a NULL pointer to clear the blacklist.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_PIPELINING_SITE_BL, char**);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_PIPELINING_SITE_BL, char**);
 
         /*
          * A data pointer to pass to the socket callback set with the
          * CURLMOPT_SOCKETFUNCTION option.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_SOCKETDATA, void*);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_SOCKETDATA, void*);
 
         /*
          * The callback gets status updates with changes since the previous
          * time the callback was called.  See curl_multi_socket_action for more
          * details on how the callback is used and should work.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_SOCKETFUNCTION, int(*)(CURL* easy, curl_socket_t socket, int action, void* userp, void* socketp));
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_SOCKETFUNCTION, int(*)(CURL* easy, curl_socket_t socket, int action, void* userp, void* socketp));
 
         /*
          * A data pointer to pass to the timer callback set with the
          * CURLMOPT_TIMERFUNCTION option.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_TIMERDATA, void*);
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_TIMERDATA, void*);
 
         /*
          * Your callback function timer_callback should install a non-repeating
          * timer with an interval of timeout_ms.
          */
-        CURLCPP_DEFINE_OPTION(CURLMOPT_TIMERFUNCTION, int(*)(CURLM* multi, long timeout_ms, void* userp));
+        CURLCPP_DEFINE_MOPTION(CURLMOPT_TIMERFUNCTION, int(*)(CURLM* multi, long timeout_ms, void* userp));
     }
 
     /**
@@ -382,5 +382,5 @@ namespace curl {
     }
 }
 
-#undef CURLCPP_DEFINE_OPTION
+#undef CURLCPP_DEFINE_MOPTION
 #endif	/* defined(__curlcpp__curl_multi__) */
