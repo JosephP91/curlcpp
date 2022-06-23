@@ -19,7 +19,7 @@ curl::cookie_date::cookie_date(const unsigned int week_day, const unsigned int d
 curl::cookie_date *curl::cookie_date::set_week_day(const unsigned int weekDay) NOEXCEPT {
     try {
         this->week_day = details::weekdayNames.at(weekDay);
-    } catch (const out_of_range &exception) {
+    } catch (const out_of_range &) {
         this->week_day = "Mon";
     }
     return this;
@@ -35,7 +35,7 @@ curl::cookie_date *curl::cookie_date::set_day(const unsigned int cookieDay) NOEX
 curl::cookie_date *curl::cookie_date::set_month(const unsigned int cookieMonth) {
     try {
         this->month = details::monthsNames.at(cookieMonth);
-    } catch (const out_of_range &exception) {
+    } catch (const out_of_range &) {
         this->month = "Jan";
     }
     return this;

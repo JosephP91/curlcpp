@@ -29,7 +29,7 @@
 #include "curl_interface.h"
 #include "curl_pair.h"
 
-#define CURLCPP_DEFINE_OPTION(opt, value_type)\
+#define CURLCPP_DEFINE_SOPTION(opt, value_type)\
     template <> struct shoption_t<opt> {\
         using type = value_type;\
     }
@@ -49,7 +49,7 @@ namespace curl {
          * at any time for each kind of data. access defines what access type libcurl wants, shared or single.
          * userptr is the pointer you set with CURLSHOPT_USERDATA.
          */
-        CURLCPP_DEFINE_OPTION(CURLSHOPT_LOCKFUNC,
+        CURLCPP_DEFINE_SOPTION(CURLSHOPT_LOCKFUNC,
                               void(*)(CURL *handle, curl_lock_data data, curl_lock_access access, void *userptr));
         /*
          * The parameter must be a pointer to a function matching the following prototype:
@@ -58,7 +58,7 @@ namespace curl {
          * at any time for each kind of data.
          * userptr is the pointer you set with CURLSHOPT_USERDATA.
          */
-        CURLCPP_DEFINE_OPTION(CURLSHOPT_UNLOCKFUNC, void(*)(CURL *handle, curl_lock_data data, void *userptr));
+        CURLCPP_DEFINE_SOPTION(CURLSHOPT_UNLOCKFUNC, void(*)(CURL *handle, curl_lock_data data, void *userptr));
 
         /*
          * The parameter specifies a type of data that should be shared. This may be set to one of the values described below.
@@ -71,19 +71,19 @@ namespace curl {
          * Note SSL session IDs are reused within the same easy handle by default. Note this symbol was added
          * in 7.10.3 but was not implemented until 7.23.0.
          */
-        CURLCPP_DEFINE_OPTION(CURLSHOPT_SHARE, int);
+        CURLCPP_DEFINE_SOPTION(CURLSHOPT_SHARE, int);
 
         /*
          * This option does the opposite of CURLSHOPT_SHARE. It specifies that the specified parameter will no longer
          * be shared. Valid values are the same as those for CURLSHOPT_SHARE.
          */
-        CURLCPP_DEFINE_OPTION(CURLSHOPT_UNSHARE, int);
+        CURLCPP_DEFINE_SOPTION(CURLSHOPT_UNSHARE, int);
 
         /*
          * The parameter allows you to specify a pointer to data that will be passed to the lock_function and
          * unlock_function each time it is called.
          */
-        CURLCPP_DEFINE_OPTION(CURLSHOPT_USERDATA, void *);
+        CURLCPP_DEFINE_SOPTION(CURLSHOPT_USERDATA, void *);
     }
 
     /**
