@@ -10,7 +10,7 @@ Donate
 
 Help me to improve this project!
 
-[![Donate with Bitcoin](https://en.cryptobadges.io/badge/big/bc1q3qxm5cryfjxl9gysh9m2kg270zdjcxp2j0lh9p)](https://en.cryptobadges.io/donate/bc1q3qxm5cryfjxl9gysh9m2kg270zdjcxp2j0lh9p)
+<a href="https://www.bitcoinqrcodemaker.com/pay/?type=2&amp;style=bitcoin&amp;color=1&amp;border=4&amp;address=bc1q3qxm5cryfjxl9gysh9m2kg270zdjcxp2j0lh9p" target="_blank"><img src="https://www.bitcoinqrcodemaker.com/donate_button.png" border="0" width="150" height="36" alt="Donate button" title="Donate" /></a>
 
 
 
