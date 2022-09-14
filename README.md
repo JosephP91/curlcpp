@@ -33,8 +33,9 @@ Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/in
 When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).
 Or if you want run from terminal,
 
+```bash
 g++ -std=c++11 example.cpp -L/home/username/path/to/build/src/ -I/home/username/path/to/include/ -lcurlcpp -lcurl 
-
+```
 
 Submodule
 ---------
