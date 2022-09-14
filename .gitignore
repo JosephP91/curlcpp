@@ -12,3 +12,5 @@ cmake-build-debug/
 cmake-build-debug-visual-studio/
 .vscode
 install
+.DS_Store
+*.out

@@ -26,15 +26,12 @@ cmake ..
 make # -j2
 ```
 
-**Note:** cURL >= 7.34 is required.
+**Note:** cURL >= 7.28.0 is required.
 
-Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
-
-When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).
-Or if you want run from terminal,
+When linking curlcpp to your application don't forget to also link `curl`. Example:
 
 ```bash
-g++ -std=c++11 example.cpp -L/home/username/path/to/build/src/ -I/home/username/path/to/include/ -lcurlcpp -lcurl 
+g++ -std=c++11 example.cpp -I/usr/local/include/curlcpp/ -lcurlcpp -lcurl 
 ```
 
 Submodule

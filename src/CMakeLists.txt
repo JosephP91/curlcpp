@@ -23,7 +23,7 @@ set(CURLCPP_HEADER_LIST
   ../include/curl_utility.h
 )
 
-add_library(curlcpp
+add_library(curlcpp SHARED
   curl_easy.cpp
   curl_header.cpp
   curl_global.cpp
@@ -37,14 +37,15 @@ add_library(curlcpp
   cookie_date.cpp
   cookie_time.cpp
   cookie_datetime.cpp
+  
   ${CURLCPP_HEADER_LIST}
 )
 
 add_library(curlcpp::curlcpp ALIAS curlcpp)
 
 target_include_directories(curlcpp PUBLIC
-"$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../include>"
-"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/>")
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../include>"
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/>")
 
 target_compile_features(curlcpp PUBLIC cxx_std_11)
 
@@ -86,7 +87,7 @@ set_target_properties (curlcpp PROPERTIES PUBLIC_HEADER "${CURLCPP_HEADER_LIST}"
 
 include(GNUInstallDirs)
 install(TARGETS curlcpp
-  EXPORT ${PROJECT_NAME}Targets
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    EXPORT ${PROJECT_NAME}Targets
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
