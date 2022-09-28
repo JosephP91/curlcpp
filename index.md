@@ -5,6 +5,15 @@ An object-oriented C++ wrapper for cURL tool
 
 If you want to know a bit more about cURL and libcurl, you should go on the official website http://curl.haxx.se/
 
+Donate
+======
+
+Help me to improve this project!
+
+<a href="https://www.bitcoinqrcodemaker.com/pay/?type=2&amp;style=bitcoin&amp;color=1&amp;border=4&amp;address=bc1q3qxm5cryfjxl9gysh9m2kg270zdjcxp2j0lh9p" target="_blank"><img src="https://www.bitcoinqrcodemaker.com/donate_button.png" border="0" width="150" height="36" alt="Donate button" title="Donate" /></a>
+
+
+
 Compile and link
 ================
 
@@ -17,15 +26,13 @@ cmake ..
 make # -j2
 ```
 
-**Note:** cURL >= 7.34 is required.
+**Note:** cURL >= 7.28.0 is required.
 
-Then add `<curlcpp root>/build/src/` to your library path and `<curlcpp root>/include/` to your include path.
+When linking curlcpp to your application don't forget to also link `curl`. Example:
 
-When linking, link against `curlcpp` (e.g.: g++ -std=c++11 example.cpp -o example -lcurlcpp -lcurl).
-Or if you want run from terminal,
-
-g++ -std=c++11 example.cpp -L/home/username/path/to/build/src/ -I/home/username/path/to/include/ -lcurlcpp -lcurl 
-
+```bash
+g++ -std=c++11 example.cpp -I/usr/local/include/curlcpp/ -lcurlcpp -lcurl 
+```
 
 Submodule
 ---------
@@ -46,26 +53,27 @@ Here's an example of a simple HTTP request to get google web page, using the cur
 
 `````c++
 #include "curl_easy.h"
-#include "curl_exception.h"
 
 using curl::curl_easy;
 using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
 
-int main(int argc, const char **argv) {
+/**
+ * This example shows how to make a simple request with curl.
+ */
+int main() {
+    // Easy object to handle the connection.
     curl_easy easy;
-    // Add some option to the curl_easy object.
-    easy.add<CURLOPT_URL>("http://www.google.it");
-    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
-    try {
-        // Execute the request.
-        easy.perform();
 
+    // Add some options.
+    easy.add<CURLOPT_URL>("http://<your_url_here>");
+    easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+
+    try {
+        easy.perform();
     } catch (curl_easy_exception &error) {
-        // If you want to get the entire error stack we can do:
-        curlcpp_traceback errors = error.get_traceback();
-        // Otherwise we could print the stack like this:
-        error.print_traceback();
+    	// If you want to print the last error.
+        std::cerr<<error.what()<<std::endl;
     }
     return 0;
 }
@@ -85,32 +93,44 @@ using curl::curl_easy_exception;
 using curl::curlcpp_traceback;
 using curl::curl_ios;
 
+/**
+ * This example shows how to use the easy interface and obtain
+ * informations about the current session.
+ */
 int main(int argc, const char **argv) {
     // Let's declare a stream
-    ostringstream str;
+    ostringstream stream;
+
     // We are going to put the request's output in the previously declared stream
-    curl_ios<ostringstream> ios(str);
+    curl_ios<ostringstream> ios(stream);
+
     // Declaration of an easy object
     curl_easy easy(ios);
+
     // Add some option to the curl_easy object.
-    easy.add<CURLOPT_URL>("http://www.google.it");
+    easy.add<CURLOPT_URL>("http://<your_url_here>");
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+
     try {
-        // Execute the request.
         easy.perform();
 
-    } catch (curl_easy_exception &error) {
-        // If you want to get the entire error stack we can do:
-        curlcpp_traceback errors = error.get_traceback();
-        // Otherwise we could print the stack like this:
-        error.print_traceback();
-    }
-    
-    // Retrieve information about curl current session.
-    auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
+		// Retrieve information about curl current session.
+		auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
 
-    // Print out content type
-    std::cout << x.get() << std::endl;
+		/**
+		 * get_info returns a curl_easy_info object. With the get method we retrieve
+		 * the std::pair object associated with it: the first item is the return code of the
+		 * request. The second is the element requested by the specified libcurl macro.
+		 */
+		std::cout<<x.get()<<std::endl;
+
+    } catch (curl_easy_exception &error) {
+		// If you want to print the last error.
+		std::cerr<<error.what()<<std::endl;
+
+		// If you want to print the entire error stack you can do
+		error.print_traceback();
+    }
     return 0;
 }
 `````
@@ -136,6 +156,7 @@ using curl::curlcpp_traceback;
 int main(int argc, const char * argv[]) {
     curl_form form;
     curl_easy easy;
+
     // Forms creation
     curl_pair<CURLformoption,string> name_form(CURLFORM_COPYNAME,"user");
     curl_pair<CURLformoption,string> name_cont(CURLFORM_COPYCONTENTS,"you username here");
@@ -148,7 +169,7 @@ int main(int argc, const char * argv[]) {
         form.add(pass_form,pass_cont);
         
         // Add some options to our request
-        easy.add<CURLOPT_URL>("your url here");
+        easy.add<CURLOPT_URL>("http://<your_url_here>");
         easy.add<CURLOPT_SSL_VERIFYPEER>(false);
         easy.add<CURLOPT_HTTPPOST>(form.get());
         // Execute the request.
@@ -188,7 +209,7 @@ using curl::curlcpp_traceback;
 int main(int argc, const char * argv[]) {
     // Create a file
     ofstream myfile;
-    myfile.open ("Path to your file");
+    myfile.open ("/path/to/your/file");
     
     // Create a curl_ios object to handle the stream
     curl_ios<ostream> writer(myfile);
@@ -196,17 +217,18 @@ int main(int argc, const char * argv[]) {
     curl_easy easy(writer);
     
     // Add some option to the easy handle
-    easy.add<CURLOPT_URL>("http://www.google.it");
+    easy.add<CURLOPT_URL>("http://<your_url_here>");
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
     try {
         // Execute the request
         easy.perform();
 
     } catch (curl_easy_exception &error) {
-        // If you want to get the entire error stack we can do:
-        curlcpp_traceback errors = error.get_traceback();
-        // Otherwise we could print the stack like this:
-        error.print_traceback();
+		// If you want to print the last error.
+		std::cerr<<error.what()<<std::endl;
+
+		// If you want to print the entire error stack you can do
+		error.print_traceback();
     }
     myfile.close();
     return 0;
@@ -242,20 +264,22 @@ int main() {
     // Pass the writer to the easy constructor and watch the content returned in that variable!
     curl_easy easy(writer);
     // Add some option to the easy handle
-    easy.add<CURLOPT_URL>("http://www.google.it");
+    easy.add<CURLOPT_URL>("http://<your_url_here>");
     easy.add<CURLOPT_FOLLOWLOCATION>(1L);
+
     try {
-        // Execute the request.
         easy.perform();
 
+        // Let's print the stream content
+        cout<<str.str()<<endl;
+
     } catch (curl_easy_exception &error) {
-        // If you want to get the entire error stack we can do:
-        curlcpp_traceback errors = error.get_traceback();
-        // Otherwise we could print the stack like this:
-        error.print_traceback();
+		// If you want to print the last error.
+		std::cerr<<error.what()<<std::endl;
+
+		// If you want to print the entire error stack you can do
+		error.print_traceback();
     }
-    // Let's print the stream content.
-    cout<<str.str()<<endl;
     return 0;
 }
 `````
@@ -291,7 +315,7 @@ int main(int argc, const char * argv[]) {
     // Creation of easy object.
     curl_easy easy;
     try {
-        easy.add<CURLOPT_URL>("http://example.com");
+        easy.add<CURLOPT_URL>("http://<your_url_here>");
         // Just connect
         easy.add<CURLOPT_CONNECT_ONLY>(true);
         // Execute the request.
@@ -314,7 +338,7 @@ int main(int argc, const char * argv[]) {
         // You should wait here to check if socket is ready to receive
         try {
             // Create a receiver
-            curl_receiver<char,1024> receiver;
+            curl_receiver<char, 1024> receiver;
             // Receive the content on the easy handler
             receiver.receive(easy);
             // Prints the received bytes number.
