@@ -52,7 +52,7 @@ Here are some usage examples. You will find more examples in the test folder!
 Here's an example of a simple HTTP request to get google web page, using the curl_easy interface:
 
 `````c++
-#include "curl_easy.h"
+#include "curlcpp/curl_easy.h"
 
 using curl::curl_easy;
 using curl::curl_easy_exception;
@@ -82,9 +82,9 @@ int main() {
 If you want to get information about the current curl session, you could do:
 
 `````c++
-#include "curl_easy.h"
-#include "curl_ios.h"
-#include "curl_exception.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_ios.h"
+#include "curlcpp/curl_exception.h"
 
 using std::ostringstream;
 
@@ -140,10 +140,10 @@ Here's instead, the creation of an HTTPS POST login form:
 `````c++
 #include <string>
 
-#include "curl_easy.h"
-#include "curl_pair.h"
-#include "curl_form.h"
-#include "curl_exception.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_pair.h"
+#include "curlcpp/curl_form.h"
+#include "curlcpp/curl_exception.h"
 
 using std::string;
 
@@ -192,9 +192,9 @@ And if we would like to put the returned content in a file? Nothing easier than:
 #include <ostream>
 #include <fstream>
 
-#include "curl_easy.h"
-#include "curl_ios.h"
-#include "curl_exception.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_ios.h"
+#include "curlcpp/curl_exception.h"
 
 using std::cout;
 using std::endl;
@@ -241,10 +241,10 @@ Not interested in files? So let's put the request's output in a variable!
 #include <iostream>
 #include <ostream>
 
-#include "curl_easy.h"
-#include "curl_form.h"
-#include "curl_ios.h"
-#include "curl_exception.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_form.h"
+#include "curlcpp/curl_ios.h"
+#include "curlcpp/curl_exception.h"
 
 using std::cout;
 using std::endl;
@@ -291,12 +291,12 @@ buffers. For example, a very simple send/receiver would be:
 #include <iostream>
 #include <string>
 
-#include "curl_easy.h"
-#include "curl_form.h"
-#include "curl_pair.h"
-#include "curl_receiver.h"
-#include "curl_exception.h"
-#include "curl_sender.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_form.h"
+#include "curlcpp/curl_pair.h"
+#include "curlcpp/curl_receiver.h"
+#include "curlcpp/curl_exception.h"
+#include "curlcpp/curl_sender.h"
 
 using std::cout;
 using std::endl;

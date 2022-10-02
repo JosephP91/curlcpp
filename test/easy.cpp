@@ -1,4 +1,4 @@
-#include "curl_easy.h"
+#include "curlcpp/curl_easy.h"
 
 using curl::curl_easy;
 using curl::curl_easy_exception;
@@ -18,7 +18,7 @@ int main() {
     try {
         easy.perform();
     } catch (curl_easy_exception &error) {
-    	// If you want to print the last error.
+    	  // If you want to print the last error.
         std::cerr<<error.what()<<std::endl;
     }
     return 0;

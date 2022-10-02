@@ -1,6 +1,6 @@
-#include "curl_easy.h"
-#include "curl_ios.h"
-#include "curl_exception.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_ios.h"
+#include "curlcpp/curl_exception.h"
 
 using std::ostringstream;
 
@@ -30,22 +30,22 @@ int main(int argc, const char **argv) {
     try {
         easy.perform();
 
-		// Retrieve information about curl current session.
-		auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
+		    // Retrieve information about curl current session.
+		    auto x = easy.get_info<CURLINFO_CONTENT_TYPE>();
 
-		/**
-		 * get_info returns a curl_easy_info object. With the get method we retrieve
-		 * the std::pair object associated with it: the first item is the return code of the
-		 * request. The second is the element requested by the specified libcurl macro.
-		 */
-		std::cout<<x.get()<<std::endl;
+		    /**
+		     * get_info returns a curl_easy_info object. With the get method we retrieve
+		     * the std::pair object associated with it: the first item is the return code of the
+		     * request. The second is the element requested by the specified libcurl macro.
+		     */
+		    std::cout<<x.get()<<std::endl;
 
     } catch (curl_easy_exception &error) {
-		// If you want to print the last error.
-		std::cerr<<error.what()<<std::endl;
+		    // If you want to print the last error.
+		    std::cerr<<error.what()<<std::endl;
 
-		// If you want to print the entire error stack you can do
-		error.print_traceback();
+		    // If you want to print the entire error stack you can do
+		    error.print_traceback();
     }
     return 0;
 }

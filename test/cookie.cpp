@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "curl_easy.h"
-#include "curl_exception.h"
-#include "curl_cookie.h"
-#include "curl_ios.h"
-#include "cookie_datetime.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_exception.h"
+#include "curlcpp/curl_cookie.h"
+#include "curlcpp/curl_ios.h"
+#include "curlcpp/cookie_datetime.h"
 
 using std::ostringstream;
 
@@ -57,17 +57,16 @@ int main() {
         // Delete all the memory helded cookies.
         cookie_object.erase();
 
-		// Print them all!
-		for (const auto& cook : cookies) {
-			std::cout<<cook<<std::endl;
-		}
-
+		    // Print them all!
+		    for (const auto& cook : cookies) {
+			      std::cout<<cook<<std::endl;
+		    }
     } catch (curl_easy_exception &error) {
-		// If you want to print the last error.
-		std::cerr<<error.what()<<std::endl;
+		    // If you want to print the last error.
+		    std::cerr<<error.what()<<std::endl;
 
-		// If you want to print the entire error stack you can do.
-		error.print_traceback();
+		    // If you want to print the entire error stack you can do.
+		    error.print_traceback();
     }
     return 0;
 }

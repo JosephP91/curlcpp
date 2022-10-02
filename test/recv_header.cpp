@@ -1,5 +1,5 @@
-#include "curl_easy.h"
-#include "curl_form.h"
+#include "curlcpp/curl_easy.h"
+#include "curlcpp/curl_form.h"
 
 using curl::curl_easy;
 using curl::curl_ios;
@@ -36,15 +36,15 @@ int main() {
     try {
         easy.perform();
 
-		// Let's print ONLY the headers.
-		std::cout<<header_var.str()<<std::endl;
+		    // Let's print ONLY the headers.
+		    std::cout<<header_var.str()<<std::endl;
 
     } catch (curl_easy_exception &error) {
-		// If you want to print the last error.
-		std::cerr<<error.what()<<std::endl;
+		    // If you want to print the last error.
+		    std::cerr<<error.what()<<std::endl;
 
-		// If you want to print the entire error stack you can do
-		error.print_traceback();
+		    // If you want to print the entire error stack you can do
+		    error.print_traceback();
     }
     return 0;
 }

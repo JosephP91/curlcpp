@@ -15,7 +15,7 @@ include(GNUInstallDirs)
 
 option(BUILD_TEST "Build Tests" OFF)
 
-#if using an older VERSION of curl ocsp stapling can be disabled
+# if using an older VERSION of curl ocsp stapling can be disabled
 set(CURL_MIN_VERSION "7.28.0")
 
 set(DEFAULT_BUILD_TYPE "Release")
