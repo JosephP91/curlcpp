@@ -14,8 +14,8 @@ Help me to improve this project!
 
 
 
-Compile and link
-================
+Compile and link manually
+=========================
 
 Standalone
 ----------
@@ -43,6 +43,17 @@ When using a git submodule and CMake-buildsystem, add the following lines to you
 ADD_SUBDIRECTORY(ext/curlcpp) # Change `ext/curlcpp` to a directory according to your setup
 INCLUDE_DIRECTORIES(${CURLCPP_SOURCE_DIR}/include)
 ```
+
+
+Install via Homebrew
+====================
+
+curlcpp is now available also via homebrew package manager:
+
+```bash
+brew install curlcpp
+```
+
 
 Simple usage example
 ====================
