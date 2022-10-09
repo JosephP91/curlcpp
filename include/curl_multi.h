@@ -158,7 +158,7 @@ namespace curl {
      * the easy interface doesn't. They are mainly:
      * 1. Enable a "pull" interface. The application that uses libcurl decides where and
      *    when to ask libcurl to get/send data.
-     * 2. Enable multiple simultaneous transfers in the same thread without making it 
+     * 2. Enable multiple simultaneous transfers in the same thread without making it
      *    complicated for the application.
      * 3. Enable the application to wait for action on its own file descriptors and curl's
      *    file descriptors simultaneous easily.
@@ -178,7 +178,7 @@ namespace curl {
              * The attributes will be initialized with constructors parameters. With
              * this constructor we provide a fast way to build this kind of object.
              */
-            explicit curl_message(const CURLMsg *);
+            explicit curl_message(const CURLMsg *, const curl_easy *);
             /**
              * Inline getter method used to return
              * the message for a single handler.
@@ -194,10 +194,15 @@ namespace curl {
              * other data.
              */
             const void *get_other() const;
+			/**
+			 * Returns the handler to the easy interface.
+			 */
+			const curl_easy *get_handler() const;
         private:
             const CURLMSG message;
             const void *whatever;
             const CURLcode code;
+			const curl_easy *handler;
         };
 
         /**
@@ -256,23 +261,10 @@ namespace curl {
          */
         void remove(const curl_easy &);
         /**
-         * This method tries to obtain information about all the handlers added
-         * to the multi handler.
+         * This method returs the next finished curl_easy (if there is),
+         * otherwise nullptr is returned
          */
-        std::vector<std::unique_ptr<curl_message>> get_info();
-        /**
-         * This method tries to obtain information regarding an easy handler 
-         * that has been added to the multi handler.
-         */
-        std::unique_ptr<curl_message> get_info(const curl_easy &);
-        /**
-         * This method checks if the transfer on a curl_easy object is finished.
-         */
-        bool is_finished(const curl_easy &);
-        /**
-         * This method returhns the next finished curl_easy (if there is), otherwise nullptr is returned
-         */
-        curl_easy* get_next_finished();
+        std::unique_ptr<curl_message> get_next_finished();
         /**
          * Perform all the operations. Go baby! If the performing operations
          * have finished, the method returns true. Else, returns false. Check
@@ -286,7 +278,7 @@ namespace curl {
          */
         bool socket_action(curl_socket_t, int);
         /**
-         * This method wraps the libcurl function that extracts file descriptor 
+         * This method wraps the libcurl function that extracts file descriptor
          * information from the multi handler.
          * Read the libcurl online documentation to learn more about this function.
          */
@@ -332,7 +324,7 @@ namespace curl {
         int message_queued;
         std::unordered_map<CURL*, curl_easy*> handles;
     };
-    
+
     // Implementation of add method
     template<typename T> void curl_multi::add(const curl_pair<CURLMoption,T> &pair) {
         const CURLMcode code = curl_multi_setopt(this->curl.get(),pair.first(),pair.second());
@@ -340,7 +332,7 @@ namespace curl {
             throw curl_multi_exception(code,__FUNCTION__);
         }
     }
-    
+
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_multi::add(Iterator begin, const Iterator end) {
         for (; begin != end; ++begin) {
@@ -380,6 +372,11 @@ namespace curl {
     inline const void *curl_multi::curl_message::get_other() const {
         return this->whatever;
     }
+
+	// Implementation of curl_message get_handler method.
+	inline const curl_easy *curl_multi::curl_message::get_handler() const {
+		return this->handler;
+	}
 }
 
 #undef CURLCPP_DEFINE_MOPTION

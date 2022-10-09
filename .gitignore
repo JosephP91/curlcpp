@@ -14,3 +14,4 @@ cmake-build-debug-visual-studio/
 install
 .DS_Store
 *.out
+*.swp

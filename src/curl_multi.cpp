@@ -62,52 +62,18 @@ void curl_multi::remove(const curl_easy &easy) {
     }
 }
 
-// Implementation of get_info method.
-vector<unique_ptr<curl_multi::curl_message>> curl_multi::get_info() {
-    vector<unique_ptr<curl_multi::curl_message>> infos;
-    CURLMsg *message;
-    while ((message = curl_multi_info_read(this->curl.get(),&this->message_queued))) {
-        infos.push_back(unique_ptr<curl_multi::curl_message>(new curl_multi::curl_message(message)));
-    }
-    return infos;
-}
-
-// Implementation of overloaded get_info method.
-unique_ptr<curl_multi::curl_message> curl_multi::get_info(const curl_easy &easy) {
-    CURLMsg *message;
-    while ((message = curl_multi_info_read(this->curl.get(),&this->message_queued))) {
-        if (message->easy_handle == easy.get_curl()) {
-            unique_ptr<curl_multi::curl_message> ptr{new curl_multi::curl_message(message)};
-            return ptr;
-        }
-    }
-    return nullptr;
-}
-
 // Implementation of get_next_finished method.
-curl_easy* curl_multi::get_next_finished() {
+std::unique_ptr<curl_multi::curl_message> curl_multi::get_next_finished() {
     CURLMsg *message = curl_multi_info_read(this->curl.get(),&this->message_queued);
-    if (!message) {
+    if (!message || message->msg != CURLMSG_DONE) {
 		return nullptr;
 	}
-    if (message->msg == CURLMSG_DONE) {
-        std::unordered_map<CURL*, curl_easy*>::const_iterator it = handles.find(message->easy_handle);
-        if (it != handles.end()) {
-            return it->second;
-        }
+
+	std::unordered_map<CURL*, curl_easy*>::const_iterator it = this->handles.find(message->easy_handle);
+	if (it != this->handles.end()) {
+		return unique_ptr<curl_multi::curl_message>(new curl_multi::curl_message(message, it->second));
     }
     return nullptr;
-}
-
-// Implementation of is_finished method.
-bool curl_multi::is_finished(const curl_easy &easy) {
-    CURLMsg *message;
-    while ((message = curl_multi_info_read(this->curl.get(),&this->message_queued))) {
-        if (message->easy_handle == easy.get_curl() and message->msg == CURLMSG_DONE) {
-            return true;
-        }
-    }
-    return false;
 }
 
 // Implementation of perform method.
@@ -127,7 +93,7 @@ bool curl_multi::socket_action(const curl_socket_t sockfd, const int ev_bitmask)
     const CURLMcode code = curl_multi_socket_action(this->curl.get(),sockfd,ev_bitmask,&this->active_transfers);
     if (code == CURLM_CALL_MULTI_PERFORM) {
         return false;
-    } 
+    }
     if (code != CURLM_OK) {
         throw curl_multi_exception(code,__FUNCTION__);
     }
@@ -167,8 +133,8 @@ void curl_multi::timeout(long *timeout) {
 }
 
 // Implementation of curl_message constructor.
-curl_multi::curl_message::curl_message(const CURLMsg *msg) :
-    message(msg->msg), whatever(msg->data.whatever), code(msg->data.result) {
+curl_multi::curl_message::curl_message(const CURLMsg *msg, const curl_easy *handler) :
+    message(msg->msg), whatever(msg->data.whatever), code(msg->data.result), handler(handler) {
 
     // ... nothing to do here ...
 }
