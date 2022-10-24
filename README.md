@@ -33,7 +33,7 @@ Standalone (dynamic/shared library)
 cd build
 cmake .. -DBUILD_SHARED_LIBS=SHARED
 make
-
+```
 
 **Note:** cURL >= 7.28.0 is required.
 
