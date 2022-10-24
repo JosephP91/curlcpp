@@ -23,23 +23,44 @@ set(CURLCPP_HEADER_LIST
   ../include/curl_utility.h
 )
 
-add_library(curlcpp SHARED
-  curl_easy.cpp
-  curl_header.cpp
-  curl_global.cpp
-  curl_form.cpp
-  curl_multi.cpp
-  curl_share.cpp
-  curl_info.cpp
-  curl_cookie.cpp
-  curl_exception.cpp
-  cookie.cpp
-  cookie_date.cpp
-  cookie_time.cpp
-  cookie_datetime.cpp
-  
-  ${CURLCPP_HEADER_LIST}
-)
+
+if(NOT BUILD_SHARED_LIBS)
+    add_library(curlcpp
+        curl_easy.cpp
+        curl_header.cpp
+        curl_global.cpp
+        curl_form.cpp
+        curl_multi.cpp
+        curl_share.cpp
+        curl_info.cpp
+        curl_cookie.cpp
+        curl_exception.cpp
+        cookie.cpp
+        cookie_date.cpp
+        cookie_time.cpp
+        cookie_datetime.cpp
+        
+        ${CURLCPP_HEADER_LIST}
+    )
+else()
+    add_library(curlcpp ${BUILD_SHARED_LIBS}
+        curl_easy.cpp
+        curl_header.cpp
+        curl_global.cpp
+        curl_form.cpp
+        curl_multi.cpp
+        curl_share.cpp
+        curl_info.cpp
+        curl_cookie.cpp
+        curl_exception.cpp
+        cookie.cpp
+        cookie_date.cpp
+        cookie_time.cpp
+        cookie_datetime.cpp
+        
+        ${CURLCPP_HEADER_LIST}
+    )
+endif()
 
 add_library(curlcpp::curlcpp ALIAS curlcpp)
 
