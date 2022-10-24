@@ -17,14 +17,23 @@ Help me to improve this project!
 Compile and link manually
 =========================
 
-Standalone
+Standalone (static library)
 ----------
 
 ```bash
 cd build
 cmake ..
-make # -j2
+make
 ```
+
+Standalone (dynamic/shared library)
+----------
+
+```bash
+cd build
+cmake .. -DBUILD_SHARED_LIBS=SHARED
+make
+
 
 **Note:** cURL >= 7.28.0 is required.
 
