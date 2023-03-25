@@ -35,7 +35,7 @@ cmake .. -DBUILD_SHARED_LIBS=SHARED
 make
 ```
 
-**Note:** cURL >= 7.28.0 is required.
+**Note:** cURL >= 7.34.0 is required.
 
 When linking curlcpp to your application don't forget to also link `curl`. Example:
 
