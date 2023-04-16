@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_exception.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -38,11 +38,11 @@
 #include "curl_config.h"
 
 namespace curl {
-	// We like it short.
-	using curlcpp_traceback_object = std::pair<std::string,std::string>;
-	using curlcpp_traceback = std::vector<curlcpp_traceback_object>;
+    // We like it short.
+    using curlcpp_traceback_object = std::pair<std::string,std::string>;
+    using curlcpp_traceback = std::vector<curlcpp_traceback_object>;
 
-	/**
+    /**
      * This class represents a custom exception for libcurl errors. 
      * If a function throws an error, its name will be added to a
      * vector (treated like a stack, because if I had used a stack,
@@ -93,22 +93,22 @@ namespace curl {
          * when an exception is thrown.
          */
         static curlcpp_traceback traceback;
-        
+
         /**
          * Locker for inserting traceback.
          */
-         static std::mutex tracebackLocker;
+        static std::mutex tracebackLocker;
     };
 
     // Implementation of print_traceback
     inline void curl_exception::print_traceback() {
-	    curl_exception::tracebackLocker.lock();
+        curl_exception::tracebackLocker.lock();
         std::for_each(curl_exception::traceback.begin(),curl_exception::traceback.end(),
-        		[](const curlcpp_traceback_object &value) {
+                      [](const curlcpp_traceback_object &value) {
 
-            std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
-        });
-	    curl_exception::tracebackLocker.unlock();
+                          std::cout<<"ERROR: "<<value.first<<" ::::: FUNCTION: "<<value.second<<std::endl;
+                      });
+        curl_exception::tracebackLocker.unlock();
     }
 
     // Implementation of clear method.
@@ -125,7 +125,7 @@ namespace curl {
         curl_exception::traceback.clear();
         curl_exception::tracebackLocker.unlock();
     }
-    
+
     // Implementation of get_traceback.
     inline curlcpp_traceback curl_exception::get_traceback() {
         curl_exception::tracebackLocker.lock();
@@ -133,7 +133,7 @@ namespace curl {
         curl_exception::tracebackLocker.unlock();
         return tmp;
     }
-    
+
     /**
      * Derived class represents an error condition returned by the easy
      * interface functions.
@@ -145,24 +145,24 @@ namespace curl {
          * the exception has been thrown.
          */
         curl_easy_exception(const std::string &error, const std::string &method) :
-        	curl_exception(error,method), code(CURLE_OK) {}
+                curl_exception(error,method), code(CURLE_OK) {}
 
         /**
          * The constructor will transform a CURLcode error in a proper error message.
          */
         curl_easy_exception(const CURLcode &code, const std::string &method) :
-        	curl_exception(curl_easy_strerror(code),method), code(code) {}
-        
+                curl_exception(curl_easy_strerror(code),method), code(code) {}
+
         /**
          * Returns the error code if there is one. Returns CURLE_OK if none has been set.
          */
         inline CURLcode get_code() const {
             return code;
         }
-      private:
+    private:
         CURLcode code;
     };
-    
+
     /**
      * Derived class represents an error condition returned by the multi
      * interface functions.
@@ -174,23 +174,23 @@ namespace curl {
          * the exception has been thrown.
          */
         curl_multi_exception(const std::string &error, const std::string &method) :
-        	curl_exception(error,method), code(CURLM_OK) {}
+                curl_exception(error,method), code(CURLM_OK) {}
         /**
          * The constructor will transform a CURLMcode error to a proper error message.
          */
         curl_multi_exception(const CURLMcode code, const std::string &method) :
-        	curl_exception(curl_multi_strerror(code),method), code(code) {}
-        
+                curl_exception(curl_multi_strerror(code),method), code(code) {}
+
         /**
          * Returns the error code if there is one. Returns CURLM_OK if none has been set.
          */
         inline CURLMcode get_code() const {
             return code;
         }
-      private:
+    private:
         CURLMcode code;
     };
-    
+
     /**
      * Derived class used to represent an error condition returned by the share
      * interface functions.
@@ -202,21 +202,21 @@ namespace curl {
          * the exception has been thrown.
          */
         curl_share_exception(const std::string &error, const std::string &method) :
-        	curl_exception(error,method), code(CURLSHE_OK) {}
+                curl_exception(error,method), code(CURLSHE_OK) {}
         /**
          * The constructor will transform a CURLSHcode error in a proper error message.
          */
         curl_share_exception(const  CURLSHcode code, const std::string &method) :
-        	curl_exception(curl_share_strerror(code),method), code(code) {}
-        
+                curl_exception(curl_share_strerror(code),method), code(code) {}
+
         /**
          * Returns the error code if there is one. Returns CURLE_OK if none has been set.
          */
         inline CURLSHcode get_code() const {
             return code;
         }
-      private:
-          CURLSHcode code;
+    private:
+        CURLSHcode code;
     };
 }
 

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_header.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -99,12 +99,12 @@ namespace curl {
             this->add(*begin);
         }
     }
-    
+
     /**
      * Re-declaring template curl_pair, in case this is not in include path
      */
     template<class T, class K> class curl_pair;
-    
+
     /**
      * Template specialization of curl_pair for curl_header type.
      */

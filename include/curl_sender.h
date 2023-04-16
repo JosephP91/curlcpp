@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_sender.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -53,12 +53,12 @@ namespace curl {
         curl_easy &_easy;
         size_t _sent_bytes;
     };
-    
+
     // Implementation of constructor.
     template<class T> curl_sender<T>::curl_sender(curl_easy &easy) : _easy(easy), _sent_bytes(0) {
         // ... nothing to do here ...
     }
-    
+
     // Implementation of send method.
     template<class T> void curl_sender<T>::send(const T buffer, const size_t size) {
         const CURLcode code = curl_easy_send(_easy.get_curl(),buffer,size,&_sent_bytes);
@@ -66,12 +66,12 @@ namespace curl {
             throw curl_easy_exception(code,__FUNCTION__);
         }
     }
-    
+
     // Implementation of get_sent_bytes method.
     template<class T> inline size_t curl_sender<T>::get_sent_bytes() const {
         return _sent_bytes;
     }
-    
+
     /**
      * Template specialization for strings. C++ string type is not supported by libcurl C
      * functions, so we must treat it as a const char pointer. This is the purpose of

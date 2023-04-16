@@ -57,16 +57,16 @@ int main() {
         // Delete all the memory helded cookies.
         cookie_object.erase();
 
-		    // Print them all!
-		    for (const auto& cook : cookies) {
-			      std::cout<<cook<<std::endl;
-		    }
+        // Print them all!
+        for (const auto& cook : cookies) {
+            std::cout<<cook<<std::endl;
+        }
     } catch (curl_easy_exception &error) {
-		    // If you want to print the last error.
-		    std::cerr<<error.what()<<std::endl;
+        // If you want to print the last error.
+        std::cerr<<error.what()<<std::endl;
 
-		    // If you want to print the entire error stack you can do.
-		    error.print_traceback();
+        // If you want to print the entire error stack you can do.
+        error.print_traceback();
     }
     return 0;
 }

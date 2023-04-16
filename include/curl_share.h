@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_share.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -50,7 +50,7 @@ namespace curl {
          * userptr is the pointer you set with CURLSHOPT_USERDATA.
          */
         CURLCPP_DEFINE_SOPTION(CURLSHOPT_LOCKFUNC,
-                              void(*)(CURL *handle, curl_lock_data data, curl_lock_access access, void *userptr));
+                               void(*)(CURL *handle, curl_lock_data data, curl_lock_access access, void *userptr));
         /*
          * The parameter must be a pointer to a function matching the following prototype:
          * void unlock_function(CURL *handle, curl_lock_data data, void *userptr);
@@ -105,7 +105,7 @@ namespace curl {
         explicit curl_share(long);
         /**
          * Copy constructor to perform the copy of the share handle.
-         */ 
+         */
         curl_share(const curl_share &);
         /**
          * Assignment operator to perform assignment between two or
@@ -132,7 +132,7 @@ namespace curl {
          */
         CURLSH *get() const;
     protected:
-    	void initialize_curl_share();
+        void initialize_curl_share();
     private:
         CURLSH *curl;
     };
@@ -144,10 +144,10 @@ namespace curl {
 
     // Implementation of copy constructor.
     inline curl_share::curl_share(const curl_share &share) : curl_interface() {
-    	(void)share; // unused
-    	initialize_curl_share();
+        (void)share; // unused
+        initialize_curl_share();
     }
-    
+
     // Implementation of add method
     template<CURLSHoption Opt> void curl_share::add(const detail::SHOption_type<Opt> val) {
         const auto code = curl_share_setopt(this->curl, Opt, val);
@@ -155,7 +155,7 @@ namespace curl {
             throw curl_share_exception(code, __FUNCTION__);
         }
     }
-    
+
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_share::add(Iterator begin, const Iterator end) {
         for (; begin != end; ++begin) {

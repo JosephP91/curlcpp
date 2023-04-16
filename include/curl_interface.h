@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_interface.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -69,17 +69,17 @@ namespace curl {
          */
         static void init(long flag);
     };
-    
+
     // Implementation of constructor.
     template<class T> curl_interface<T>::curl_interface() {
         init(CURL_GLOBAL_ALL);
     }
-    
+
     // Implementation of overloaded constructor.
     template<class T> curl_interface<T>::curl_interface(const long flag) {
         init(flag);
     }
-    
+
     // Implementation of the virtual destructor.
     template<class T> curl_interface<T>::~curl_interface() = default;
 

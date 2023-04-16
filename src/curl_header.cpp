@@ -19,7 +19,7 @@ namespace curl
         // ... nothing to do here ...
     }
 
-    // Implementation of the list constructor's initialize method.
+    // Implementation of the list constructor initialize method.
     curl_header::curl_header(initializer_list<string> headers) : size(0), headers(nullptr)
     {
         for_each(headers.begin(), headers.end(), [this](const string &header)

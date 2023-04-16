@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_multi.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -194,15 +194,15 @@ namespace curl {
              * other data.
              */
             const void *get_other() const;
-			/**
-			 * Returns the handler to the easy interface.
-			 */
-			const curl_easy *get_handler() const;
+            /**
+             * Returns the handler to the easy interface.
+             */
+            const curl_easy *get_handler() const;
         private:
             const CURLMSG message;
             const void *whatever;
             const CURLcode code;
-			const curl_easy *handler;
+            const curl_easy *handler;
         };
 
         /**
@@ -256,6 +256,13 @@ namespace curl {
          * time.
          */
         void add(const curl_easy &);
+
+        /**
+         * Overloaded add method. Allows users to specify a vector of easy handlers
+         * to be added to the multi interface.
+         */
+        void add(const std::vector<curl_easy> &);
+
         /**
          * This method removes an easy handler from the multi handler.
          */
@@ -373,10 +380,10 @@ namespace curl {
         return this->whatever;
     }
 
-	// Implementation of curl_message get_handler method.
-	inline const curl_easy *curl_multi::curl_message::get_handler() const {
-		return this->handler;
-	}
+    // Implementation of curl_message get_handler method.
+    inline const curl_easy *curl_multi::curl_message::get_handler() const {
+        return this->handler;
+    }
 }
 
 #undef CURLCPP_DEFINE_MOPTION

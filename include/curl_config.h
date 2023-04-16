@@ -21,15 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
- 
+
 #ifndef __curlcpp__curl_config__
 #define __curlcpp__curl_config__
 
 #if defined(_MSC_VER)
-    #define NOEXCEPT
+#define NOEXCEPT
     #include <ciso646>
 #else
-    #define NOEXCEPT noexcept
+#define NOEXCEPT noexcept
 #endif
 
 #endif /* defined(__curlcpp__curl_config__) */

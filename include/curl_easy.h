@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_easy.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -150,7 +150,7 @@ namespace curl  {
         // RTSP CSeq last received.
         CURLCPP_DEFINE_INFO(CURLINFO_RTSP_CSEQ_RECV,long);
     }
-    
+
     // Detail namespace
     namespace detail {
         template <CURLoption> struct option_t;
@@ -176,12 +176,12 @@ namespace curl  {
         /* Function that will be called to store the output (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
         CURLCPP_DEFINE_OPTION(CURLOPT_WRITEFUNCTION,
-        		size_t(*)(void *ptr, size_t size, size_t nmemb, void *userdata));
+                              size_t(*)(void *ptr, size_t size, size_t nmemb, void *userdata));
 
         /* Function that will be called to read the input (instead of fread). The
         * parameters will use fread() syntax, make sure to follow them. */
         CURLCPP_DEFINE_OPTION(CURLOPT_READFUNCTION,
-        		size_t(*)(void *buffer, size_t size, size_t nitems, void *instream));
+                              size_t(*)(void *buffer, size_t size, size_t nitems, void *instream));
 
         /* Time-out the read operation after this amount of seconds */
         CURLCPP_DEFINE_OPTION(CURLOPT_TIMEOUT, long);
@@ -388,7 +388,7 @@ namespace curl  {
         /* Function that will be called to store headers (instead of fwrite). The
         * parameters will use fwrite() syntax, make sure to follow them. */
         CURLCPP_DEFINE_OPTION(CURLOPT_HEADERFUNCTION,
-        		size_t(*)(void *buffer, size_t size, size_t nitems, void *userdata));
+                              size_t(*)(void *buffer, size_t size, size_t nitems, void *userdata));
 
         /* Set this to force the HTTP request to get back to GET. Only really usable
         if POST, PUT or a custom request have been used first.
@@ -441,10 +441,10 @@ namespace curl  {
 
         /* set the debug function */
         CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGFUNCTION, int(*)(CURL *handle,
-            curl_infotype type,
-            char *data,
-            size_t size,
-            void *userptr));
+                curl_infotype type,
+                char *data,
+                size_t size,
+                void *userptr));
 
         /* set the data for the debug function */
         CURLCPP_DEFINE_OPTION(CURLOPT_DEBUGDATA, void*);
@@ -501,7 +501,7 @@ namespace curl  {
         in second argument. The function must be matching the
         curl_ssl_ctx_callback proto. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_CTX_FUNCTION,
-        		CURLcode(*)(CURL *curl, void *ssl_ctx, void *userptr));
+                              CURLcode(*)(CURL *curl, void *ssl_ctx, void *userptr));
 
         /* Set the userdata for the ssl context callback function's third
         argument */
@@ -640,8 +640,8 @@ namespace curl  {
 
         /* callback function for setting socket options */
         CURLCPP_DEFINE_OPTION(CURLOPT_SOCKOPTFUNCTION, int(*)(void *clientp,
-            curl_socket_t curlfd,
-            curlsocktype purpose));
+                curl_socket_t curlfd,
+                curlsocktype purpose));
         CURLCPP_DEFINE_OPTION(CURLOPT_SOCKOPTDATA, void*);
 
         /* set to 0 to disable session ID re-use for this transfer, default is
@@ -684,8 +684,8 @@ namespace curl  {
         CURL_SOCKET_BAD.  The callback should have type
         curl_opensocket_callback */
         CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETFUNCTION, curl_socket_t(*)(void *clientp,
-            curlsocktype purpose,
-            struct curl_sockaddr *address));
+                                                                           curlsocktype purpose,
+                struct curl_sockaddr *address));
         CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETDATA, void*);
 
         /* POST volatile input fields. */
@@ -755,10 +755,10 @@ namespace curl  {
         /* set the SSH host key callback, must point to a curl_sshkeycallback
         function */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KEYFUNCTION, int(*)(CURL *easy,
-            const struct curl_khkey *knownkey,
-            const struct curl_khkey *foundkey,
-            enum curl_khmatch,
-            void *clientp));
+                const struct curl_khkey *knownkey,
+                const struct curl_khkey *foundkey,
+                enum curl_khmatch,
+                void *clientp));
 
         /* set the SSH host key callback custom pointer */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSH_KEYDATA, void*);
@@ -794,10 +794,10 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEDATA, void*);
 
         /* Let the application define a custom write method for RTP data */
-        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr, 
-            size_t size, 
-            size_t nmemb,
-            void *userdata));
+        CURLCPP_DEFINE_OPTION(CURLOPT_INTERLEAVEFUNCTION, size_t(*)(void *ptr,
+                                                                    size_t size,
+                size_t nmemb,
+                void *userdata));
 
         /* Turn on wildcard matching */
         CURLCPP_DEFINE_OPTION(CURLOPT_WILDCARDMATCH, long);
@@ -805,9 +805,9 @@ namespace curl  {
         /* Directory matching callback called before downloading of an
         individual file (chunk) started */
         CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_BGN_FUNCTION, long(*)(
-            const void *transfer_info, 
-            void *ptr,
-            int remains));
+                const void *transfer_info,
+                void *ptr,
+                int remains));
 
         /* Directory matching callback called after the file (chunk)
         was downloaded, or skipped */
@@ -815,8 +815,8 @@ namespace curl  {
 
         /* Change match (fnmatch-like) callback for wildcard matching */
         CURLCPP_DEFINE_OPTION(CURLOPT_FNMATCH_FUNCTION, int(*)(void *ptr,
-            const char *pattern,
-            const char *string));
+                const char *pattern,
+                const char *string));
 
         /* Let the application define custom chunk data pointer */
         CURLCPP_DEFINE_OPTION(CURLOPT_CHUNK_DATA, void*);
@@ -912,13 +912,13 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_DNS_LOCAL_IP6, const char*);
 #endif
 
-		/* Options added in 7.34 */
+        /* Options added in 7.34 */
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072200
         /* Set authentication options directly */
         CURLCPP_DEFINE_OPTION(CURLOPT_LOGIN_OPTIONS, const char*);
 #endif
 
-		/* Options added in 7.36 */
+        /* Options added in 7.36 */
 #if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM >= 0x072400
         /* Enable/disable TLS NPN extension (http2 over ssl might fail without) */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_ENABLE_NPN, long);
@@ -961,7 +961,7 @@ namespace curl  {
 #endif
     }
     // End of namespace detail
-    
+
     /**
      * Easy interface is used to make requests and transfers. 
      * You don't have to worry about freeing data or things like
@@ -1067,7 +1067,7 @@ namespace curl  {
     private:
         CURL *curl;
     };
-    
+
     // Implementation of default constructor.
     template<class T> curl_easy::curl_easy(curl_ios<T> &writer) : curl_interface() {
         this->curl = curl_easy_init();
@@ -1077,7 +1077,7 @@ namespace curl  {
         this->add(curl_pair<CURLoption,curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
         this->add(curl_pair<CURLoption,void *>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
     }
-    
+
     // Implementation of overridden constructor.
     template<class T> curl_easy::curl_easy(const long flag, curl_ios<T> &writer) : curl_interface(flag) {
         this->curl = curl_easy_init();
@@ -1087,7 +1087,7 @@ namespace curl  {
         this->add(curl_pair<CURLoption, curlcpp_callback_type>(CURLOPT_WRITEFUNCTION,writer.get_function()));
         this->add(curl_pair<CURLoption, void*>(CURLOPT_WRITEDATA, static_cast<void*>(writer.get_stream())));
     }
-    
+
     // Implementation of overloaded add method.
     template<typename Iterator> void curl_easy::add(Iterator begin, const Iterator end) {
         for (; begin != end; ++begin) {
@@ -1110,7 +1110,7 @@ namespace curl  {
             throw curl_easy_exception(code,__FUNCTION__);
         }
     }
-    
+
     // Implementation of get_info method.
     template<CURLINFO Info> curl_easy_info<detail_info::Info_type<Info>> curl_easy::get_info() const {
         detail_info::Info_type<Info> val;
@@ -1121,7 +1121,7 @@ namespace curl  {
         curl_easy_info<detail_info::Info_type<Info>> easy_info(val);
         return easy_info;
     }
-    
+
     // Implementation of get_curl method.
     inline CURL *curl_easy::get_curl() const {
         return this->curl;

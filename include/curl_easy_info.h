@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_easy_info.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,7 +44,7 @@ namespace curl {
     private:
         T _pointer;
     };
-    
+
     /**
      * Template specialization for char *
      */
@@ -61,7 +61,7 @@ namespace curl {
     private:
         char *_pointer;
     };
-    
+
     /**
      * Template specialization for struct curl_slist *.
      */

@@ -25,7 +25,7 @@ int main() {
     ostringstream str;
     // Create a curl_ios object, passing the stream object.
     curl_ios<ostringstream> writer(str);
-    
+
     // Pass the writer to the easy constructor and watch the content returned in that variable!
     curl_easy easy(writer);
     easy.add<CURLOPT_URL>("https://google.com");
@@ -33,16 +33,16 @@ int main() {
 
     try {
         easy.perform();
-        
+
         // Print the content of ostringstream.
         cout<<str.str()<<endl;
-    
-    } catch (curl_easy_exception &error) {
-		    // If you want to print the last error.
-		    std::cerr<<error.what()<<std::endl;
 
-		    // If you want to print the entire error stack you can do
-		    error.print_traceback();
+    } catch (curl_easy_exception &error) {
+        // If you want to print the last error.
+        std::cerr<<error.what()<<std::endl;
+
+        // If you want to print the entire error stack you can do
+        error.print_traceback();
     }
     return 0;
 }

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - cookie_datetime.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy

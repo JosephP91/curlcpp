@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_pair.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,7 +31,7 @@
 
 namespace curl {
 
-	// Forward reference to curl_form and curl_header
+    // Forward reference to curl_form and curl_header
     class curl_form;
     class curl_header;
 
@@ -64,7 +64,7 @@ namespace curl {
         const T option;
         const K &value;
     };
-    
+
     /**
      * Template specialization for C++ strings and CURLformoption.
      */
@@ -97,7 +97,7 @@ namespace curl {
         const CURLformoption option;
         const char* value;
     };
-        
+
     /**
      * Template specialization for C++ strings. Why do we need this? Because
      * curl_pair must be passed to C functions that doesen't know how to
@@ -111,7 +111,7 @@ namespace curl {
          * build an object of this type.
          */
         curl_pair(const T option, const std::string &value) :
-        	option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
+                option(option == CURLOPT_POSTFIELDS ? CURLOPT_COPYPOSTFIELDS : option), value(value) {};
         /**
          * Simple method that returns the first field of the pair.
          */
@@ -129,7 +129,7 @@ namespace curl {
         const T option;
         const std::string &value;
     };
-    
+
     /**
      * Template specialization for curl_form type. Why do we need this? Because
      * curl_form wraps a struct curl_httppost list. libcurl functions can't handle
@@ -138,7 +138,7 @@ namespace curl {
      * Definition at curl_form.h
      */
     template<class T> class curl_pair<T,curl_form>;
-    
+
     /**
      * Template specialization for curl_header type. Why do we need this? Because
      * curl_header wraps a struct curl_slist list of headers. libcurl functions can't

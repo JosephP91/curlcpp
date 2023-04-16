@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - cookie.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -45,12 +45,12 @@ namespace curl {
          * The overloaded constructor allow a fast way to build a cookie.
          */
         cookie(const std::string&, const std::string&, const cookie_datetime &,
-        		const std::string& = "", const std::string& = "", bool = false);
+               const std::string& = "", const std::string& = "", bool = false);
         /**
          * This constructor overloades the previous one.
          */
         cookie(const char *, const char *, const cookie_datetime &, const char * = "",
-        		const char * = "", bool = false);
+               const char * = "", bool = false);
         /**
          * This method allows to specify the cookie name.
          */

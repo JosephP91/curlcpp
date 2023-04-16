@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_receiver.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -66,14 +66,14 @@ namespace curl {
         std::array<T,SIZE> _buffer;
         size_t _recv_bytes;
     };
-    
+
     // Implementation of constructor.
     template<typename T, const size_t SIZE> curl_receiver<T,SIZE>::curl_receiver() : _recv_bytes(0) {
         if (SIZE <= 0) {
             throw curl_exception("Buffer size can not be less or equal to zero",__FUNCTION__);
         }
     }
-    
+
     // Implementation of receive method.
     template<typename T, const size_t SIZE> bool curl_receiver<T,SIZE>::receive(curl_easy &easy) {
         const CURLcode code = curl_easy_recv(easy.get_curl(),&_buffer,SIZE,&_recv_bytes);
@@ -85,12 +85,12 @@ namespace curl {
         }
         return true;
     }
-    
+
     // Implementation of get_buffer method.
     template<typename T, const size_t SIZE> inline std::array<T,SIZE> curl_receiver<T,SIZE>::get_buffer() const {
         return _buffer;
     }
-    
+
     // Implementation of get_received_buffer method.
     template<typename T, const size_t SIZE> inline size_t curl_receiver<T,SIZE>::get_received_bytes() const {
         return _recv_bytes;

@@ -9,7 +9,7 @@ using std::ostringstream;
 
 // Implementation of constructor with parameters.
 curl::cookie_time::cookie_time(const unsigned int hour, const unsigned int minutes,
-		const unsigned int seconds) {
+                               const unsigned int seconds) {
 
     this->set_hour(hour)->set_minutes(minutes)->set_seconds(seconds);
 }

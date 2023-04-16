@@ -9,16 +9,16 @@ using std::string;
 
 // Implementation of constructor.
 curl::cookie::cookie(const string& name, const string& value,
-		const cookie_datetime &datetime, const string& path, const string& domain, const bool secure) {
+                     const cookie_datetime &datetime, const string& path, const string& domain, const bool secure) {
 
     set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of overloaded constructor.
 curl::cookie::cookie(const char *name, const char * value, const cookie_datetime &datetime,
-		const char *path, const char *domain, const bool secure) {
+                     const char *path, const char *domain, const bool secure) {
 
-	set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
+    set_name(name)->set_value(value)->set_path(path)->set_domain(domain)->set_secure(secure)->set_datetime(datetime);
 }
 
 // Implementation of set_name method.
@@ -95,26 +95,26 @@ curl::cookie *curl::cookie::set_secure(const bool _secure) NOEXCEPT {
 
 // Implementation of set_secure overloaded method.
 curl::cookie *curl::cookie::set_secure(const string& _secure) NOEXCEPT {
-	set_secure(_secure == "secure");
+    set_secure(_secure == "secure");
     return this;
 }
 
 // Implementation of set_secure overloaded method.
 curl::cookie *curl::cookie::set_secure(const char *_secure) NOEXCEPT {
-	if (_secure == nullptr) {
-		set_secure(false);
-	} else {
-		set_secure(string(_secure));
-	}
-	return this;
+    if (_secure == nullptr) {
+        set_secure(false);
+    } else {
+        set_secure(string(_secure));
+    }
+    return this;
 }
 
 // Implementation of set_secure method.
 curl::cookie *curl::cookie::set_secure(const unsigned int _secure) {
     if (_secure == 0) {
-    	set_secure(false);
+        set_secure(false);
     } else if (_secure == 1) {
-    	set_secure(true);
+        set_secure(true);
     } else {
         throw curl_easy_exception("The security can be 0 (false) or 1 (true)",__FUNCTION__);
     }
@@ -162,5 +162,5 @@ string curl::cookie::get_formatted() NOEXCEPT {
     string _secure = this->is_secure() == 1 ? "secure" : "";
 
     return "Set-Cookie: "+this->name+"="+this->value+"; expires="+this->datetime.get_formatted()
-    	+"; path="+this->path+"; domain="+this->domain+" "+_secure;
+           +"; path="+this->path+"; domain="+this->domain+" "+_secure;
 }

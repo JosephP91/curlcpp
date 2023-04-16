@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_form.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -71,32 +71,32 @@ namespace curl {
          * Overloaded add method.
          */
         void add(const curl_pair<CURLformoption,std::string> &,
-                const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &);
+                 const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method. It adds another curl_pair object to add more
          * contents to the form contents list.
          */
         void add(const curl_pair<CURLformoption,std::string> &,
-                const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,int> &);
+                 const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,int> &);
         /**
          * Overloaded add method. It adds another curl_pair object to add more
          * contents to the form contents list.
          */
         void add(const curl_pair<CURLformoption,std::string> &,
-                const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
+                 const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method. It adds another curl_pair object to add more
          * contents to the form contents list.
          */
         void add(const curl_pair<CURLformoption,std::string> &,const curl_pair<CURLformoption,std::string> &,
-                const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
+                 const curl_pair<CURLformoption,int> &, const curl_pair<CURLformoption,std::string> &);
         /**
          * Overloaded add method. Used primarily to pass data via CURLFORM_BUFFERPTR.
          * E.g. first option is content name, second is buffer name,
          *      third is buffer data pointer, fourth is buffer length.
          */
         void add(const curl_pair<CURLformoption,std::string> &, const curl_pair<CURLformoption,std::string> &,
-                const curl_pair<CURLformoption, char*> &, const curl_pair<CURLformoption,long> &);
+                 const curl_pair<CURLformoption, char*> &, const curl_pair<CURLformoption,long> &);
         /**
          * Overloaded add method. This version is primarily used to upload multiple files.
          * You can pass a vector of filenames to upload them.
@@ -140,7 +140,7 @@ namespace curl {
     inline const struct curl_httppost *curl_form::get() const {
         return this->form_post;
     }
-    
+
     /**
      * Re-declaring template curl_pair, in case this is not in include path
      */
@@ -173,7 +173,7 @@ namespace curl {
         const T option;
         const curl_form &value;
     };
-    
+
 
 }
 

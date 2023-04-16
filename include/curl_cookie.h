@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_cookie.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,7 +35,7 @@
 
 namespace curl {
     // Typedef to enhance readability.
-	using curlcpp_cookies = std::vector<std::string>;
+    using curlcpp_cookies = std::vector<std::string>;
     /**
      * This class represents a generic cookie handler. It allows a user to get
      * and set cookie for a domain, in an easy way and without caring about resources
@@ -43,9 +43,9 @@ namespace curl {
      */
     class curl_cookie {
     public:
-   		/**
-   		 * This constructor allow you to specify a curl_easy object.
-   		 */
+        /**
+         * This constructor allow you to specify a curl_easy object.
+         */
         explicit curl_cookie(curl_easy &easy) : easy(easy) {}
         /**
          * This method allow you to set the cookie file from where to read initial cookies.

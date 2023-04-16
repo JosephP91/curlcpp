@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 - Giuseppe Persico
+ * Copyright (c) 2023 - Giuseppe Persico
  * File - curl_info.h
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -114,10 +114,10 @@ namespace curl {
 
     // Implementation of get_ssl_version.
     inline std::string curl_info::get_ssl_version() const NOEXCEPT {
-    	if (this->version->ssl_version == nullptr) {
-    		return std::string("");
-    	}
-		return std::string(this->version->ssl_version);
+        if (this->version->ssl_version == nullptr) {
+            return std::string("");
+        }
+        return std::string(this->version->ssl_version);
     }
 
     // Implementation of get_libz_version.

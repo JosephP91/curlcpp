@@ -10,7 +10,7 @@ using std::ostringstream;
 
 // Implementation of constructor with parameters.
 curl::cookie_date::cookie_date(const unsigned int week_day, const unsigned int day,
-		const unsigned int month, const unsigned int year) NOEXCEPT {
+                               const unsigned int month, const unsigned int year) NOEXCEPT {
 
     this->set_week_day(week_day)->set_day(day)->set_month(month)->set_year(year);
 }

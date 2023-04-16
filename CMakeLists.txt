@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10...3.15)
 
 # Setting up project
 project(curlcpp
-	VERSION 3.0
+	VERSION 3.1
 	DESCRIPTION "An object oriented C++ wrapper for CURL (libcurl)"
 	HOMEPAGE_URL "https://github.com/JosephP91/curlcpp/"
 	LANGUAGES CXX)
