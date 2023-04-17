@@ -37,6 +37,7 @@
 #include "curl_form.h"
 #include "curl_easy_info.h"
 
+
 #define CURLCPP_DEFINE_OPTION(opt, value_type)\
     template <> struct option_t<opt> {\
         using type = value_type;\
@@ -139,7 +140,7 @@ namespace curl  {
         // TLS session info that can be used for further processing.
         CURLCPP_DEFINE_INFO(CURLINFO_TLS_SSL_PTR,struct curl_tlssessioninfo *);
 #endif
-        // Whether or not a time conditional was met.
+        // Whether a time conditional was met.
         CURLCPP_DEFINE_INFO(CURLINFO_CONDITION_UNMET,long);
         // RTSP session ID.
         CURLCPP_DEFINE_INFO(CURLINFO_RTSP_SESSION_ID,char *);
@@ -205,7 +206,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_USERAGENT, const char*);
         /* If the download receives less than "low speed limit" bytes/second
          * during "low speed time" seconds, the operations is aborted.
-         * You could i.e if you have a pretty high speed connection, abort if
+         * You could, for example, if you have a pretty high speed connection, abort if
          * it is less than 2000 bytes/sec during 20 seconds.
          */
         /* Set the "low speed limit" */
@@ -229,7 +230,7 @@ namespace curl  {
         list is also used for RTSP (in spite of its name) */
         CURLCPP_DEFINE_OPTION(CURLOPT_HTTPHEADER, const struct curl_slist*);
 
-        /* This points to a linked list of post entries, struct curl_httppost */
+        /* This points to a linked list of post-entries, struct curl_httppost */
         CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPOST, const struct curl_httppost*);
 
         /* name of the file keeping your private SSL-certificate */
@@ -321,7 +322,7 @@ namespace curl  {
         /* size of the POST input data, if strlen() is not good to use */
         CURLCPP_DEFINE_OPTION(CURLOPT_POSTFIELDSIZE, long);
 
-        /* tunnel non-http operations through a HTTP proxy */
+        /* tunnel non-http operations through an HTTP proxy */
         CURLCPP_DEFINE_OPTION(CURLOPT_HTTPPROXYTUNNEL, long);
 
         /* Set the interface string to use as outgoing network interface */
@@ -460,7 +461,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_BUFFERSIZE, long);
 
         /* Instruct libcurl to not use any signal/alarm handlers, even when using
-        timeouts. This option is useful for multi-threaded applications.
+        timeouts. This option is useful for multithreaded applications.
         See libcurl-the-guide for more background information. */
         CURLCPP_DEFINE_OPTION(CURLOPT_NOSIGNAL, long);
 
@@ -488,7 +489,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_UNRESTRICTED_AUTH, long);
 
         /* Specifically switch on or off the FTP engine's use of the EPRT command (
-        it also disables the LPRT attempt). By default, those ones will always be
+        it also disables the LPRT attempt). By default, those will always be
         attempted before the good old traditional PORT command. */
         CURLCPP_DEFINE_OPTION(CURLOPT_FTP_USE_EPRT, long);
 
@@ -526,7 +527,7 @@ namespace curl  {
 
         /* Set this option to one of the CURL_IPRESOLVE_* defines (see below) to
         tell libcurl to resolve names to those IP versions only. This only has
-        affect on systems with support for more than one, i.e IPv4 _and_ IPv6. */
+        affect on systems with support for more than one, i.e. IPv4 _and_ IPv6. */
         CURLCPP_DEFINE_OPTION(CURLOPT_IPRESOLVE, long);
 
         /* Set this option to limit the size of a file that will be downloaded from
@@ -572,7 +573,7 @@ namespace curl  {
 
         /* When FTP over SSL/TLS is selected (with CURLOPT_USE_SSL), this option
         can be used to change libcurl's default action which is to first try
-        "AUTH SSL" and then "AUTH TLS" in this order, and proceed when a OK
+        "AUTH SSL" and then "AUTH TLS" in this order, and proceed when an OK
         response has been received.
 
         Available parameters are:
@@ -595,7 +596,7 @@ namespace curl  {
         /* ignore Content-Length */
         CURLCPP_DEFINE_OPTION(CURLOPT_IGNORE_CONTENT_LENGTH, long);
 
-        /* Set to non-zero to skip the IP address received in a 227 PASV FTP server
+        /* Set to non-zero in order to skip the IP address received in a 227 PASV FTP server
         response. Typically used for FTP-SSL purposes but is not restricted to
         that. libcurl will then instead use the same IP address it used for the
         control connection. */
@@ -680,7 +681,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_SSH_HOST_PUBLIC_KEY_MD5, const char*);
 
         /* Callback function for opening socket (instead of socket(2)). Optionally,
-        callback is able change the address or refuse to connect returning
+        callback is able to change the address or refuse to connect returning
         CURL_SOCKET_BAD.  The callback should have type
         curl_opensocket_callback */
         CURLCPP_DEFINE_OPTION(CURLOPT_OPENSOCKETFUNCTION, curl_socket_t(*)(void *clientp,
@@ -926,7 +927,7 @@ namespace curl  {
         /* Enable/disable TLS ALPN extension (http2 over ssl might fail without) */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_ENABLE_ALPN, long);
 
-        /* Time to wait for a response to a HTTP request containing an
+        /* Time to wait for a response to an HTTP request containing an
         * Expect: 100-continue header before sending the data anyway. */
         CURLCPP_DEFINE_OPTION(CURLOPT_EXPECT_100_TIMEOUT_MS, long);
 #endif
