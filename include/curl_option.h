@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_option__
-#define __curlcpp__curl_option__
+#ifndef CURLCPP_CURL_OPTION_H
+#define CURLCPP_CURL_OPTION_H
 
 #include <string>
 #include <curl/curl.h>
@@ -46,4 +46,4 @@ namespace curl {
     }
 }  // of namespace curl
 
-#endif	/* defined(__curlcpp__curl_option__) */
+#endif	/* defined(CURLCPP_CURL_OPTION_H) */

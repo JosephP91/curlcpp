@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_multi__
-#define __curlcpp__curl_multi__
+#ifndef CURLCPP_CURL_MULTI_H
+#define CURLCPP_CURL_MULTI_H
 
 #include <memory>
 #include <vector>
@@ -387,4 +387,4 @@ namespace curl {
 }
 
 #undef CURLCPP_DEFINE_MOPTION
-#endif	/* defined(__curlcpp__curl_multi__) */
+#endif	/* defined(CURLCPP_CURL_MULTI_H) */

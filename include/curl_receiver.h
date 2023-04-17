@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_receiver__
-#define __curlcpp__curl_receiver__
+#ifndef CURLCPP_CURL_RECEIVER_H
+#define CURLCPP_CURL_RECEIVER_H
 
 #include <array>
 #include "curl_easy.h"
@@ -97,4 +97,4 @@ namespace curl {
     }
 }
 
-#endif /* defined(__curlcpp__curl_receiver__) */
+#endif /* defined(CURLCPP_CURL_RECEIVER_H) */

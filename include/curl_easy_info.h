@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef curl_easy_info_h
-#define curl_easy_info_h
+#ifndef CURL_EASY_INFO_H
+#define CURL_EASY_INFO_H
 
 #include <vector>
 #include <string>
@@ -91,4 +91,4 @@ namespace curl {
     };
 }
 
-#endif /* curl_easy_info_h */
+#endif /* CURL_EASY_INFO_H */

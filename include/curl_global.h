@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_global__
-#define __curlcpp__curl_global__
+#ifndef CURLCPP_CURL_GLOBAL_H
+#define CURLCPP_CURL_GLOBAL_H
 
 #include <curl/curl.h>
 #include "curl_exception.h"
@@ -62,4 +62,4 @@ namespace curl {
     };
 }
 
-#endif	/* defined(__curlcpp__curl_global__) */
+#endif	/* defined(CURLCPP_CURL_GLOBAL_H) */

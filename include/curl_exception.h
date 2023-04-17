@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_exception__
-#define __curlcpp__curl_exception__
+#ifndef CURLCPP_CURL_EXCEPTION_H
+#define CURLCPP_CURL_EXCEPTION_H
 
 #include <iostream>
 #include <string>
@@ -220,4 +220,4 @@ namespace curl {
     };
 }
 
-#endif /* defined(__curlcpp__curl_exception__) */
+#endif /* defined(CURLCPP_CURL_EXCEPTION_H) */

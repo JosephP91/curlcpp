@@ -24,8 +24,8 @@
  * SOFTWARE.
  */
 
-#ifndef curl_ios_h
-#define curl_ios_h
+#ifndef CURLCPP_CURL_IOS_H
+#define CURLCPP_CURL_IOS_H
 
 #include <iostream>
 #include <string>
@@ -255,7 +255,7 @@ namespace curl {
         // The default constructor will initialize the callback pointer and the stream with default values.
         curl_ios() : _callback_ptr(read_memory_callback), _istream(&std::cin) {}
 
-        // This constructor allows to specify an input stream while the a default callback pointer will be used.
+        // This constructor allows to specify an input stream while the default callback pointer will be used.
         explicit curl_ios(std::istream &istream) : _callback_ptr(read_memory_callback) {
             _istream = &istream;
         }
@@ -293,4 +293,4 @@ namespace curl {
     };
 }
 
-#endif /* curl_ios_h */
+#endif /* CURLCPP_CURL_IOS_H */

@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_info__
-#define __curlcpp__curl_info__
+#ifndef CURLCPP_CURL_INFO_H
+#define CURLCPP_CURL_INFO_H
 
 #include <curl/curl.h>
 #include <string>
@@ -166,4 +166,4 @@ namespace curl {
     }
 }
 
-#endif /* defined(__curlcpp__curl_info__) */
+#endif /* defined(CURLCPP_CURL_INFO_H) */

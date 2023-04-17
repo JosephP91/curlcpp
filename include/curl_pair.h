@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_pair__
-#define __curlcpp__curl_pair__
+#ifndef CURLCPP_CURL_PAIR_H
+#define CURLCPP_CURL_PAIR_H
 
 #include <string>
 #include "curl_config.h"
@@ -149,4 +149,4 @@ namespace curl {
     template<class T> class curl_pair<T,curl_header>;
 }
 
-#endif	/* defined(__curlcpp__curl_pair__) */
+#endif	/* defined(CURLCPP_CURL_PAIR_H) */

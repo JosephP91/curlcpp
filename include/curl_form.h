@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_form__
-#define __curlcpp__curl_form__
+#ifndef CURLCPP_CURL_FORM_H
+#define CURLCPP_CURL_FORM_H
 
 #include <curl/curl.h>
 #include <vector>
@@ -177,4 +177,4 @@ namespace curl {
 
 }
 
-#endif /* defined(__curlcpp__curl_form__) */
+#endif /* defined(CURLCPP_CURL_FORM_H) */

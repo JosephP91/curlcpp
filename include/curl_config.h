@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_config__
-#define __curlcpp__curl_config__
+#ifndef CURLCPP_CURL_CONFIG_H
+#define CURLCPP_CURL_CONFIG_H
 
 #if defined(_MSC_VER)
 #define NOEXCEPT
@@ -32,4 +32,4 @@
 #define NOEXCEPT noexcept
 #endif
 
-#endif /* defined(__curlcpp__curl_config__) */
+#endif /* defined(CURLCPP_CURL_CONFIG_H) */

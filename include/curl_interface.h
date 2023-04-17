@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_interface__
-#define __curlcpp__curl_interface__
+#ifndef CURLCPP_CURL_INTERFACE_H
+#define CURLCPP_CURL_INTERFACE_H
 
 #include <curl/curl.h>
 #include "curl_exception.h"
@@ -102,4 +102,4 @@ namespace curl {
     }
 }
 
-#endif	/* defined(__curlcpp__curl_interface__) */
+#endif	/* defined(CURLCPP_CURL_INTERFACE_H) */

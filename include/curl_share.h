@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_share__
-#define __curlcpp__curl_share__
+#ifndef CURLCPP_CURL_SHARE_H
+#define CURLCPP_CURL_SHARE_H
 
 #include "curl_interface.h"
 #include "curl_pair.h"
@@ -169,4 +169,4 @@ namespace curl {
     }
 }
 
-#endif /* defined(__curlcpp__curl_share__) */
+#endif /* defined(CURLCPP_CURL_SHARE_H) */

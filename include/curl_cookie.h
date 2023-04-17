@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef curl_cookie_h
-#define curl_cookie_h
+#ifndef CURL_COOKIE_H
+#define CURL_COOKIE_H
 
 #include <string>
 #include <vector>
@@ -93,4 +93,4 @@ namespace curl {
     };
 }
 
-#endif /* curl_cookie_h */
+#endif /* CURL_COOKIE_H */

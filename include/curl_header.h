@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef __curlcpp__curl_header__
-#define __curlcpp__curl_header__
+#ifndef CURLCPP_CURL_HEADER_H
+#define CURLCPP_CURL_HEADER_H
 
 #include <string>
 #include <initializer_list>
@@ -135,4 +135,4 @@ namespace curl {
 
 }
 
-#endif	/* defined(__curlcpp__curl_header__) */
+#endif	/* defined(CURLCPP_CURL_HEADER_H) */
