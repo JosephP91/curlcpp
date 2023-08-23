@@ -211,7 +211,7 @@ int main(int argc, const char * argv[]) {
 }
 `````
 
-* ### Store response in a variable
+* ### Store response in a file
 
 And if we would like to put the returned content in a file? Nothing easier than:
 
@@ -263,7 +263,7 @@ int main(int argc, const char * argv[]) {
 }
 `````
 
-* ### Store response in a file
+* ### Store response in a variable
 
 Not interested in files? So let's put the request's output in a variable!
 
