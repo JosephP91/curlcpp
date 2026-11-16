@@ -316,10 +316,13 @@ namespace curl  {
         /* Set the interface string to use as outgoing network interface */
         CURLCPP_DEFINE_OPTION(CURLOPT_INTERFACE, const char*);
 
+        /* Deprecated in 8.17.0, which dropped Kerberos FTP support */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM < 0x081100
         /* Set the krb4/5 security level, this also enables krb4/5 awareness.  This
         * is a string, 'clear', 'safe', 'confidential' or 'private'.  If the string
         * is set but doesn't match one of these, 'private' will be used.  */
         CURLCPP_DEFINE_OPTION(CURLOPT_KRBLEVEL, const char*);
+#endif
 
         /* Set if we should verify the peer in ssl handshake, set 1 to verify. */
         CURLCPP_DEFINE_OPTION(CURLOPT_SSL_VERIFYPEER, long);
@@ -786,6 +789,8 @@ namespace curl  {
         /* send linked-list of name:port:address sets */
         CURLCPP_DEFINE_OPTION(CURLOPT_RESOLVE, curl_slist*);
 
+        /* Deprecated in 8.22.0, which dropped TLS-SRP support */
+#if defined(LIBCURL_VERSION_NUM) && LIBCURL_VERSION_NUM < 0x081600
         /* Set a username for authenticated TLS */
         CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_USERNAME, const char*);
 
@@ -794,6 +799,7 @@ namespace curl  {
 
         /* Set authentication type for authenticated TLS */
         CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_TYPE, long);
+#endif
 
         /* Set to 1 to enable the "TE:" header in HTTP requests to ask for
         compressed transfer-encoded responses. Set to 0 to disable the use of TE:
