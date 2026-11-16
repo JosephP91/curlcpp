@@ -798,7 +798,7 @@ namespace curl  {
         CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_PASSWORD, const char*);
 
         /* Set authentication type for authenticated TLS */
-        CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_TYPE, long);
+        CURLCPP_DEFINE_OPTION(CURLOPT_TLSAUTH_TYPE, const char*);
 #endif
 
         /* Set to 1 to enable the "TE:" header in HTTP requests to ask for
